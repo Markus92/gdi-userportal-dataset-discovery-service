@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: 2024 PNED G.I.E.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+GET https://ckan-test.healthdata.nl/api/3/action/package_search?facet.field=["organization","theme","conforms_to","has_version","access_rights","language","publisher_name","res_format","provenance"]&rows=1&fq=id:e1b3eff9-13eb-48b0-b180-7ecb76b84454
+
+###
+GET https://ckan-test.healthdata.nl/api/3/action/package_show?id=e1b3eff9-13eb-48b0-b180-7ecb76b84454
