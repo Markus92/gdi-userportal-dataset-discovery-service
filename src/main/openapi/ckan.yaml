@@ -1,0 +1,183 @@
+# SPDX-FileCopyrightText: 2024 PNED G.I.E.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+openapi: 3.0.3
+info:
+  title: CKAN Package Search API
+  version: 1.0.0
+  description: API for searching CKAN packages using various criteria.
+servers:
+  - url: http://example.com/api/3/action
+paths:
+  /package_search:
+    get:
+      summary: Searches for packages based on criteria
+      operationId: packageSearch
+      parameters:
+        - name: q
+          in: query
+          description: Solr search query
+          required: false
+          schema:
+            type: string
+            default: "*:*"
+        - name: fq
+          in: query
+          description: Filter query to apply
+          required: false
+          schema:
+            type: string
+        - name: fq_list
+          in: query
+          description: Additional filter queries
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+        - name: sort
+          in: query
+          description: Sorting of search results
+          required: false
+          schema:
+            type: string
+            default: "score desc, metadata_modified desc"
+        - name: rows
+          in: query
+          description: Max number of rows to return
+          required: false
+          schema:
+            type: integer
+            default: 10
+            maximum: 1000
+        - name: start
+          in: query
+          description: Offset in the complete result set
+          required: false
+          schema:
+            type: integer
+        - name: facet
+          in: query
+          description: Whether to enable faceted results
+          required: false
+          schema:
+            type: string
+            default: "true"
+      responses:
+        '200':
+          description: A list of packages matching the search criteria
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: The number of results found
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Dataset'
+                  search_facets:
+                    type: object
+                    additionalProperties: true
+                    description: Aggregated information about facet counts
+components:
+  schemas:
+    Dataset:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        source:
+          type: string
+        version:
+          type: string
+        author:
+          type: string
+        authorEmail:
+          type: string
+        maintainer:
+          type: string
+        maintainerEmail:
+          type: string
+        contactURI:
+          type: string
+        contactName:
+          type: string
+        contactEmail:
+          type: string
+        publisher:
+          type: string
+        publisherName:
+          type: string
+        publisherEmail:
+          type: string
+        publisherURL:
+          type: string
+        publisherType:
+          type: string
+        spatialURI:
+          type: string
+        temporalStartDate:
+          type: string
+        temporalEndDate:
+          type: string
+        theme:
+          type: string
+        versionNotes:
+          type: string
+        landingPage:
+          type: string
+        spatialResolutionInMeters:
+          type: string
+        temporalResolution:
+          type: string
+        qualifiedRelation:
+          type: string
+        accessRights:
+          type: string
+        frequency:
+          type: string
+        conformsTo:
+          type: string
+        creator:
+          type: string
+        isReferencedBy:
+          type: string
+        isVersionOf:
+          type: string
+        identifier:
+          type: string
+        issued:
+          type: string
+        language:
+          type: string
+        modificationDate:
+          type: string
+        provenance:
+          type: string
+        relation:
+          type: string
+        sample:
+          type: string
+        type:
+          type: string
+        hasVersion:
+          type: string
+        documentation:
+          type: string
+        qualifiedAttribution:
+          type: string
+        wasGeneratedBy:
+          type: string
+        alternateIdentifier:
+          type: string
+      required:
+        - id
+        - title
