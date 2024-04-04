@@ -99,15 +99,33 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/CkanPackage"
-        facets:
+        search_facets:
           type: object
           additionalProperties:
-            $ref: "#/components/schemas/CkanFacetCounts"
-          description: Aggregated information about facet counts
-    CkanFacetCounts:
+            $ref: "#/components/schemas/CkanFacet"
+          description: Aggregated information about facet
+    CkanFacet:
       type: object
-      additionalProperties:
-        type: integer
+      properties:
+        title:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/CkanFacetItem"
+    CkanFacetItem:
+      type: object
+      properties:
+        name:
+          type: string
+        display_name:
+          type: string
+        count:
+          type: integer
+      required:
+        - name
+        - display_name
+        - count
     CkanPackage:
       type: object
       properties:
