@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 PNED G.I.E.
+#
+# SPDX-License-Identifier: Apache-2.0
+
 openapi: 3.0.3
 info:
   title: CKAN Package Search API
