@@ -4,87 +4,79 @@
 
 openapi: 3.0.3
 info:
-  title: CKAN Package Search API
-  version: 1.0.0
-  description: API for searching CKAN packages using various criteria.
+  title: Dataset Discovery Service - OpenAPI 3.0
+  description: |-
+    This is the OpenAPI 3.0 specification for the Dataset Discovery Service.
+    This service is responsible for dataset discovery, in the scope of Genomic Data Infrastructure (GDI).
+    The service provides endpoints for searching datasets, and retrieving DCAT-AP metadata.
+
+  #termsOfService: http://TODO/terms/
+  contact:
+    email: gdi-WP4@elixir-europe.org
+  license:
+    name: Apache 2.0
+    url: https://spdx.org/licenses/Apache-2.0.html
+  version: 0.0.0
+externalDocs:
+  description: Find out more about GDI
+  url: https://genomicdatainfrastructure.github.io/gdi-userportal-docs/
 servers:
-  - url: http://example.com/api/3/action
+  - url: https://localhost:8080
+    description: Development server
 paths:
-  /package_search:
-    get:
+  /api/v1/datasets/search:
+    post:
       summary: Searches for packages based on criteria
-      operationId: packageSearch
-      parameters:
-        - name: q
-          in: query
-          description: Solr search query
-          required: false
-          schema:
-            type: string
-            default: "*:*"
-        - name: fq
-          in: query
-          description: Filter query to apply
-          required: false
-          schema:
-            type: string
-        - name: fq_list
-          in: query
-          description: Additional filter queries
-          required: false
-          style: form
-          explode: true
-          schema:
-            type: array
-            items:
-              type: string
-        - name: sort
-          in: query
-          description: Sorting of search results
-          required: false
-          schema:
-            type: string
-            default: "score desc, metadata_modified desc"
-        - name: rows
-          in: query
-          description: Max number of rows to return
-          required: false
-          schema:
-            type: integer
-            default: 10
-            maximum: 1000
-        - name: start
-          in: query
-          description: Offset in the complete result set
-          required: false
-          schema:
-            type: integer
-        - name: facet
-          in: query
-          description: Whether to enable faceted results
-          required: false
-          schema:
-            type: string
-            default: "true"
+      operationId: dataset_search
+      tags:
+        - "dataset-query"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DatasetSearchQuery"
       responses:
-        '200':
-          description: A list of packages matching the search criteria
+        "200":
+          description: A list of datasets matching the search criteria
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    description: The number of results found
-                  results:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Dataset'
-                  search_facets:
-                    type: object
-                    additionalProperties: true
-                    description: Aggregated information about facet counts
+                $ref: "#/components/schemas/DatasetsSearchResponse"
+      security:
+        - discovery_auth:
+            - read:datasets
+  /api/v1/datasets/{id}:
+    get:
+      summary: Retrieves a dataset by its ID
+      operationId: retrieve_dataset
+      tags:
+        - "dataset-query"
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the dataset to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The dataset
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RetrievedDataset"
+        "403":
+          description: Dataset is not visible to the user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Dataset not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
       security:
         - discovery_auth:
             - read:datasets
@@ -100,97 +92,240 @@ components:
           scopes:
             read:datasets: read datasets
   schemas:
-    Dataset:
+    DatasetSearchQuery:
+      type: object
+      properties:
+        query:
+          type: string
+          title: Solr search query
+        facets:
+          type: array
+          title: Facets
+          items:
+            $ref: "#/components/schemas/DatasetSearchQueryFacet"
+        sort:
+          type: string
+          title: Sorting of search results
+          default: "score desc, metadata_modified desc"
+        rows:
+          type: integer
+          title: Max number of rows to return
+          default: 10
+          minimum: 0
+          maximum: 1000
+        start:
+          type: integer
+          title: Offset in the complete result set
+          default: 0
+          minimum: 0
+    DatasetSearchQueryFacet:
+      type: object
+      properties:
+        facetGroup:
+          type: string
+          title: Facet group
+        facet:
+          type: string
+          title: Facet
+        value:
+          type: string
+          title: Value
+    SearchedDataset:
       type: object
       properties:
         id:
           type: string
-        title:
-          type: string
-        source:
-          type: string
-        version:
-          type: string
-        author:
-          type: string
-        authorEmail:
-          type: string
-        maintainer:
-          type: string
-        maintainerEmail:
-          type: string
-        contactURI:
-          type: string
-        contactName:
-          type: string
-        contactEmail:
-          type: string
-        publisher:
-          type: string
-        publisherName:
-          type: string
-        publisherEmail:
-          type: string
-        publisherURL:
-          type: string
-        publisherType:
-          type: string
-        spatialURI:
-          type: string
-        temporalStartDate:
-          type: string
-        temporalEndDate:
-          type: string
-        theme:
-          type: string
-        versionNotes:
-          type: string
-        landingPage:
-          type: string
-        spatialResolutionInMeters:
-          type: string
-        temporalResolution:
-          type: string
-        qualifiedRelation:
-          type: string
-        accessRights:
-          type: string
-        frequency:
-          type: string
-        conformsTo:
-          type: string
-        creator:
-          type: string
-        isReferencedBy:
-          type: string
-        isVersionOf:
-          type: string
+          title: Identifier
         identifier:
           type: string
-        issued:
+          title: Identifier
+        title:
           type: string
-        language:
+          title: Title
+        description:
           type: string
-        modificationDate:
+          title: Description
+        themes:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValueLabel"
+          title: Themes
+        catalogue:
           type: string
-        provenance:
+          title: Catalogue
+        modifiedAt:
           type: string
-        relation:
-          type: string
-        sample:
-          type: string
-        type:
-          type: string
-        hasVersion:
-          type: string
-        documentation:
-          type: string
-        qualifiedAttribution:
-          type: string
-        wasGeneratedBy:
-          type: string
-        alternateIdentifier:
-          type: string
+          format: date-time
+          title: Dataset modified at
+        recordsCount:
+          type: integer
+          title: Records count
       required:
         - id
         - title
+        - description
+        - catalogue
+        - modifiedAt
+    DatasetsSearchResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: The number of results found
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/SearchedDataset"
+        facetGroups:
+          type: array
+          items:
+            $ref: "#/components/schemas/FacetGroup"
+          description: Facet groups
+    RetrievedDataset:
+      type: object
+      properties:
+        id:
+          type: string
+          title: Dataset internal ID
+        identifier:
+          type: string
+          title: Identifier
+        title:
+          type: string
+          title: Title
+        description:
+          type: string
+          title: Description
+        themes:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValueLabel"
+          title: Themes
+        publisherName:
+          type: string
+          title: Publisher Name
+        catalogue:
+          type: string
+          title: Catalogue
+        createdAt:
+          type: string
+          format: date-time
+          title: Dataset created at
+        modifiedAt:
+          type: string
+          format: date-time
+          title: Dataset modified at
+        url:
+          type: string
+          title: Dataset URL
+        languages:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValueLabel"
+          title: Languages
+        contact:
+          $ref: "#/components/schemas/ValueLabel"
+          title: Contact
+        hasVersions:
+          type: array
+          items:
+            type: string
+          title: Has Versions
+        accessRights:
+          $ref: "#/components/schemas/ValueLabel"
+          title: Access Rights
+        conformsTo:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValueLabel"
+          title: Conforms to
+        provenance:
+          type: string
+          title: Contact URI
+        spatial:
+          $ref: "#/components/schemas/ValueLabel"
+          title: Spatial
+        distributions:
+          type: array
+          items:
+            $ref: "#/components/schemas/RetrievedDistribution"
+          title: Distributions
+      required:
+        - id
+        - title
+        - description
+        - catalogue
+        - createdAt
+    RetrievedDistribution:
+      type: object
+      properties:
+        id:
+          type: string
+          title: Distribution internal ID
+        title:
+          type: string
+          title: Title
+        description:
+          type: string
+          title: Description
+        format:
+          type: string
+          title: Format
+        uri:
+          type: string
+          title: URI
+        createdAt:
+          type: string
+          format: date-time
+          title: Distribution created at
+        modifiedAt:
+          type: string
+          format: date-time
+          title: Distribution modified at
+      required:
+        - id
+        - title
+        - description
+        - createdAt
+    ValueLabel:
+      properties:
+        value:
+          type: string
+          title: value
+        label:
+          type: string
+          title: label
+      required:
+        - value
+        - label
+    FacetGroup:
+      properties:
+        label:
+          type: string
+          title: label
+        facets:
+          type: array
+          items:
+            $ref: "#/components/schemas/Facet"
+          title: Facets
+    Facet:
+      properties:
+        label:
+          type: string
+          title: label
+        values:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValueLabel"
+          title: values
+    ErrorResponse:
+      properties:
+        title:
+          type: string
+          title: Error title
+        status:
+          type: integer
+          title: Error status
+        detail:
+          type: string
+          title: Error detail

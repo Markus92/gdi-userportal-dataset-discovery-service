@@ -1,0 +1,206 @@
+# SPDX-FileCopyrightText: 2024 PNED G.I.E.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+openapi: 3.0.3
+info:
+  title: Beacon V2 API
+  version: 2.0.0
+  description: API for searching on Beacon Network.
+servers:
+  - url: /
+paths:
+  /v2.0.0/individuals:
+    post:
+      summary: Searches for individuals based on criteria
+      operationId: list_individuals
+      tags:
+        - "beacon-query"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BeaconIndividualsRequest"
+      responses:
+        "200":
+          description: A list of individuals
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BeaconIndividualsResponse"
+      security:
+        - beacon_auth:
+            - read:beacon
+  /v2.0.0/filtering_terms:
+    get:
+      summary: Searches for packages based on criteria
+      operationId: list_filtering_terms
+      tags:
+        - "beacon-query"
+      responses:
+        "200":
+          description: A list of filtering terms
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BeaconFilteringTermsResponse"
+      security:
+        - beacon_auth:
+            - read:beacon
+components:
+  securitySchemes:
+    beacon_auth:
+      type: oauth2
+      description: This API uses OAuth 2 with the implicit grant flow.
+      flows:
+        authorizationCode:
+          tokenUrl: https://api.example.com/oauth2/token
+          authorizationUrl: https://api.example.com/oauth2/authorize
+          scopes:
+            read:beacon: read beacon
+  schemas:
+    BeaconIndividualsRequest:
+      type: object
+      properties:
+        meta:
+          type: object
+          properties:
+            apiVersion:
+              type: string
+              title: API Version
+              default: 2.0
+        query:
+          type: object
+          properties:
+            filters:
+              type: array
+              title: Filters
+              items:
+                $ref: "#/components/schemas/BeaconIndividualsRequestQueryFilter"
+            includeResultsetResponses:
+              type: string
+              title: Include Resultset Responses
+              default: "HIT"
+            pagination:
+              type: object
+              properties:
+                skip:
+                  type: integer
+                  title: Skip
+                  default: 0
+                limit:
+                  type: integer
+                  title: Limit
+                  default: 0
+            testMode:
+              type: boolean
+              title: Test Mode
+              default: false
+            requestedGranularity:
+              type: string
+              title: Requested Granularity
+              default: "count"
+    BeaconIndividualsRequestQueryFilter:
+      type: object
+      properties:
+        id:
+          type: string
+          title: Term ID
+        scope:
+          type: string
+          title: Scope
+          default: "individual"
+    BeaconIndividualsResponse:
+      type: object
+      properties:
+        response:
+          $ref: "#/components/schemas/BeaconIndividualsResponseContent"
+    BeaconIndividualsResponseContent:
+      type: object
+      properties:
+        resultSets:
+          type: array
+          title: Result Sets
+          items:
+            $ref: "#/components/schemas/BeaconResultSet"
+      required:
+        - individuals
+        - resources
+    BeaconResultSet:
+      type: object
+      properties:
+        beaconId:
+          type: string
+          title: Beacon ID
+        id:
+          type: string
+          title: Dataset ID
+        exists:
+          type: boolean
+          title: Exists
+        resultsCount:
+          type: integer
+          title: Results Count
+        setType:
+          type: string
+          title: Set Type
+    BeaconFilteringTermsResponse:
+      type: object
+      properties:
+        response:
+          $ref: "#/components/schemas/BeaconFilteringTermsResponseContent"
+    BeaconFilteringTermsResponseContent:
+      type: object
+      properties:
+        filteringTerms:
+          type: array
+          title: Filtering terms
+          items:
+            $ref: "#/components/schemas/BeaconFilteringTerm"
+        resources:
+          type: array
+          title: Resources
+          items:
+            $ref: "#/components/schemas/BeaconResource"
+      required:
+        - filteringTerms
+        - resources
+    BeaconFilteringTerm:
+      type: object
+      properties:
+        id:
+          type: string
+          title: Term ID
+        label:
+          type: string
+          title: Label
+        scopes:
+          type: array
+          title: Scopes
+          items:
+            type: string
+        type:
+          type: string
+          title: Term Type
+      required:
+        - id
+        - label
+        - scopes
+        - type
+    BeaconResource:
+      properties:
+        id:
+          type: string
+          title: Resource ID
+        iriPrefix:
+          type: string
+          title: IRI Prefix
+        name:
+          type: string
+          title: Name
+        url:
+          type: string
+          title: URL
+      required:
+        - id
+        - name
