@@ -60,6 +60,12 @@ paths:
           required: false
           schema:
             type: string
+        - name: Authorization
+          in: header
+          description: The authorization header
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: A list of packages matching the search criteria
@@ -78,6 +84,12 @@ paths:
           in: query
           description: The ID of the package to retrieve
           required: true
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: The authorization header
+          required: false
           schema:
             type: string
       responses:

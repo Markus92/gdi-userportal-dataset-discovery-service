@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: 2024 PNED G.I.E.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+GET {{$dotenv KEYCLOAK_HOST}}/realms/{{$dotenv KEYCLOAK_REALM}}/broker/{{$dotenv KEYCLOAK_PROVIDER_ALIAS}}/token
+Authorization: Bearer {{$dotenv ACCESS_TOKEN}}
