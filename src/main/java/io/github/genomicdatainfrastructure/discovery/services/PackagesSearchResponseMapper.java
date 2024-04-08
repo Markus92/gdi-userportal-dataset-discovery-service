@@ -14,6 +14,8 @@ import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrgan
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResponse;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResult;
+import lombok.experimental.UtilityClass;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -23,17 +25,14 @@ import java.time.LocalDateTime;
 import static java.util.Optional.ofNullable;
 import static java.util.function.Predicate.not;
 
+@UtilityClass
 public class PackagesSearchResponseMapper {
 
-    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
+    private final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
             "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
     );
 
-    private PackagesSearchResponseMapper() {
-        // Utility class
-    }
-
-    public static DatasetsSearchResponse from(PackagesSearchResponse response) {
+    public DatasetsSearchResponse from(PackagesSearchResponse response) {
         return DatasetsSearchResponse.builder()
                 .count(count(response.getResult()))
                 .facetGroups(facetGroups(response.getResult()))
@@ -41,13 +40,13 @@ public class PackagesSearchResponseMapper {
                 .build();
     }
 
-    private static Integer count(PackagesSearchResult result) {
+    private Integer count(PackagesSearchResult result) {
         return ofNullable(result)
                 .map(PackagesSearchResult::getCount)
                 .orElse(null);
     }
 
-    private static List<FacetGroup> facetGroups(PackagesSearchResult result) {
+    private List<FacetGroup> facetGroups(PackagesSearchResult result) {
         var nonNullSearchFacets = ofNullable(result)
                 .map(PackagesSearchResult::getSearchFacets)
                 .orElseGet(Map::of);
@@ -55,7 +54,7 @@ public class PackagesSearchResponseMapper {
         return List.of(facetGroup(nonNullSearchFacets));
     }
 
-    private static FacetGroup facetGroup(Map<String, CkanFacet> facets) {
+    private FacetGroup facetGroup(Map<String, CkanFacet> facets) {
         return FacetGroup.builder()
                 .key("ckan")
                 .label("Metadata")
@@ -65,7 +64,7 @@ public class PackagesSearchResponseMapper {
                 .build();
     }
 
-    private static Facet facet(Map.Entry<String, CkanFacet> entry) {
+    private Facet facet(Map.Entry<String, CkanFacet> entry) {
         var key = entry.getKey();
         var facet = entry.getValue();
         var values = ofNullable(facet.getItems())
@@ -85,7 +84,7 @@ public class PackagesSearchResponseMapper {
                 .build();
     }
 
-    private static List<SearchedDataset> results(PackagesSearchResult result) {
+    private List<SearchedDataset> results(PackagesSearchResult result) {
         var nonNullPackages = ofNullable(result)
                 .map(PackagesSearchResult::getResults)
                 .orElseGet(List::of);
@@ -95,7 +94,7 @@ public class PackagesSearchResponseMapper {
                 .toList();
     }
 
-    private static SearchedDataset result(CkanPackage dataset) {
+    private SearchedDataset result(CkanPackage dataset) {
         var catalogue = ofNullable(dataset.getOrganization())
                 .map(CkanOrganization::getTitle)
                 .orElse(null);
@@ -111,13 +110,13 @@ public class PackagesSearchResponseMapper {
                 .build();
     }
 
-    private static LocalDateTime parse(String date) {
+    private LocalDateTime parse(String date) {
         return ofNullable(date)
                 .map(it -> LocalDateTime.parse(it, DATE_FORMATTER))
                 .orElse(null);
     }
 
-    private static List<ValueLabel> values(List<String> values) {
+    private List<ValueLabel> values(List<String> values) {
         return ofNullable(values)
                 .orElseGet(List::of)
                 .stream()
@@ -126,7 +125,7 @@ public class PackagesSearchResponseMapper {
                 .toList();
     }
 
-    private static ValueLabel value(String value) {
+    private ValueLabel value(String value) {
         return ofNullable(value)
                 .filter(Objects::nonNull)
                 .filter(not(String::isBlank))
