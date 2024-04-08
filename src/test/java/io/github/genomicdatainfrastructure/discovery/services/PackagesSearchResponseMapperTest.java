@@ -40,10 +40,11 @@ class PackagesSearchResponseMapperTest {
         );
         var expected = DatasetsSearchResponse.builder()
                 .results(List.of())
+                .facetGroupCount(Map.of())
                 .facetGroups(List.of(
                         FacetGroup.builder()
                                 .key("ckan")
-                                .label("Metadata")
+                                .label("DCAT-AP")
                                 .facets(List.of())
                                 .build()
                 ))
@@ -69,10 +70,11 @@ class PackagesSearchResponseMapperTest {
         );
         var expected = DatasetsSearchResponse.builder()
                 .results(List.of())
+                .facetGroupCount(Map.of())
                 .facetGroups(List.of(
                         FacetGroup.builder()
                                 .key("ckan")
-                                .label("Metadata")
+                                .label("DCAT-AP")
                                 .facets(List.of())
                                 .build()
                 ))
@@ -97,11 +99,12 @@ class PackagesSearchResponseMapperTest {
         );
         var expected = DatasetsSearchResponse.builder()
                 .count(1)
+                .facetGroupCount(Map.of("ckan", 1))
                 .results(List.of())
                 .facetGroups(List.of(
                         FacetGroup.builder()
                                 .key("ckan")
-                                .label("Metadata")
+                                .label("DCAT-AP")
                                 .facets(List.of())
                                 .build()
                 ))
@@ -126,11 +129,12 @@ class PackagesSearchResponseMapperTest {
         );
         var expected = DatasetsSearchResponse.builder()
                 .count(1)
+                .facetGroupCount(Map.of("ckan", 1))
                 .results(List.of())
                 .facetGroups(List.of(
                         FacetGroup.builder()
                                 .key("ckan")
-                                .label("Metadata")
+                                .label("DCAT-AP")
                                 .facets(List.of())
                                 .build()
                 ))
@@ -157,11 +161,12 @@ class PackagesSearchResponseMapperTest {
         );
         var expected = DatasetsSearchResponse.builder()
                 .count(1)
+                .facetGroupCount(Map.of("ckan", 1))
                 .results(List.of())
                 .facetGroups(List.of(
                         FacetGroup.builder()
                                 .key("ckan")
-                                .label("Metadata")
+                                .label("DCAT-AP")
                                 .facets(List.of(Facet.builder()
                                         .key("dummy")
                                         .label(null)
@@ -192,11 +197,12 @@ class PackagesSearchResponseMapperTest {
         );
         var expected = DatasetsSearchResponse.builder()
                 .count(1)
+                .facetGroupCount(Map.of("ckan", 1))
                 .results(List.of())
                 .facetGroups(List.of(
                         FacetGroup.builder()
                                 .key("ckan")
-                                .label("Metadata")
+                                .label("DCAT-AP")
                                 .facets(List.of(Facet.builder()
                                         .key("dummy")
                                         .label(null)
@@ -248,6 +254,7 @@ class PackagesSearchResponseMapperTest {
         );
         var expected = DatasetsSearchResponse.builder()
                 .count(1)
+                .facetGroupCount(Map.of("ckan", 1))
                 .results(List.of(
                         SearchedDataset.builder()
                                 .id("id")
@@ -267,7 +274,7 @@ class PackagesSearchResponseMapperTest {
                 .facetGroups(List.of(
                         FacetGroup.builder()
                                 .key("ckan")
-                                .label("Metadata")
+                                .label("DCAT-AP")
                                 .facets(List.of(Facet.builder()
                                         .key("dummy")
                                         .label("dummy label")

@@ -1,0 +1,125 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/v2.0.0/individuals"
+    },
+    "response": {
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "jsonBody": {
+            "meta": {
+                "apiVersion": "v2.0.0",
+                "beaconId": "es.elixir.bsc.beacon-network",
+                "receivedRequestSummary": {
+                    "apiVersion": "2.0",
+                    "filters": [
+                        "NCIT:C16352"
+                    ],
+                    "pagination": {
+                        "limit": 0,
+                        "skip": 0
+                    },
+                    "requestedGranularity": "count",
+                    "requestedSchemas": [],
+                    "testMode": false
+                },
+                "returnedGranularity": "count"
+            },
+            "responseSummary": {
+                "exists": true,
+                "numTotalResults": 195
+            },
+            "response": {
+                "resultSets": [
+                    {
+                        "beaconId": "fi.csc.sd.gdi-demo",
+                        "exists": false,
+                        "info": {
+                            "error": {
+                                "errorCode": 500,
+                                "errorMessage": "fi.csc.sd.gdi-demo error getting response from https://gdi-demo.sd.csc.fi/beacon/api//individuals"
+                            }
+                        }
+                    },
+                    {
+                        "beaconId": "org.progenetix",
+                        "exists": false,
+                        "id": "progenetix",
+                        "info": {
+                            "counts": {
+                                "analyses": 0,
+                                "biosamples": 0,
+                                "individuals": 0
+                            }
+                        },
+                        "resultsCount": 0,
+                        "resultsHandovers": [],
+                        "setType": "dataset"
+                    },
+                    {
+                        "beaconId": "org.umccr.demo.beacon",
+                        "exists": false,
+                        "info": {
+                            "error": {
+                                "errorCode": 502,
+                                "errorMessage": "org.umccr.demo.beacon error getting response from https://beacon.demo.umccr.org//individuals"
+                            }
+                        }
+                    },
+                    {
+                        "beaconId": "org.elixir-no.ga4gh-approval-beacon-test",
+                        "exists": true,
+                        "results": [],
+                        "resultsCount": 131,
+                        "resultsHandovers": [
+                            {
+                                "handoverType": {
+                                    "id": "CUSTOM:000001",
+                                    "label": "Project description"
+                                },
+                                "note": "Project description",
+                                "url": "https://www.nist.gov/programs-projects/genome-bottle"
+                            }
+                        ]
+                    },
+                    {
+                        "beaconId": "pt.biodata.beacon",
+                        "exists": false,
+                        "id": "default_beacon_1",
+                        "results": [],
+                        "resultsCount": 0,
+                        "setType": "dataset"
+                    },
+                    {
+                        "beaconId": "pt.biodata.beacon",
+                        "exists": false,
+                        "id": "nature_colorectal_cancer_test",
+                        "results": [],
+                        "resultsCount": 0,
+                        "setType": "dataset"
+                    },
+                    {
+                        "beaconId": "org.ega-archive.ga4gh-approval-beacon-test",
+                        "exists": true,
+                        "results": [],
+                        "resultsCount": 64,
+                        "setType": "dataset",
+                        "id": "27866022694497975"
+                    },
+                    {
+                        "beaconId": "org.rd-connect.beacon",
+                        "exists": false,
+                        "info": {
+                            "error": {
+                                "errorCode": 500,
+                                "errorMessage": "org.rd-connect.beacon error getting response from https://playground.rd-connect.eu/beacon2/api//individuals"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

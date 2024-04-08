@@ -7,7 +7,7 @@ package io.github.genomicdatainfrastructure.discovery.api;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
 import io.github.genomicdatainfrastructure.discovery.model.RetrievedDataset;
-import io.github.genomicdatainfrastructure.discovery.services.DatasetsSearchService;
+import io.github.genomicdatainfrastructure.discovery.services.BeaconDatasetsSearchService;
 import io.github.genomicdatainfrastructure.discovery.services.RetrieveDatasetService;
 import io.quarkus.oidc.runtime.OidcJwtCallerPrincipal;
 import io.quarkus.security.identity.SecurityIdentity;
@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class DatasetQueryApiImpl implements DatasetQueryApi {
 
     private final SecurityIdentity identity;
-    private final DatasetsSearchService datasetsSearchService;
+    private final BeaconDatasetsSearchService datasetsSearchService;
     private final RetrieveDatasetService retrievedDatasetService;
 
     @Override
