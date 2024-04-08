@@ -6,3 +6,6 @@ GET https://ckan-test.healthdata.nl/api/3/action/package_search?fq=&sort=score+d
 
 ###
 GET https://ckan-test.healthdata.nl/api/3/action/package_show?id=e1b3eff9-13eb-48b0-b180-7ecb76b84454
+
+###
+GET https://ckan-test.healthdata.nl/api/3/action/package_show?id=dummy

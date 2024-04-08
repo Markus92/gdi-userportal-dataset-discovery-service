@@ -98,7 +98,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CkanPackage"
+                $ref: "#/components/schemas/CkanPackageShowResponse"
+        "404":
+          description: The package not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CkanErrorResponse"
 components:
   schemas:
     PackagesSearchResponse:
@@ -232,3 +238,26 @@ components:
         - name
         - description
         - created
+    CkanPackageShowResponse:
+      type: object
+      properties:
+        help:
+          type: string
+        success:
+          type: boolean
+        result:
+          $ref: "#/components/schemas/CkanPackage"
+    CkanErrorResponse:
+      type: object
+      properties:
+        help:
+          type: string
+        success:
+          type: boolean
+        error:
+          type: object
+          properties:
+            __type:
+              type: string
+            message:
+              type: string

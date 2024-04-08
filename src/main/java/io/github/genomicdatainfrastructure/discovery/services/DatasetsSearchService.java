@@ -26,7 +26,7 @@ public class DatasetsSearchService {
         this.ckanQueryApi = ckanQueryApi;
     }
 
-    public DatasetsSearchResponse search(String accessToken, DatasetSearchQuery query) {
+    public DatasetsSearchResponse search(DatasetSearchQuery query, String accessToken) {
         var response = ckanQueryApi.packageSearch(
                 query.getQuery(),
                 CkanFacetsQueryBuilder.buildFacetQuery(query.getFacets()),
