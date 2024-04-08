@@ -300,9 +300,12 @@ components:
         - label
     FacetGroup:
       properties:
+        key:
+          type: string
+          title: Key
         label:
           type: string
-          title: label
+          title: Label
         facets:
           type: array
           items:
@@ -310,9 +313,12 @@ components:
           title: Facets
     Facet:
       properties:
+        key:
+          type: string
+          title: Key
         label:
           type: string
-          title: label
+          title: Label
         values:
           type: array
           items:

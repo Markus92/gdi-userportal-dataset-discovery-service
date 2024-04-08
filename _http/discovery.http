@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2024 PNED G.I.E.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+POST http://localhost:8080/api/v1/datasets/search
+Content-Type: application/json
+
+{
+    "query": "COVID",
+    "facets": [{
+        "facetGroup": "ckan",
+        "facet": "theme",
+        "value": "http://purl.bioontology.org/ontology/ICD10CM/U07.1"
+    }, {
+        "facetGroup": "ckan",
+        "facet": "theme",
+        "value": "http://purl.org/zonmw/covid19/10003"
+    }, {
+        "facetGroup": "ckan",
+        "facet": "tags",
+        "value": "COVID-19"
+    }]
+}
+
+###
+GET http://localhost:8080/api/v1/datasets/dummy
