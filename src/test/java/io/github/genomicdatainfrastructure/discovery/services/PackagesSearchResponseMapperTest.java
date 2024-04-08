@@ -4,13 +4,13 @@
 
 package io.github.genomicdatainfrastructure.discovery.services;
 
+import static io.github.genomicdatainfrastructure.discovery.services.PackagesSearchResponseMapper.DATE_FORMATTER;
+import static java.time.LocalDateTime.parse;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Map;
-
 import org.junit.jupiter.api.Test;
-
 import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
 import io.github.genomicdatainfrastructure.discovery.model.Facet;
 import io.github.genomicdatainfrastructure.discovery.model.FacetGroup;
@@ -22,9 +22,6 @@ import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrgan
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResponse;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResult;
-
-import static io.github.genomicdatainfrastructure.discovery.services.PackagesSearchResponseMapper.DATE_FORMATTER;
-import static java.time.LocalDateTime.parse;
 
 class PackagesSearchResponseMapperTest {
 

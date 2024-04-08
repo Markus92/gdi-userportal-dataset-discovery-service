@@ -16,11 +16,12 @@ import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesS
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResult;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Objects;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
 import static java.util.Optional.ofNullable;
+import static java.util.function.Predicate.not;
 
 public class PackagesSearchResponseMapper {
 
@@ -120,10 +121,19 @@ public class PackagesSearchResponseMapper {
         return ofNullable(values)
                 .orElseGet(List::of)
                 .stream()
+                .map(PackagesSearchResponseMapper::value)
+                .filter(Objects::nonNull)
+                .toList();
+    }
+
+    private static ValueLabel value(String value) {
+        return ofNullable(value)
+                .filter(Objects::nonNull)
+                .filter(not(String::isBlank))
                 .map(it -> ValueLabel.builder()
                         .value(it)
                         .label(it)
                         .build())
-                .toList();
+                .orElse(null);
     }
 }

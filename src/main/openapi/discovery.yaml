@@ -65,12 +65,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RetrievedDataset"
-        "403":
-          description: Dataset is not visible to the user
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
         "404":
           description: Dataset not found
           content:
@@ -229,7 +223,7 @@ components:
         hasVersions:
           type: array
           items:
-            type: string
+            $ref: "#/components/schemas/ValueLabel"
           title: Has Versions
         accessRights:
           $ref: "#/components/schemas/ValueLabel"
@@ -269,7 +263,7 @@ components:
           type: string
           title: Description
         format:
-          type: string
+          $ref: "#/components/schemas/ValueLabel"
           title: Format
         uri:
           type: string
