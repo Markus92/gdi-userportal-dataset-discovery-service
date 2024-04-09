@@ -13,6 +13,7 @@ import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanResource;
+import lombok.experimental.UtilityClass;
 
 import static java.util.Optional.ofNullable;
 import static java.util.function.Predicate.not;
@@ -20,17 +21,14 @@ import static java.util.function.Predicate.not;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@UtilityClass
 public class PackageShowMapper {
 
-    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
+    private final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
             "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
     );
 
-    private PackageShowMapper() {
-        // Utility class
-    }
-
-    public static RetrievedDataset from(CkanPackage ckanPackage) {
+    public RetrievedDataset from(CkanPackage ckanPackage) {
         var catalogue = ofNullable(ckanPackage.getOrganization())
                 .map(CkanOrganization::getTitle)
                 .orElse(null);
@@ -57,7 +55,7 @@ public class PackageShowMapper {
                 .build();
     }
 
-    private static List<ValueLabel> values(List<String> values) {
+    private List<ValueLabel> values(List<String> values) {
         return ofNullable(values)
                 .orElseGet(List::of)
                 .stream()
@@ -66,7 +64,7 @@ public class PackageShowMapper {
                 .toList();
     }
 
-    private static ValueLabel value(String value) {
+    private ValueLabel value(String value) {
         return ofNullable(value)
                 .filter(Objects::nonNull)
                 .filter(not(String::isBlank))
@@ -77,13 +75,13 @@ public class PackageShowMapper {
                 .orElse(null);
     }
 
-    private static LocalDateTime parse(String date) {
+    private LocalDateTime parse(String date) {
         return ofNullable(date)
                 .map(it -> LocalDateTime.parse(it, DATE_FORMATTER))
                 .orElse(null);
     }
 
-    private static List<RetrievedDistribution> distributions(CkanPackage ckanPackage) {
+    private List<RetrievedDistribution> distributions(CkanPackage ckanPackage) {
         return ofNullable(ckanPackage.getResources())
                 .orElseGet(List::of)
                 .stream()
@@ -91,7 +89,7 @@ public class PackageShowMapper {
                 .toList();
     }
 
-    private static RetrievedDistribution distribution(CkanResource ckanResource) {
+    private RetrievedDistribution distribution(CkanResource ckanResource) {
         return RetrievedDistribution.builder()
                 .id(ckanResource.getId())
                 .title(ckanResource.getName())

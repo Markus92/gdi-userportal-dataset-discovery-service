@@ -4,7 +4,6 @@
 
 package io.github.genomicdatainfrastructure.discovery.services;
 
-import static io.github.genomicdatainfrastructure.discovery.services.PackagesSearchResponseMapper.DATE_FORMATTER;
 import static java.time.LocalDateTime.parse;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,8 +21,13 @@ import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrgan
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResponse;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResult;
+import java.time.format.DateTimeFormatter;
 
 class PackagesSearchResponseMapperTest {
+
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
+            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+    );
 
     @Test
     void accepts_null_result() {
