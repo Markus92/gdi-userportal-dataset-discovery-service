@@ -73,4 +73,27 @@ class DatasetSearchTest extends BaseTest {
                 .body("count", equalTo(1))
                 .body("results[0].recordsCount", equalTo(64));
     }
+
+    @Test
+    void skip_search_datasets_when_beacon_returns_empty_resultsets() {
+        var query = DatasetSearchQuery.builder()
+                .facets(List.of(
+                        DatasetSearchQueryFacet.builder()
+                                .facetGroup("beacon")
+                                .facet("dummy")
+                                .value("DUMMY:FILTER")
+                                .build()
+                ))
+                .build();
+        given()
+                .auth()
+                .oauth2(getAccessToken("alice"))
+                .contentType("application/json")
+                .body(query)
+                .when()
+                .post("/api/v1/datasets/search")
+                .then()
+                .statusCode(200)
+                .body("count", equalTo(0));
+    }
 }

@@ -23,7 +23,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: Autorization
+        - name: Authorization
           in: header
           description: The authorization header
           required: true
@@ -36,8 +36,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/KeycloakTokenResponse"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KeyCloakErrorResponse"
         "401":
           description: "Unauthorized"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KeyCloakErrorResponse"
+        "403":
+          description: "Forbidden"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KeyCloakErrorResponse"
       security:
         - keycloak_auth:
             - read:token
@@ -80,3 +96,8 @@ components:
         accessTokenExpiration:
           type: integer
           title: The expiration time of the access token
+    KeyCloakErrorResponse:
+      type: object
+      properties:
+        errorMessage:
+          type: string
