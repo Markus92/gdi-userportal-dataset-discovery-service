@@ -19,6 +19,9 @@ import lombok.experimental.UtilityClass;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import org.apache.commons.lang3.ObjectUtils;
+
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
@@ -28,15 +31,24 @@ import static java.util.function.Predicate.not;
 @UtilityClass
 public class PackagesSearchResponseMapper {
 
+    public static final String CKAN_FACET_GROUP = "ckan";
+
     private final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
             "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
     );
 
     public DatasetsSearchResponse from(PackagesSearchResponse response) {
+        var count = count(response.getResult());
+        var facetGroupCount = Map.<String, Integer>of();
+        if (count != null) {
+            facetGroupCount = Map.of(CKAN_FACET_GROUP, count);
+        }
+
         return DatasetsSearchResponse.builder()
-                .count(count(response.getResult()))
+                .count(count)
                 .facetGroups(facetGroups(response.getResult()))
                 .results(results(response.getResult()))
+                .facetGroupCount(facetGroupCount)
                 .build();
     }
 
@@ -56,8 +68,8 @@ public class PackagesSearchResponseMapper {
 
     private FacetGroup facetGroup(Map<String, CkanFacet> facets) {
         return FacetGroup.builder()
-                .key("ckan")
-                .label("Metadata")
+                .key(CKAN_FACET_GROUP)
+                .label("DCAT-AP")
                 .facets(facets.entrySet().stream()
                         .map(PackagesSearchResponseMapper::facet)
                         .toList())
@@ -87,6 +99,7 @@ public class PackagesSearchResponseMapper {
     private List<SearchedDataset> results(PackagesSearchResult result) {
         var nonNullPackages = ofNullable(result)
                 .map(PackagesSearchResult::getResults)
+                .filter(ObjectUtils::isNotEmpty)
                 .orElseGet(List::of);
 
         return nonNullPackages.stream()

@@ -12,7 +12,7 @@ Content-Type: application/json
    "query":{
       "filters":[
          {
-            "id":"NCIT:C16352",
+            "id":"UBERON:0005352",
             "scope": "individual"
          }
       ],

@@ -6,7 +6,7 @@ package io.github.genomicdatainfrastructure.discovery;
 
 import io.quarkus.test.keycloak.client.KeycloakTestClient;
 
-public class BaseTest {
+public abstract class BaseTest {
 
     private final KeycloakTestClient keycloakClient = new KeycloakTestClient();
 
