@@ -13,6 +13,7 @@ import static io.github.genomicdatainfrastructure.discovery.services.PackagesSea
 import static io.github.genomicdatainfrastructure.discovery.services.BeaconFilteringTermsService.BEACON_FACET_GROUP;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQueryFacet;
@@ -27,20 +28,28 @@ import io.github.genomicdatainfrastructure.discovery.remote.beacon.model.BeaconR
 import io.github.genomicdatainfrastructure.discovery.remote.keycloak.api.KeycloakQueryApi;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.WebApplicationException;
+import lombok.extern.java.Log;
+
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.logging.Level;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
+@Log
 @ApplicationScoped
 public class BeaconDatasetsSearchService implements DatasetsSearchService {
 
-    private static final String BEACON_IDP_ALIAS = "LSAAI";
+    private static final Set<Integer> SKIP_BEACON_QUERY_STATUS = Set.of(400, 401, 403);
+    private static final String BEACON_ACCESS_TOKEN_INFO = "Skipping beacon search, user is not authorized or the token is invalid.";
     private static final String BEARER_PATTERN = "Bearer %s";
     private static final String BEACON_DATASET_TYPE = "dataset";
     private static final String CKAN_IDENTIFIER_FIELD = "identifier";
 
     private final BeaconQueryApi beaconQueryApi;
+    private final String beaconIdpAlias;
     private final KeycloakQueryApi keycloakQueryApi;
     private final CkanDatasetsSearchService datasetsSearchService;
     private final BeaconFilteringTermsService beaconFilteringTermsService;
@@ -48,11 +57,13 @@ public class BeaconDatasetsSearchService implements DatasetsSearchService {
     @Inject
     public BeaconDatasetsSearchService(
             @RestClient BeaconQueryApi beaconQueryApi,
+            @ConfigProperty(name = "quarkus.rest-client.keycloak_yaml.beacon_idp_alias") String beaconIdpAlias,
             @RestClient KeycloakQueryApi keycloakQueryApi,
             CkanDatasetsSearchService datasetsSearchService,
             BeaconFilteringTermsService beaconFilteringTermsService
     ) {
         this.beaconQueryApi = beaconQueryApi;
+        this.beaconIdpAlias = beaconIdpAlias;
         this.keycloakQueryApi = keycloakQueryApi;
         this.datasetsSearchService = datasetsSearchService;
         this.beaconFilteringTermsService = beaconFilteringTermsService;
@@ -62,25 +73,42 @@ public class BeaconDatasetsSearchService implements DatasetsSearchService {
     public DatasetsSearchResponse search(DatasetSearchQuery query, String accessToken) {
         var beaconQuery = BeaconIndividualsRequestMapper.from(query);
 
-        if (accessToken == null || beaconQuery.getQuery().getFilters().isEmpty()) {
+        var beaconAuthorization = retrieveBeaconAuthorization(accessToken);
+
+        if (beaconAuthorization == null || beaconQuery.getQuery().getFilters().isEmpty()) {
             return datasetsSearchService.search(query, accessToken);
         }
 
-        var beaconAuthorization = retrieveBeaconAuthorization(accessToken);
-
         var beaconResponse = queryOnBeacon(beaconAuthorization, beaconQuery);
 
-        var enhancedQuery = enhanceQueryFacets(query, beaconResponse);
-
-        var datasetsReponse = datasetsSearchService.search(enhancedQuery, accessToken);
+        var datasetsReponse = DatasetsSearchResponse.builder()
+                .count(0)
+                .build();
+        if (!beaconResponse.isEmpty()) {
+            var enhancedQuery = enhanceQueryFacets(query, beaconResponse);
+            datasetsReponse = datasetsSearchService.search(enhancedQuery, accessToken);
+        }
 
         return enhanceDatasetsResponse(beaconAuthorization, datasetsReponse, beaconResponse);
     }
 
     private String retrieveBeaconAuthorization(String accessToken) {
+        if (accessToken == null) {
+            return null;
+        }
+
         var keycloakAuthorization = BEARER_PATTERN.formatted(accessToken);
-        var response = keycloakQueryApi.retriveIdpTokens(BEACON_IDP_ALIAS, keycloakAuthorization);
-        return BEARER_PATTERN.formatted(response.getAccessToken());
+        try {
+            var response = keycloakQueryApi.retriveIdpTokens(beaconIdpAlias, keycloakAuthorization);
+            return BEARER_PATTERN.formatted(response.getAccessToken());
+        } catch (WebApplicationException exception) {
+            if (SKIP_BEACON_QUERY_STATUS.contains(exception.getResponse().getStatus())) {
+                log.log(Level.INFO, BEACON_ACCESS_TOKEN_INFO);
+                log.log(Level.WARNING, exception, exception::getMessage);
+                return null;
+            }
+            throw exception;
+        }
     }
 
     private List<BeaconResultSet> queryOnBeacon(

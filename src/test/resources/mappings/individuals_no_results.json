@@ -1,0 +1,45 @@
+{
+    "priority": 1,
+    "request": {
+        "method": "POST",
+        "url": "/v2.0.0/individuals",
+        "bodyPatterns": [
+            {
+                "matchesJsonPath": "$.query.filters[?(@.id == 'DUMMY:FILTER')]"
+            }
+        ]
+    },
+    "response": {
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "jsonBody": {
+            "meta": {
+                "apiVersion": "v2.0.0",
+                "beaconId": "es.elixir.bsc.beacon-network",
+                "receivedRequestSummary": {
+                    "apiVersion": "2.0",
+                    "filters": [
+                        "DUMMY:FILTER"
+                    ],
+                    "pagination": {
+                        "limit": 0,
+                        "skip": 0
+                    },
+                    "requestedGranularity": "count",
+                    "requestedSchemas": [],
+                    "testMode": false
+                },
+                "returnedGranularity": "count"
+            },
+            "responseSummary": {
+                "exists": false,
+                "numTotalResults": 0
+            },
+            "response": {
+                "resultSets": []
+            }
+        }
+    }
+}
