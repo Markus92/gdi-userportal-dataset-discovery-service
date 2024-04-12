@@ -13,6 +13,7 @@ import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanResource;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanTag;
 import lombok.experimental.UtilityClass;
 
 import static java.util.Optional.ofNullable;
@@ -52,7 +53,7 @@ public class PackageShowMapper {
                 .provenance(ckanPackage.getProvenance())
                 .spatial(value(ckanPackage.getSpatialUri()))
                 .distributions(distributions(ckanPackage))
-                .keywords(values(ckanPackage.getKeywords()))
+                .keywords(keywords(ckanPackage))
                 .build();
     }
 
@@ -90,6 +91,14 @@ public class PackageShowMapper {
                 .toList();
     }
 
+    private List<ValueLabel> keywords(CkanPackage ckanPackage) {
+        return ofNullable(ckanPackage.getTags())
+                .orElseGet(List::of)
+                .stream()
+                .map(PackageShowMapper::keyword)
+                .toList();
+    }
+
     private RetrievedDistribution distribution(CkanResource ckanResource) {
         return RetrievedDistribution.builder()
                 .id(ckanResource.getId())
@@ -99,6 +108,13 @@ public class PackageShowMapper {
                 .uri(ckanResource.getUri())
                 .createdAt(parse(ckanResource.getCreated()))
                 .modifiedAt(parse(ckanResource.getLastModified()))
+                .build();
+    }
+
+    private ValueLabel keyword(CkanTag ckanTag) {
+        return ValueLabel.builder()
+                .label(ckanTag.getDisplayName())
+                .value(ckanTag.getName())
                 .build();
     }
 }

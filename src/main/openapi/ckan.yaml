@@ -166,10 +166,10 @@ components:
           type: array
           items:
             type: string
-        keywords:
+        tags:
           type: array
           items:
-            type: string
+            $ref: "#/components/schemas/CkanTag"
         publisher_name:
           type: string
         organization:
@@ -251,6 +251,22 @@ components:
           type: boolean
         result:
           $ref: "#/components/schemas/CkanPackage"
+    CkanTag:
+      type: object
+      properties:
+        id:
+          type: string
+        state:
+          type: string
+        display_name:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - display_name
+        - name
+        - state
     CkanErrorResponse:
       type: object
       properties:
