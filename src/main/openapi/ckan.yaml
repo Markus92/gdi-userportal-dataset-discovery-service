@@ -166,6 +166,10 @@ components:
           type: array
           items:
             type: string
+        keywords:
+          type: array
+          items:
+            type: string
         publisher_name:
           type: string
         organization:

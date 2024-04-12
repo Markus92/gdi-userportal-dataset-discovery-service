@@ -52,6 +52,7 @@ public class PackageShowMapper {
                 .provenance(ckanPackage.getProvenance())
                 .spatial(value(ckanPackage.getSpatialUri()))
                 .distributions(distributions(ckanPackage))
+                .keywords(values(ckanPackage.getKeywords()))
                 .build();
     }
 
