@@ -113,8 +113,8 @@ public class BeaconFilteringTermsService {
         return termsGroupedByType.entrySet().stream()
                 .filter(entry -> facetIdsMappedByName.containsKey(entry.getKey()))
                 .map(entry -> Facet.builder()
-                        .key(entry.getKey())
-                        .label(facetIdsMappedByName.get(entry.getKey()))
+                        .key(facetIdsMappedByName.get(entry.getKey()))
+                        .label(entry.getKey())
                         .values(entry.getValue())
                         .build())
                 .toList();
