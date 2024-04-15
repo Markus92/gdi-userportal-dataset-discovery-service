@@ -120,7 +120,7 @@ public class PackagesSearchResponseMapper {
                 .themes(values(dataset.getTheme()))
                 .catalogue(catalogue)
                 .modifiedAt(parse(dataset.getMetadataModified()))
-                .metadataCreatedAt(parse(dataset.getMetadataCreated()))
+                .createdAt(parse(dataset.getMetadataCreated()))
                 .build();
     }
 

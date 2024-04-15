@@ -151,7 +151,7 @@ components:
           type: string
           format: date-time
           title: Dataset modified at
-        metadataCreatedAt:
+        createdAt:
           type: string
           format: date-time
           title: Metadata for dataset created at

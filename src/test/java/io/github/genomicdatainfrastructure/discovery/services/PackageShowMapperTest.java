@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanTag;
 import org.junit.jupiter.api.Test;
 import io.github.genomicdatainfrastructure.discovery.model.RetrievedDataset;
 import io.github.genomicdatainfrastructure.discovery.model.RetrievedDistribution;
@@ -35,6 +36,7 @@ class PackageShowMapperTest {
                 .hasVersions(List.of())
                 .languages(List.of())
                 .themes(List.of())
+                .keywords(List.of())
                 .build();
 
         assertThat(actual)
@@ -56,6 +58,11 @@ class PackageShowMapperTest {
                         .build())
                 .metadataCreated("2024-03-19T13:37:05.472970")
                 .metadataModified("2024-03-19T13:37:05.472970")
+                .tags(List.of(CkanTag.builder()
+                        .displayName("key-tag")
+                        .id("tag-id")
+                        .name("key")
+                        .build()))
                 .url("url")
                 .language(List.of("language"))
                 .contactUri("contactUri")
@@ -121,6 +128,10 @@ class PackageShowMapperTest {
                                 .build()
                 ))
                 .provenance("provenance")
+                .keywords(List.of(ValueLabel.builder()
+                        .label("key-tag")
+                        .value("key")
+                        .build()))
                 .spatial(ValueLabel.builder()
                         .value("spatialUri")
                         .label("spatialUri")
