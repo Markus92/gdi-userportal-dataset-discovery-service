@@ -151,6 +151,10 @@ components:
           type: string
           format: date-time
           title: Dataset modified at
+        createdAt:
+          type: string
+          format: date-time
+          title: Metadata for dataset created at
         recordsCount:
           type: integer
           title: Records count
@@ -237,6 +241,11 @@ components:
           items:
             $ref: "#/components/schemas/ValueLabel"
           title: Conforms to
+        keywords:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValueLabel"
+          title: Keywords
         provenance:
           type: string
           title: Contact URI
