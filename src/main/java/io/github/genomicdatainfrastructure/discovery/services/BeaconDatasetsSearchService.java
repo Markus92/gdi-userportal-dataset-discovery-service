@@ -21,7 +21,6 @@ import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchRespons
 import io.github.genomicdatainfrastructure.discovery.model.FacetGroup;
 import io.github.genomicdatainfrastructure.discovery.model.SearchedDataset;
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.api.BeaconQueryApi;
-import io.github.genomicdatainfrastructure.discovery.remote.beacon.model.BeaconIndividualsRequest;
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.model.BeaconIndividualsResponse;
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.model.BeaconIndividualsResponseContent;
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.model.BeaconResultSet;
@@ -71,25 +70,21 @@ public class BeaconDatasetsSearchService implements DatasetsSearchService {
 
     @Override
     public DatasetsSearchResponse search(DatasetSearchQuery query, String accessToken) {
-        var beaconQuery = BeaconIndividualsRequestMapper.from(query);
-
         var beaconAuthorization = retrieveBeaconAuthorization(accessToken);
 
-        if (beaconAuthorization == null || beaconQuery.getQuery().getFilters().isEmpty()) {
+        if (beaconAuthorization == null) {
             return datasetsSearchService.search(query, accessToken);
         }
 
-        var beaconResponse = queryOnBeacon(beaconAuthorization, beaconQuery);
+        var resultsets = queryOnBeaconIfThereAreBeaconFilters(beaconAuthorization, query);
 
-        var datasetsReponse = DatasetsSearchResponse.builder()
-                .count(0)
-                .build();
-        if (!beaconResponse.isEmpty()) {
-            var enhancedQuery = enhanceQueryFacets(query, beaconResponse);
-            datasetsReponse = datasetsSearchService.search(enhancedQuery, accessToken);
-        }
+        var datasetsSearchResponse = queryOnCkanIfThereIsNoBeaconFilterOrResultsetsIsNotEmpty(
+                accessToken,
+                query,
+                resultsets
+        );
 
-        return enhanceDatasetsResponse(beaconAuthorization, datasetsReponse, beaconResponse);
+        return enhanceDatasetsResponse(beaconAuthorization, datasetsSearchResponse, resultsets);
     }
 
     private String retrieveBeaconAuthorization(String accessToken) {
@@ -111,10 +106,14 @@ public class BeaconDatasetsSearchService implements DatasetsSearchService {
         }
     }
 
-    private List<BeaconResultSet> queryOnBeacon(
+    private List<BeaconResultSet> queryOnBeaconIfThereAreBeaconFilters(
             String beaconAuthorization,
-            BeaconIndividualsRequest beaconQuery
+            DatasetSearchQuery query
     ) {
+        var beaconQuery = BeaconIndividualsRequestMapper.from(query);
+        if (beaconQuery.getQuery().getFilters().isEmpty()) {
+            return List.of();
+        }
 
         var response = beaconQueryApi.listIndividuals(beaconAuthorization, beaconQuery);
 
@@ -128,8 +127,27 @@ public class BeaconDatasetsSearchService implements DatasetsSearchService {
                 .filter(Objects::nonNull)
                 .filter(it -> BEACON_DATASET_TYPE.equals(it.getSetType()))
                 .filter(it -> isNotBlank(it.getId()))
-                .filter(it -> it.getResultsCount() > 0)
+                .filter(it -> it.getResultsCount() != null && it.getResultsCount() > 0)
                 .toList();
+    }
+
+    private DatasetsSearchResponse queryOnCkanIfThereIsNoBeaconFilterOrResultsetsIsNotEmpty(
+            String beaconAuthorization,
+            DatasetSearchQuery query,
+            List<BeaconResultSet> resultSets
+    ) {
+        var nonNullFacets = ofNullable(query.getFacets()).orElseGet(List::of);
+        var thereIsAtLeastOneBeaconFilter = nonNullFacets.stream()
+                .anyMatch(it -> BEACON_FACET_GROUP.equals(it.getFacetGroup()));
+
+        if (thereIsAtLeastOneBeaconFilter && resultSets.isEmpty()) {
+            return DatasetsSearchResponse.builder()
+                    .count(0)
+                    .build();
+        }
+
+        var enhancedQuery = enhanceQueryFacets(query, resultSets);
+        return datasetsSearchService.search(enhancedQuery, beaconAuthorization);
     }
 
     private DatasetSearchQuery enhanceQueryFacets(
@@ -156,30 +174,30 @@ public class BeaconDatasetsSearchService implements DatasetsSearchService {
 
     private DatasetsSearchResponse enhanceDatasetsResponse(
             String beaconAuthorization,
-            DatasetsSearchResponse datasetsReponse,
+            DatasetsSearchResponse datasetsSearchReponse,
             List<BeaconResultSet> resultSets
     ) {
         var facetGroupCount = new HashMap<String, Integer>();
         facetGroupCount.put(BEACON_FACET_GROUP, resultSets.size());
-        if (isNotEmpty(datasetsReponse.getFacetGroupCount())) {
-            facetGroupCount.putAll(datasetsReponse.getFacetGroupCount());
+        if (isNotEmpty(datasetsSearchReponse.getFacetGroupCount())) {
+            facetGroupCount.putAll(datasetsSearchReponse.getFacetGroupCount());
         }
 
         var facetGroups = new ArrayList<FacetGroup>();
         facetGroups.add(beaconFilteringTermsService.listFilteringTerms(beaconAuthorization));
-        if (isNotEmpty(datasetsReponse.getFacetGroups())) {
-            facetGroups.addAll(datasetsReponse.getFacetGroups());
+        if (isNotEmpty(datasetsSearchReponse.getFacetGroups())) {
+            facetGroups.addAll(datasetsSearchReponse.getFacetGroups());
         }
 
         var results = List.<SearchedDataset>of();
-        if (isNotEmpty(datasetsReponse.getResults())) {
+        if (isNotEmpty(datasetsSearchReponse.getResults())) {
             var recordCounts = resultSets.stream()
                     .collect(toMap(
                             BeaconResultSet::getId,
                             BeaconResultSet::getResultsCount
                     ));
 
-            results = datasetsReponse.getResults()
+            results = datasetsSearchReponse.getResults()
                     .stream()
                     .map(it -> it.toBuilder()
                             .recordsCount(recordCounts.get(it.getIdentifier()))
@@ -187,7 +205,7 @@ public class BeaconDatasetsSearchService implements DatasetsSearchService {
                     .toList();
         }
 
-        return datasetsReponse.toBuilder()
+        return datasetsSearchReponse.toBuilder()
                 .facetGroupCount(facetGroupCount)
                 .facetGroups(facetGroups)
                 .results(results)
