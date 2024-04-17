@@ -1,7 +1,7 @@
 {
     "request": {
         "method": "GET",
-        "url": "/api/3/action/package_show?id=dataset_with_error"
+        "url": "/api/3/action/enhanced_package_show?id=dataset_with_error"
     },
     "response": {
         "status": 500,
