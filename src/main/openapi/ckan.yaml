@@ -10,7 +10,7 @@ info:
 servers:
   - url: /
 paths:
-  /api/3/action/package_search:
+  /api/3/action/enhanced_package_search:
     get:
       summary: Searches for packages based on criteria
       operationId: package_search
@@ -73,7 +73,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PackagesSearchResponse"
-  /api/3/action/package_show:
+  /api/3/action/enhanced_package_show:
     get:
       summary: Retrieves a package by ID
       operationId: package_show
@@ -137,20 +137,7 @@ components:
         items:
           type: array
           items:
-            $ref: "#/components/schemas/CkanFacetItem"
-    CkanFacetItem:
-      type: object
-      properties:
-        name:
-          type: string
-        display_name:
-          type: string
-        count:
-          type: integer
-      required:
-        - name
-        - display_name
-        - count
+            $ref: "#/components/schemas/CkanValueLabel"
     CkanPackage:
       type: object
       properties:
@@ -165,7 +152,7 @@ components:
         theme:
           type: array
           items:
-            type: string
+            $ref: "#/components/schemas/CkanValueLabel"
         tags:
           type: array
           items:
@@ -183,23 +170,23 @@ components:
         language:
           type: array
           items:
-            type: string
-        contact_uri: #TODO check if there are other attributes to form value/label
+            $ref: "#/components/schemas/CkanValueLabel"
+        contact_uri:
           type: string
         has_version:
           type: array
           items:
-            type: string
+            $ref: "#/components/schemas/CkanValueLabel"
         access_rights:
-          type: string
+          $ref: "#/components/schemas/CkanValueLabel"
         conforms_to:
           type: array
           items:
-            type: string
+            $ref: "#/components/schemas/CkanValueLabel"
         provenance:
           type: string
-        spatial_uri: #TODO check if there are other attributes to form value/label
-          type: string
+        spatial:
+          $ref: "#/components/schemas/CkanValueLabel"
         resources:
           type: array
           items:
@@ -230,7 +217,7 @@ components:
         description:
           type: string
         format:
-          type: string
+          $ref: "#/components/schemas/CkanValueLabel"
         uri:
           type: string
         created:
@@ -281,3 +268,14 @@ components:
               type: string
             message:
               type: string
+    CkanValueLabel:
+      properties:
+        name:
+          type: string
+        display_name:
+          type: string
+        count:
+          type: integer
+      required:
+        - name
+        - display_name
