@@ -85,7 +85,7 @@ class PackageShowMapperTest {
                                 .name("conforms")
                                 .build()))
                 .provenance("provenance")
-                .spatial(CkanValueLabel.builder()
+                .spatialUri(CkanValueLabel.builder()
                         .displayName("spatial")
                         .name("uri")
                         .build())

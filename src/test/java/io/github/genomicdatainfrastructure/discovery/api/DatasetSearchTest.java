@@ -70,7 +70,7 @@ class DatasetSearchTest extends BaseTest {
                 .post("/api/v1/datasets/search")
                 .then()
                 .statusCode(200)
-                .body("count", equalTo(1))
+                .body("count", equalTo(1167))
                 .body("results[0].recordsCount", equalTo(64));
     }
 

@@ -185,7 +185,7 @@ components:
             $ref: "#/components/schemas/CkanValueLabel"
         provenance:
           type: string
-        spatial:
+        spatial_uri:
           $ref: "#/components/schemas/CkanValueLabel"
         resources:
           type: array

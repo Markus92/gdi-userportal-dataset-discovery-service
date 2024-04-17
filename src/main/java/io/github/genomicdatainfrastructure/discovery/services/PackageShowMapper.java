@@ -48,7 +48,7 @@ public class PackageShowMapper {
                 .accessRights(value(ckanPackage.getAccessRights()))
                 .conformsTo(values(ckanPackage.getConformsTo()))
                 .provenance(ckanPackage.getProvenance())
-                .spatial(value(ckanPackage.getSpatial()))
+                .spatial(value(ckanPackage.getSpatialUri()))
                 .distributions(distributions(ckanPackage))
                 .keywords(keywords(ckanPackage))
                 .build();
