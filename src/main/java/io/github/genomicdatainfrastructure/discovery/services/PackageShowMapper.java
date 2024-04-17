@@ -10,10 +10,7 @@ import java.util.Objects;
 import io.github.genomicdatainfrastructure.discovery.model.RetrievedDataset;
 import io.github.genomicdatainfrastructure.discovery.model.RetrievedDistribution;
 import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanResource;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanTag;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import lombok.experimental.UtilityClass;
 
 import static java.util.Optional.ofNullable;
@@ -57,7 +54,7 @@ public class PackageShowMapper {
                 .build();
     }
 
-    private List<ValueLabel> values(List<String> values) {
+    private List<ValueLabel> values(List<CkanValueLabel> values) {
         return ofNullable(values)
                 .orElseGet(List::of)
                 .stream()
@@ -73,6 +70,16 @@ public class PackageShowMapper {
                 .map(it -> ValueLabel.builder()
                         .value(it)
                         .label(it)
+                        .build())
+                .orElse(null);
+    }
+
+    private ValueLabel value(CkanValueLabel value) {
+        return ofNullable(value)
+                .filter(Objects::nonNull)
+                .map(it -> ValueLabel.builder()
+                        .value(it.getName())
+                        .label(it.getDisplayName())
                         .build())
                 .orElse(null);
     }

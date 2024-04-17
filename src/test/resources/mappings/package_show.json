@@ -1,7 +1,7 @@
 {
     "request": {
         "method": "GET",
-        "url": "/api/3/action/package_show?id=e1b3eff9-13eb-48b0-b180-7ecb76b84454"
+        "url": "/api/3/action/enhanced_package_show?id=e1b3eff9-13eb-48b0-b180-7ecb76b84454"
     },
     "response": {
         "status": 200,
@@ -15,20 +15,36 @@
                 "help": "https://ckan-test.healthdata.nl/api/3/action/help_show?name=package_show",
                 "success": true,
                 "result": {
-                    "access_rights": "https://health-ri.sandbox.semlab-leiden.nl/dataset/e134f4b7-25bb-4f28-a594-828b56deef5e#accessRights",
+                    "access_rights": {
+                        "display_name": "Access Rights",
+                        "name": "https://health-ri.sandbox.semlab-leiden.nl/dataset/e134f4b7-25bb-4f28-a594-828b56deef5e#accessRights"
+                    },
                     "conforms_to": [
-                        "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                        {
+                            "display_name": "Conforms to",
+                            "name": "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                        }
                     ],
                     "contact_uri": "https://orcid.org/0000-0003-1076-199X",
                     "creator_user_id": "f2687934-1127-4c61-ab21-982cb91d7c80",
                     "has_version": [
-                        "https://repo.metadatacenter.org/template-instances/92948e21-4361-406b-adc0-bb83f39ecca6"
+                        {
+                            "display_name":"version",
+                            "name": "https://repo.metadatacenter.org/template-instances/92948e21-4361-406b-adc0-bb83f39ecca6"
+                        }
                     ],
                     "id": "e1b3eff9-13eb-48b0-b180-7ecb76b84454",
                     "identifier": "27866022694497975",
                     "isopen": false,
+                    "spatial_uri": {
+                        "display_name": "Spatial Uri",
+                        "name": "uri"
+                    },
                     "language": [
-                        "http://id.loc.gov/vocabulary/iso639-1/en"
+                        {
+                            "display_name": "English",
+                            "name": "http://id.loc.gov/vocabulary/iso639-1/en"
+                        }
                     ],
                     "license_id": "",
                     "license_title": "",
@@ -57,12 +73,30 @@
                     "temporal_end": "2025-12-31",
                     "temporal_start": "2020-01-01",
                     "theme": [
-                        "http://purl.bioontology.org/ontology/ICD10CM/U07.1",
-                        "http://purl.org/zonmw/covid19/10006",
-                        "http://purl.org/zonmw/covid19/10014",
-                        "http://purl.org/zonmw/covid19/10033",
-                        "http://purl.org/zonmw/covid19/10091",
-                        "http://purl.org/zonmw/generic/10095"
+                        {
+                            "display_name": "Bio ontology",
+                            "name": "http://purl.bioontology.org/ontology/ICD10CM/U07.1"
+                        },
+                        {
+                            "display_name": "Covid 19",
+                            "name": "http://purl.org/zonmw/covid19/10006"
+                        },
+                        {
+                            "display_name": "Covid 19",
+                            "name": "http://purl.org/zonmw/covid19/10014"
+                        },
+                        {
+                            "display_name": "Covid 19",
+                            "name": "http://purl.org/zonmw/covid19/10033"
+                        },
+                        {
+                            "display_name": "Covid 19",
+                            "name":  "http://purl.org/zonmw/covid19/10091"
+                        },
+                        {
+                            "display_name": "Generic",
+                            "name":  "http://purl.org/zonmw/generic/10095"
+                        }
                     ],
                     "title": "COVID-NL cohort AUMC",
                     "type": "dataset",

@@ -76,15 +76,15 @@ public class BeaconDatasetsSearchService implements DatasetsSearchService {
             return datasetsSearchService.search(query, accessToken);
         }
 
-        var resultsets = queryOnBeaconIfThereAreBeaconFilters(beaconAuthorization, query);
+        var resultSets = queryOnBeaconIfThereAreBeaconFilters(beaconAuthorization, query);
 
         var datasetsSearchResponse = queryOnCkanIfThereIsNoBeaconFilterOrResultsetsIsNotEmpty(
                 accessToken,
                 query,
-                resultsets
+                resultSets
         );
 
-        return enhanceDatasetsResponse(beaconAuthorization, datasetsSearchResponse, resultsets);
+        return enhanceDatasetsResponse(beaconAuthorization, datasetsSearchResponse, resultSets);
     }
 
     private String retrieveBeaconAuthorization(String accessToken) {
@@ -174,30 +174,30 @@ public class BeaconDatasetsSearchService implements DatasetsSearchService {
 
     private DatasetsSearchResponse enhanceDatasetsResponse(
             String beaconAuthorization,
-            DatasetsSearchResponse datasetsSearchReponse,
+            DatasetsSearchResponse datasetsSearchResponse,
             List<BeaconResultSet> resultSets
     ) {
         var facetGroupCount = new HashMap<String, Integer>();
         facetGroupCount.put(BEACON_FACET_GROUP, resultSets.size());
-        if (isNotEmpty(datasetsSearchReponse.getFacetGroupCount())) {
-            facetGroupCount.putAll(datasetsSearchReponse.getFacetGroupCount());
+        if (isNotEmpty(datasetsSearchResponse.getFacetGroupCount())) {
+            facetGroupCount.putAll(datasetsSearchResponse.getFacetGroupCount());
         }
 
         var facetGroups = new ArrayList<FacetGroup>();
         facetGroups.add(beaconFilteringTermsService.listFilteringTerms(beaconAuthorization));
-        if (isNotEmpty(datasetsSearchReponse.getFacetGroups())) {
-            facetGroups.addAll(datasetsSearchReponse.getFacetGroups());
+        if (isNotEmpty(datasetsSearchResponse.getFacetGroups())) {
+            facetGroups.addAll(datasetsSearchResponse.getFacetGroups());
         }
 
         var results = List.<SearchedDataset>of();
-        if (isNotEmpty(datasetsSearchReponse.getResults())) {
+        if (isNotEmpty(datasetsSearchResponse.getResults())) {
             var recordCounts = resultSets.stream()
                     .collect(toMap(
                             BeaconResultSet::getId,
                             BeaconResultSet::getResultsCount
                     ));
 
-            results = datasetsSearchReponse.getResults()
+            results = datasetsSearchResponse.getResults()
                     .stream()
                     .map(it -> it.toBuilder()
                             .recordsCount(recordCounts.get(it.getIdentifier()))
@@ -205,7 +205,7 @@ public class BeaconDatasetsSearchService implements DatasetsSearchService {
                     .toList();
         }
 
-        return datasetsSearchReponse.toBuilder()
+        return datasetsSearchResponse.toBuilder()
                 .facetGroupCount(facetGroupCount)
                 .facetGroups(facetGroups)
                 .results(results)

@@ -2,7 +2,7 @@
     "priority": 2,
     "request": {
         "method": "GET",
-        "urlPattern": "/api/3/action/package_search.*"
+        "urlPattern": "/api/3/action/enhanced_package_search.*"
     },
     "response": {
         "status": 200,
@@ -270,16 +270,25 @@
                 },
                 "results": [
                     {
-                        "access_rights": "https://health-ri.sandbox.semlab-leiden.nl/dataset/d73d04ba-23f7-429f-8506-3aa9dccb0435#accessRights",
+                        "access_rights": {
+                            "name": "https://health-ri.sandbox.semlab-leiden.nl/dataset/d73d04ba-23f7-429f-8506-3aa9dccb0435#accessRights",
+                            "display_name": "Access Rights"
+                        },
                         "conforms_to": [
-                            "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            {
+                                "display_name": "Conforms to",
+                                "name": "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            }
                         ],
                         "creator_user_id": "f2687934-1127-4c61-ab21-982cb91d7c80",
                         "id": "0ddd7a13-ee11-4e5d-bbff-34e04a6a7949",
-                        "identifier": "brainmriwml_vu",
+                        "identifier": "27866022694497975",
                         "isopen": false,
                         "language": [
-                            "http://id.loc.gov/vocabulary/iso639-1/en"
+                            {
+                                "display_name": "English",
+                                "name": "http://id.loc.gov/vocabulary/iso639-1/en"
+                            }
                         ],
                         "license_id": "",
                         "license_title": "",
@@ -331,16 +340,25 @@
                         "relationships_as_object": []
                     },
                     {
-                        "access_rights": "https://health-ri.sandbox.semlab-leiden.nl/dataset/e1c89dfd-d7b2-4fb0-960f-75d4cc3104bb#accessRights",
+                        "access_rights": {
+                            "display_name": "Access Rights",
+                            "name": "https://health-ri.sandbox.semlab-leiden.nl/dataset/e1c89dfd-d7b2-4fb0-960f-75d4cc3104bb#accessRights"
+                        },
                         "conforms_to": [
-                            "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            {
+                                "display_name": "Conforms to",
+                                "name": "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            }
                         ],
                         "creator_user_id": "f2687934-1127-4c61-ab21-982cb91d7c80",
                         "id": "e2fc35e2-0a09-42d7-b2e7-2324758f89f1",
                         "identifier": "euc_kauno_uc6",
                         "isopen": false,
                         "language": [
-                            "http://id.loc.gov/vocabulary/iso639-1/en"
+                            {
+                                "display_name": "English",
+                                "name": "http://id.loc.gov/vocabulary/iso639-1/en"
+                            }
                         ],
                         "license_id": "",
                         "license_title": "",
@@ -392,16 +410,25 @@
                         "relationships_as_object": []
                     },
                     {
-                        "access_rights": "https://health-ri.sandbox.semlab-leiden.nl/dataset/63cc8a90-91c2-47f0-9053-a1e6e5b7d88a#accessRights",
+                        "access_rights": {
+                            "display_name": "Access Rights",
+                            "name": "https://health-ri.sandbox.semlab-leiden.nl/dataset/63cc8a90-91c2-47f0-9053-a1e6e5b7d88a#accessRights"
+                        },
                         "conforms_to": [
-                            "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            {
+                                "display_name": "Conforms to",
+                                "name": "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            }
                         ],
                         "creator_user_id": "f2687934-1127-4c61-ab21-982cb91d7c80",
                         "id": "128bc39c-8a56-4b07-969d-3cdc2d0bff10",
                         "identifier": "cp-tavi",
                         "isopen": false,
                         "language": [
-                            "http://id.loc.gov/vocabulary/iso639-1/en"
+                            {
+                                "display_name": "English",
+                                "name": "http://id.loc.gov/vocabulary/iso639-1/en"
+                            }
                         ],
                         "license_id": "",
                         "license_title": "",
@@ -453,16 +480,25 @@
                         "relationships_as_object": []
                     },
                     {
-                        "access_rights": "https://health-ri.sandbox.semlab-leiden.nl/dataset/4a9094ae-b986-4624-a1b8-659dbbe89f75#accessRights",
+                        "access_rights": {
+                            "display_name": "Access Rights",
+                            "name": "https://health-ri.sandbox.semlab-leiden.nl/dataset/4a9094ae-b986-4624-a1b8-659dbbe89f75#accessRights"
+                        },
                         "conforms_to": [
-                            "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            {
+                                "display_name": "Conforms to",
+                                "name": "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            }
                         ],
                         "creator_user_id": "f2687934-1127-4c61-ab21-982cb91d7c80",
                         "id": "28267a33-70c5-4827-b431-9d80e9e9327a",
                         "identifier": "C14GIST_NKI",
                         "isopen": false,
                         "language": [
-                            "http://id.loc.gov/vocabulary/iso639-1/en"
+                            {
+                                "display_name": "English",
+                                "name": "http://id.loc.gov/vocabulary/iso639-1/en"
+                            }
                         ],
                         "license_id": "",
                         "license_title": "",
@@ -514,16 +550,25 @@
                         "relationships_as_object": []
                     },
                     {
-                        "access_rights": "https://health-ri.sandbox.semlab-leiden.nl/dataset/c8412677-d3a3-4960-ba39-a912c0ea3603#accessRights",
+                        "access_rights": {
+                            "name": "https://health-ri.sandbox.semlab-leiden.nl/dataset/c8412677-d3a3-4960-ba39-a912c0ea3603#accessRights",
+                            "display_name": "Access Rights"
+                        },
                         "conforms_to": [
-                            "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            {
+                                "display_name": "Conforms to",
+                                "name": "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            }
                         ],
                         "creator_user_id": "f2687934-1127-4c61-ab21-982cb91d7c80",
                         "id": "f3ea26b6-2737-4f31-8df0-5373b8972c0b",
                         "identifier": "hebon",
                         "isopen": false,
                         "language": [
-                            "http://id.loc.gov/vocabulary/iso639-1/en"
+                            {
+                                "display_name": "English",
+                                "name": "http://id.loc.gov/vocabulary/iso639-1/en"
+                            }
                         ],
                         "license_id": "",
                         "license_title": "",
@@ -575,16 +620,25 @@
                         "relationships_as_object": []
                     },
                     {
-                        "access_rights": "https://health-ri.sandbox.semlab-leiden.nl/dataset/bdd43c94-2620-457e-aa4b-7139620ef911#accessRights",
+                        "access_rights": {
+                            "name": "https://health-ri.sandbox.semlab-leiden.nl/dataset/bdd43c94-2620-457e-aa4b-7139620ef911#accessRights",
+                            "display_name": "Access Rights"
+                        },
                         "conforms_to": [
-                            "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            {
+                                "display_name": "Conforms to",
+                                "name": "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            }
                         ],
                         "creator_user_id": "f2687934-1127-4c61-ab21-982cb91d7c80",
                         "id": "67987f8e-4429-48e3-bb4c-627ee180339b",
                         "identifier": "euc_unipi_uc1",
                         "isopen": false,
                         "language": [
-                            "http://id.loc.gov/vocabulary/iso639-1/en"
+                            {
+                                "display_name": "English",
+                                "name": "http://id.loc.gov/vocabulary/iso639-1/en"
+                            }
                         ],
                         "license_id": "",
                         "license_title": "",
@@ -636,16 +690,25 @@
                         "relationships_as_object": []
                     },
                     {
-                        "access_rights": "https://health-ri.sandbox.semlab-leiden.nl/dataset/25959b82-d81e-4721-9aaf-ca4a33756210#accessRights",
+                        "access_rights": {
+                            "name": "https://health-ri.sandbox.semlab-leiden.nl/dataset/25959b82-d81e-4721-9aaf-ca4a33756210#accessRights",
+                            "display_name": "Access Rights"
+                        },
                         "conforms_to": [
-                            "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            {
+                                "display_name": "Conforms to",
+                                "name": "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            }
                         ],
                         "creator_user_id": "f2687934-1127-4c61-ab21-982cb91d7c80",
                         "id": "887d67e1-39ee-43fc-bbb2-03f2e83ac477",
                         "identifier": "merlin",
                         "isopen": false,
                         "language": [
-                            "http://id.loc.gov/vocabulary/iso639-1/en"
+                            {
+                                "display_name": "English",
+                                "name": "http://id.loc.gov/vocabulary/iso639-1/en"
+                            }
                         ],
                         "license_id": "",
                         "license_title": "",
@@ -824,16 +887,25 @@
                         "relationships_as_object": []
                     },
                     {
-                        "access_rights": "https://health-ri.sandbox.semlab-leiden.nl/dataset/f4c505c5-bd39-44dc-91f0-b862a7dde813#accessRights",
+                        "access_rights": {
+                            "name": "https://health-ri.sandbox.semlab-leiden.nl/dataset/f4c505c5-bd39-44dc-91f0-b862a7dde813#accessRights",
+                            "display_name": "Access Rights"
+                        },
                         "conforms_to": [
-                            "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            {
+                                "display_name": "Conforms to",
+                                "name": "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            }
                         ],
                         "creator_user_id": "f2687934-1127-4c61-ab21-982cb91d7c80",
                         "id": "37293eac-b160-4513-aef0-490c5198b0dc",
                         "identifier": "parelsnoer-ndz",
                         "isopen": false,
                         "language": [
-                            "http://id.loc.gov/vocabulary/iso639-1/en"
+                            {
+                                "display_name": "English",
+                                "name": "http://id.loc.gov/vocabulary/iso639-1/en"
+                            }
                         ],
                         "license_id": "",
                         "license_title": "",
@@ -885,16 +957,25 @@
                         "relationships_as_object": []
                     },
                     {
-                        "access_rights": "https://health-ri.sandbox.semlab-leiden.nl/dataset/dd8482c7-bfe9-49d5-9b91-efd091cfa864#accessRights",
+                        "access_rights": {
+                            "name": "https://health-ri.sandbox.semlab-leiden.nl/dataset/dd8482c7-bfe9-49d5-9b91-efd091cfa864#accessRights",
+                            "display_name": "Access Rights"
+                        },
                         "conforms_to": [
-                            "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            {
+                                "display_name": "Conforms to",
+                                "name": "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            }
                         ],
                         "creator_user_id": "f2687934-1127-4c61-ab21-982cb91d7c80",
                         "id": "04f4908d-5a9d-46fd-a4b3-d9732775a74a",
                         "identifier": "euc_fcrb_uc7",
                         "isopen": false,
                         "language": [
-                            "http://id.loc.gov/vocabulary/iso639-1/en"
+                            {
+                                "display_name": "English",
+                                "name": "http://id.loc.gov/vocabulary/iso639-1/en"
+                            }
                         ],
                         "license_id": "",
                         "license_title": "",
@@ -946,16 +1027,25 @@
                         "relationships_as_object": []
                     },
                     {
-                        "access_rights": "https://health-ri.sandbox.semlab-leiden.nl/dataset/4e681eb3-e87c-4771-b1ad-c6af707e8c13#accessRights",
+                        "access_rights": {
+                            "name": "https://health-ri.sandbox.semlab-leiden.nl/dataset/4e681eb3-e87c-4771-b1ad-c6af707e8c13#accessRights",
+                            "display_name": "Access Rights"
+                        },
                         "conforms_to": [
-                            "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            {
+                                "display_name": "Conforms to",
+                                "name": "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604"
+                            }
                         ],
                         "creator_user_id": "f2687934-1127-4c61-ab21-982cb91d7c80",
                         "id": "cebe6bb9-1194-4379-bd04-c86dfd80ec50",
                         "identifier": "brainmriwml_ne",
                         "isopen": false,
                         "language": [
-                            "http://id.loc.gov/vocabulary/iso639-1/en"
+                            {
+                                "display_name": "English",
+                                "name": "http://id.loc.gov/vocabulary/iso639-1/en"
+                            }
                         ],
                         "license_id": "",
                         "license_title": "",

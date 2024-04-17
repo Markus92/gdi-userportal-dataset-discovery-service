@@ -9,11 +9,7 @@ import io.github.genomicdatainfrastructure.discovery.model.Facet;
 import io.github.genomicdatainfrastructure.discovery.model.FacetGroup;
 import io.github.genomicdatainfrastructure.discovery.model.SearchedDataset;
 import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanFacet;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResponse;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResult;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import lombok.experimental.UtilityClass;
 
 import java.util.List;
@@ -26,7 +22,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
 import static java.util.Optional.ofNullable;
-import static java.util.function.Predicate.not;
 
 @UtilityClass
 public class PackagesSearchResponseMapper {
@@ -130,7 +125,7 @@ public class PackagesSearchResponseMapper {
                 .orElse(null);
     }
 
-    private List<ValueLabel> values(List<String> values) {
+    private List<ValueLabel> values(List<CkanValueLabel> values) {
         return ofNullable(values)
                 .orElseGet(List::of)
                 .stream()
@@ -139,13 +134,12 @@ public class PackagesSearchResponseMapper {
                 .toList();
     }
 
-    private ValueLabel value(String value) {
+    private ValueLabel value(CkanValueLabel value) {
         return ofNullable(value)
                 .filter(Objects::nonNull)
-                .filter(not(String::isBlank))
                 .map(it -> ValueLabel.builder()
-                        .value(it)
-                        .label(it)
+                        .value(it.getName())
+                        .label(it.getDisplayName())
                         .build())
                 .orElse(null);
     }
