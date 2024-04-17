@@ -4,20 +4,17 @@
 
 package io.github.genomicdatainfrastructure.discovery.services;
 
-import static java.time.LocalDateTime.parse;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.List;
-
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanTag;
-import org.junit.jupiter.api.Test;
 import io.github.genomicdatainfrastructure.discovery.model.RetrievedDataset;
 import io.github.genomicdatainfrastructure.discovery.model.RetrievedDistribution;
 import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanResource;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
+import org.junit.jupiter.api.Test;
+
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import static java.time.LocalDateTime.parse;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class PackageShowMapperTest {
 
@@ -51,7 +48,10 @@ class PackageShowMapperTest {
                 .identifier("identifier")
                 .name("name")
                 .notes("notes")
-                .theme(List.of("theme"))
+                .theme(List.of(CkanValueLabel.builder()
+                        .displayName("theme")
+                        .name("theme-name")
+                        .build()))
                 .publisherName("publisherName")
                 .organization(CkanOrganization.builder()
                         .title("organization")
@@ -64,19 +64,40 @@ class PackageShowMapperTest {
                         .name("key")
                         .build()))
                 .url("url")
-                .language(List.of("language"))
+                .language(List.of(
+                        CkanValueLabel.builder()
+                                .displayName("language")
+                                .name("en")
+                                .build()))
                 .contactUri("contactUri")
-                .hasVersion(List.of("hasVersion"))
-                .accessRights("accessRights")
-                .conformsTo(List.of("conformsTo"))
+                .hasVersion(List.of(
+                        CkanValueLabel.builder()
+                                .displayName("version")
+                                .name("1")
+                                .build()))
+                .accessRights(CkanValueLabel.builder()
+                        .displayName("accessRights")
+                        .name("public")
+                        .build())
+                .conformsTo(List.of(
+                        CkanValueLabel.builder()
+                                .displayName("conformsTo")
+                                .name("conforms")
+                                .build()))
                 .provenance("provenance")
-                .spatialUri("spatialUri")
+                .spatial(CkanValueLabel.builder()
+                        .displayName("spatial")
+                        .name("uri")
+                        .build())
                 .resources(List.of(
                         CkanResource.builder()
                                 .id("resource_id")
                                 .name("resource_name")
                                 .description("resource_description")
-                                .format("format")
+                                .format(CkanValueLabel.builder()
+                                        .displayName("format")
+                                        .name("pdf")
+                                        .build())
                                 .uri("uri")
                                 .created("2024-03-19T13:37:05.472970")
                                 .lastModified("2024-03-19T13:37:05.472970")
@@ -92,7 +113,7 @@ class PackageShowMapperTest {
                 .description("notes")
                 .themes(List.of(
                         ValueLabel.builder()
-                                .value("theme")
+                                .value("theme-name")
                                 .label("theme")
                                 .build()
                 ))
@@ -103,7 +124,7 @@ class PackageShowMapperTest {
                 .url("url")
                 .languages(List.of(
                         ValueLabel.builder()
-                                .value("language")
+                                .value("en")
                                 .label("language")
                                 .build()
                 ))
@@ -113,17 +134,17 @@ class PackageShowMapperTest {
                         .build())
                 .hasVersions(List.of(
                         ValueLabel.builder()
-                                .value("hasVersion")
-                                .label("hasVersion")
+                                .value("1")
+                                .label("version")
                                 .build()
                 ))
                 .accessRights(ValueLabel.builder()
-                        .value("accessRights")
+                        .value("public")
                         .label("accessRights")
                         .build())
                 .conformsTo(List.of(
                         ValueLabel.builder()
-                                .value("conformsTo")
+                                .value("conforms")
                                 .label("conformsTo")
                                 .build()
                 ))
@@ -133,8 +154,8 @@ class PackageShowMapperTest {
                         .value("key")
                         .build()))
                 .spatial(ValueLabel.builder()
-                        .value("spatialUri")
-                        .label("spatialUri")
+                        .value("uri")
+                        .label("spatial")
                         .build())
                 .distributions(List.of(
                         RetrievedDistribution.builder()
@@ -142,7 +163,7 @@ class PackageShowMapperTest {
                                 .title("resource_name")
                                 .description("resource_description")
                                 .format(ValueLabel.builder()
-                                        .value("format")
+                                        .value("pdf")
                                         .label("format")
                                         .build())
                                 .uri("uri")

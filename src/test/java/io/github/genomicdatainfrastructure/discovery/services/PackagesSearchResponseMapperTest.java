@@ -9,18 +9,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Map;
+
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import org.junit.jupiter.api.Test;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
 import io.github.genomicdatainfrastructure.discovery.model.Facet;
 import io.github.genomicdatainfrastructure.discovery.model.FacetGroup;
 import io.github.genomicdatainfrastructure.discovery.model.SearchedDataset;
 import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanFacet;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanFacetItem;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResponse;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResult;
+
 import java.time.format.DateTimeFormatter;
 
 class PackagesSearchResponseMapperTest {
@@ -226,7 +223,7 @@ class PackagesSearchResponseMapperTest {
                                 CkanFacet.builder()
                                         .title("dummy label")
                                         .items(List.of(
-                                                CkanFacetItem.builder()
+                                                CkanValueLabel.builder()
                                                         .name("value")
                                                         .displayName("label")
                                                         .build()
@@ -239,7 +236,11 @@ class PackagesSearchResponseMapperTest {
                                         .identifier("identifier")
                                         .name("name")
                                         .notes("notes")
-                                        .theme(List.of("theme"))
+                                        .theme(List.of(
+                                                CkanValueLabel.builder()
+                                                        .displayName("theme")
+                                                        .name("theme")
+                                                        .build()))
                                         .publisherName("publisherName")
                                         .organization(CkanOrganization.builder()
                                                 .title("title")
