@@ -30,6 +30,8 @@ import java.util.Objects;
 @ApplicationScoped
 public class BeaconFilteringTermsService {
 
+    private static final String DEFAULT_TYPE = "ontology";
+
     public static final String BEACON_FACET_GROUP = "beacon";
 
     private static final String DEFAULT_SCOPE = "individual";
@@ -46,11 +48,11 @@ public class BeaconFilteringTermsService {
     public FacetGroup listFilteringTerms(String authorization) {
         var filteringTermsResponse = retreiveNonNullFilteringTermsResponse(authorization);
 
-        var valuesGroupedByFacetName = groupValuesByFacetName(filteringTermsResponse);
+        var valuesGroupedByFacetId = groupValuesByFacetId(filteringTermsResponse);
 
-        var facetIdsMappedByName = mapFacetIdsByFacetName(filteringTermsResponse);
+        var facetIdsMappedByName = mapFacetNamesByFacetId(filteringTermsResponse);
 
-        var facets = buildFacets(valuesGroupedByFacetName, facetIdsMappedByName);
+        var facets = buildFacets(valuesGroupedByFacetId, facetIdsMappedByName);
 
         return FacetGroup.builder()
                 .key(BEACON_FACET_GROUP)
@@ -71,18 +73,19 @@ public class BeaconFilteringTermsService {
                 .orElseGet(BeaconFilteringTermsResponseContent::new);
     }
 
-    private Map<String, List<ValueLabel>> groupValuesByFacetName(
+    private Map<String, List<ValueLabel>> groupValuesByFacetId(
             BeaconFilteringTermsResponseContent filteringTermsResponse
     ) {
         return filteringTermsResponse.getFilteringTerms().stream()
                 .filter(Objects::nonNull)
                 .filter(it -> isNotBlank(it.getLabel()))
                 .filter(it -> isNotBlank(it.getId()))
-                .filter(it -> isNotBlank(it.getType()))
+                .filter(it -> it.getId().contains(":"))
+                .filter(it -> DEFAULT_TYPE.equals(it.getType()))
                 .filter(it -> isNotEmpty(it.getScopes()))
                 .filter(it -> it.getScopes().contains(DEFAULT_SCOPE))
                 .collect(groupingBy(
-                        BeaconFilteringTerm::getType,
+                        it -> it.getId().split(":")[0].toLowerCase(),
                         mapping(this::mapFilteringTermToValueLabel, toList())
                 ));
     }
@@ -94,27 +97,27 @@ public class BeaconFilteringTermsService {
                 .build();
     }
 
-    private Map<String, String> mapFacetIdsByFacetName(
+    private Map<String, String> mapFacetNamesByFacetId(
             BeaconFilteringTermsResponseContent filteringTermsResponse
     ) {
         return filteringTermsResponse.getResources().stream()
                 .filter(it -> isNotBlank(it.getId()))
                 .filter(it -> isNotBlank(it.getName()))
                 .collect(toMap(
-                        BeaconResource::getName,
-                        BeaconResource::getId
+                        BeaconResource::getId,
+                        BeaconResource::getName
                 ));
     }
 
     private List<Facet> buildFacets(
             Map<String, List<ValueLabel>> termsGroupedByType,
-            Map<String, String> facetIdsMappedByName
+            Map<String, String> facetNamesMappedById
     ) {
         return termsGroupedByType.entrySet().stream()
-                .filter(entry -> facetIdsMappedByName.containsKey(entry.getKey()))
+                .filter(entry -> facetNamesMappedById.containsKey(entry.getKey()))
                 .map(entry -> Facet.builder()
-                        .key(facetIdsMappedByName.get(entry.getKey()))
-                        .label(entry.getKey())
+                        .key(entry.getKey())
+                        .label(facetNamesMappedById.get(entry.getKey()))
                         .values(entry.getValue())
                         .build())
                 .toList();

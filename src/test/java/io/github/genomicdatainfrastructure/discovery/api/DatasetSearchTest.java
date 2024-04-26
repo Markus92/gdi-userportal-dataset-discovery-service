@@ -5,12 +5,17 @@
 package io.github.genomicdatainfrastructure.discovery.api;
 
 import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import io.github.genomicdatainfrastructure.discovery.BaseTest;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
+import io.github.genomicdatainfrastructure.discovery.model.FacetGroup;
+import io.github.genomicdatainfrastructure.discovery.model.Facet;
+import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQueryFacet;
 import io.quarkus.test.junit.QuarkusTest;
+
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import com.github.tomakehurst.wiremock.client.WireMock;
@@ -95,5 +100,33 @@ class DatasetSearchTest extends BaseTest {
                 .then()
                 .statusCode(200)
                 .body("count", equalTo(0));
+    }
+
+    @Test
+    void retrieves_beacon_filtering_terms() {
+        var query = DatasetSearchQuery.builder().build();
+
+        var response = given()
+                .auth()
+                .oauth2(getAccessToken("alice"))
+                .contentType("application/json")
+                .body(query)
+                .when()
+                .post("/api/v1/datasets/search");
+
+        var body = response.getBody().as(DatasetsSearchResponse.class);
+        var facetGroup = body.getFacetGroups().stream()
+                .filter(it -> "beacon".equals(it.getKey()))
+                .findFirst()
+                .orElseGet(FacetGroup::new);
+
+        var actual = facetGroup.getFacets().stream()
+                .map(Facet::getKey)
+                .toList();
+
+        assertThat(actual)
+                .containsExactlyInAnyOrder(
+                        "gaz", "ncit", "opcs4", "hp", "loinc", "icd10"
+                );
     }
 }
