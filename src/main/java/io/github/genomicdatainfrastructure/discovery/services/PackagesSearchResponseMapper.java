@@ -110,7 +110,7 @@ public class PackagesSearchResponseMapper {
         return SearchedDataset.builder()
                 .id(dataset.getId())
                 .identifier(dataset.getIdentifier())
-                .title(dataset.getName())
+                .title(dataset.getTitle())
                 .description(dataset.getNotes())
                 .themes(values(dataset.getTheme()))
                 .catalogue(catalogue)

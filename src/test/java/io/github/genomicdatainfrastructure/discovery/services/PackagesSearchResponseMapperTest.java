@@ -234,7 +234,7 @@ class PackagesSearchResponseMapperTest {
                                 CkanPackage.builder()
                                         .id("id")
                                         .identifier("identifier")
-                                        .name("name")
+                                        .title("title")
                                         .notes("notes")
                                         .theme(List.of(
                                                 CkanValueLabel.builder()
@@ -260,7 +260,7 @@ class PackagesSearchResponseMapperTest {
                         SearchedDataset.builder()
                                 .id("id")
                                 .identifier("identifier")
-                                .title("name")
+                                .title("title")
                                 .description("notes")
                                 .themes(List.of(
                                         ValueLabel.builder()

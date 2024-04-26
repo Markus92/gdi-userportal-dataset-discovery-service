@@ -2,10 +2,10 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-GET https://ckan-test.healthdata.nl/api/3/action/package_search?fq=&sort=score+desc%2C+metadata_modified+desc&rows=10&start=0&facet.field=%5B%22organization%22%2C%22theme%22%2C%22conforms_to%22%2C%22has_version%22%2C%22access_rights%22%2C%22language%22%2C%22publisher_name%22%2C%22res_format%22%2C%22provenance%22%5D
+GET https://catalogue.portal.dev.gdi.lu/api/3/action/enhanced_package_search?fq=&sort=score+desc%2C+metadata_modified+desc&rows=10&start=0&facet.field=%5B%22organization%22%2C%22theme%22%2C%22conforms_to%22%2C%22has_version%22%2C%22access_rights%22%2C%22language%22%2C%22publisher_name%22%2C%22res_format%22%2C%22provenance%22%5D
 
 ###
-GET https://ckan-test.healthdata.nl/api/3/action/package_show?id=e1b3eff9-13eb-48b0-b180-7ecb76b84454
+GET https://catalogue.portal.dev.gdi.lu/api/3/action/enhanced_package_show?id=bc7664b4-284a-44c0-9ce8-bc3d6882e7fe
 
 ###
-GET https://ckan-test.healthdata.nl/api/3/action/package_show?id=dummy
+GET https://catalogue.portal.dev.gdi.lu/api/3/action/enhanced_package_show?id=dummy
