@@ -25,7 +25,7 @@ public class BeaconIndividualsRequestMapper {
     private static final String BEACON_FACET_GROUP = "beacon";
     private static final String SCOPE = "individual";
     private static final String INCLUDE_RESULTSET_RESPONSES = "HIT";
-    private static final String REQUESTED_GRANULARITY = "count";
+    private static final String REQUESTED_GRANULARITY = "record";
 
     public BeaconIndividualsRequest from(
             DatasetSearchQuery query
