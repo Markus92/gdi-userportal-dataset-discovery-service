@@ -28,7 +28,7 @@ public class CkanDatasetsSearchService implements DatasetsSearchService {
 
     @Override
     public DatasetsSearchResponse search(DatasetSearchQuery query, String accessToken) {
-        var facetsQuery = CkanFacetsQueryBuilder.buildFacetQuery(query.getFacets());
+        var facetsQuery = CkanFacetsQueryBuilder.buildFacetQuery(query);
 
         var response = ckanQueryApi.packageSearch(
                 query.getQuery(),

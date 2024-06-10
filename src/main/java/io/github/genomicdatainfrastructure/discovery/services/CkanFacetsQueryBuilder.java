@@ -7,6 +7,7 @@ package io.github.genomicdatainfrastructure.discovery.services;
 import java.util.List;
 import java.util.Objects;
 
+import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQueryFacet;
 import lombok.experimental.UtilityClass;
 
@@ -21,9 +22,11 @@ public class CkanFacetsQueryBuilder {
     private final String CKAN_FACET_GROUP = "ckan";
     private final String QUOTED_VALUE = "\"%s\"";
     private final String FACET_PATTERN = "%s:(%s)";
-    private final String AND = " AND ";
 
-    public String buildFacetQuery(List<DatasetSearchQueryFacet> facets) {
+    public String buildFacetQuery(DatasetSearchQuery query) {
+        var facets = query.getFacets();
+        var operator = query.getOperator();
+
         var nonNullFacets = ofNullable(facets)
                 .orElseGet(List::of)
                 .stream()
@@ -31,8 +34,8 @@ public class CkanFacetsQueryBuilder {
                 .collect(groupingBy(DatasetSearchQueryFacet::getFacet));
 
         return nonNullFacets.entrySet().stream()
-                .map(entry -> getFacetQuery(entry.getKey(), entry.getValue()))
-                .collect(joining(AND));
+                .map(entry -> getFacetQuery(entry.getKey(), entry.getValue(), operator))
+                .collect(joining(OperatorMapper.getOperator(operator)));
     }
 
     private Boolean isCkanGroupAndFacetIsNotBlank(DatasetSearchQueryFacet facet) {
@@ -43,10 +46,10 @@ public class CkanFacetsQueryBuilder {
                 !facet.getValue().isBlank();
     }
 
-    private String getFacetQuery(String key, List<DatasetSearchQueryFacet> facets) {
+    private String getFacetQuery(String key, List<DatasetSearchQueryFacet> facets, String operator) {
         var values = facets.stream()
                 .map(facet -> QUOTED_VALUE.formatted(facet.getValue()))
-                .collect(joining(AND));
+                .collect(joining(OperatorMapper.getOperator(operator)));
 
         return FACET_PATTERN.formatted(key, values);
     }

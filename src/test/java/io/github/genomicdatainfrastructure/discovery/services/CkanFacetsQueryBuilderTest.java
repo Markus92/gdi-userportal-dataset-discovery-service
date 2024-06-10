@@ -4,6 +4,7 @@
 
 package io.github.genomicdatainfrastructure.discovery.services;
 
+import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
@@ -20,7 +21,7 @@ class CkanFacetsQueryBuilderTest {
     @Test
     void can_parse_if_empty_list() {
         var expected = "";
-        var actual = CkanFacetsQueryBuilder.buildFacetQuery(List.of());
+        var actual = CkanFacetsQueryBuilder.buildFacetQuery(null);
         assertEquals(expected, actual);
     }
 
@@ -34,7 +35,7 @@ class CkanFacetsQueryBuilderTest {
     @ParameterizedTest
     @NullSource
     @ValueSource(strings = {"", " ", "  "})
-    void can_parse(String value) {
+    void can_parse_with_and_operator(String value) {
         var facets = List.of(
                 new DatasetSearchQueryFacet("ckan", "field1", "value1"),
                 new DatasetSearchQueryFacet("ckan", "field1", "value2"),
@@ -47,8 +48,37 @@ class CkanFacetsQueryBuilderTest {
                 new DatasetSearchQueryFacet(value, "field2", "value3")
         );
 
+        var query = new DatasetSearchQuery();
+        query.setFacets(facets);
+        query.setOperator(Operator.And);
+
         var expected = "field1:(\"value1\" AND \"value2\") AND field2:(\"value3\")";
-        var actual = CkanFacetsQueryBuilder.buildFacetQuery(facets);
+        var actual = CkanFacetsQueryBuilder.buildFacetQuery(query);
+        assertEquals(expected, actual);
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @ValueSource(strings = {"", " ", "  "})
+    void can_parse_with_or_operator(String value) {
+        var facets = List.of(
+                new DatasetSearchQueryFacet("ckan", "field1", "value1"),
+                new DatasetSearchQueryFacet("ckan", "field1", "value2"),
+                new DatasetSearchQueryFacet("ckan", "field2", "value3"),
+                new DatasetSearchQueryFacet("dummy", "field2", "value"),
+                new DatasetSearchQueryFacet(null, "field2", "value"),
+                new DatasetSearchQueryFacet(null, null, "value"),
+                new DatasetSearchQueryFacet("ckan", value, "value3"),
+                new DatasetSearchQueryFacet("ckan", "field2", value),
+                new DatasetSearchQueryFacet(value, "field2", "value3")
+        );
+
+        var query = new DatasetSearchQuery();
+        query.setFacets(facets);
+        query.setOperator(Operator.Or);
+
+        var expected = "field1:(\"value1\" OR \"value2\") OR field2:(\"value3\")";
+        var actual = CkanFacetsQueryBuilder.buildFacetQuery(query);
         assertEquals(expected, actual);
     }
 }
