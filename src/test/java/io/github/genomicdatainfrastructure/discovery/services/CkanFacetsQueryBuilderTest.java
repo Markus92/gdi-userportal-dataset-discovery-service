@@ -20,15 +20,17 @@ class CkanFacetsQueryBuilderTest {
 
     @Test
     void can_parse_if_empty_list() {
+        var query = new DatasetSearchQuery();
+        query.setFacets(List.of());
         var expected = "";
-        var actual = CkanFacetsQueryBuilder.buildFacetQuery(null);
+        var actual = CkanFacetsQueryBuilder.buildFacetQuery(query);
         assertEquals(expected, actual);
     }
 
     @Test
     void can_parse_if_null_list() {
         String expected = "";
-        var actual = CkanFacetsQueryBuilder.buildFacetQuery(null);
+        var actual = CkanFacetsQueryBuilder.buildFacetQuery(new DatasetSearchQuery());
         assertEquals(expected, actual);
     }
 
@@ -50,7 +52,7 @@ class CkanFacetsQueryBuilderTest {
 
         var query = new DatasetSearchQuery();
         query.setFacets(facets);
-        query.setOperator(CkanQueryOperator.And);
+        query.setOperator(DatasetSearchQuery.OperatorEnum.AND);
 
         var expected = "field1:(\"value1\" AND \"value2\") AND field2:(\"value3\")";
         var actual = CkanFacetsQueryBuilder.buildFacetQuery(query);
@@ -75,7 +77,7 @@ class CkanFacetsQueryBuilderTest {
 
         var query = new DatasetSearchQuery();
         query.setFacets(facets);
-        query.setOperator(CkanQueryOperator.Or);
+        query.setOperator(DatasetSearchQuery.OperatorEnum.OR);
 
         var expected = "field1:(\"value1\" OR \"value2\") OR field2:(\"value3\")";
         var actual = CkanFacetsQueryBuilder.buildFacetQuery(query);

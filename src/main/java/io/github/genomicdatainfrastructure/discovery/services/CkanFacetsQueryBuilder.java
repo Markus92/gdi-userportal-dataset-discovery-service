@@ -47,7 +47,7 @@ public class CkanFacetsQueryBuilder {
     }
 
     private String getFacetQuery(String key, List<DatasetSearchQueryFacet> facets,
-            String operator) {
+            DatasetSearchQuery.OperatorEnum operator) {
         var values = facets.stream()
                 .map(facet -> QUOTED_VALUE.formatted(facet.getValue()))
                 .collect(joining(CkanQueryOperatorMapper.getOperator(operator)));

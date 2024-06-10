@@ -113,8 +113,12 @@ components:
           default: 0
           minimum: 0
         operator:
+          title: Ckan query operator
           type: string
-          default: "and"
+          enum:
+            - AND
+            - OR
+          default: AND
     DatasetSearchQueryFacet:
       type: object
       properties:
