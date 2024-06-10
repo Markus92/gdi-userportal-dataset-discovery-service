@@ -35,7 +35,7 @@ public class CkanFacetsQueryBuilder {
 
         return nonNullFacets.entrySet().stream()
                 .map(entry -> getFacetQuery(entry.getKey(), entry.getValue(), operator))
-                .collect(joining(OperatorMapper.getOperator(operator)));
+                .collect(joining(CkanQueryOperatorMapper.getOperator(operator)));
     }
 
     private Boolean isCkanGroupAndFacetIsNotBlank(DatasetSearchQueryFacet facet) {
@@ -46,10 +46,11 @@ public class CkanFacetsQueryBuilder {
                 !facet.getValue().isBlank();
     }
 
-    private String getFacetQuery(String key, List<DatasetSearchQueryFacet> facets, String operator) {
+    private String getFacetQuery(String key, List<DatasetSearchQueryFacet> facets,
+            String operator) {
         var values = facets.stream()
                 .map(facet -> QUOTED_VALUE.formatted(facet.getValue()))
-                .collect(joining(OperatorMapper.getOperator(operator)));
+                .collect(joining(CkanQueryOperatorMapper.getOperator(operator)));
 
         return FACET_PATTERN.formatted(key, values);
     }

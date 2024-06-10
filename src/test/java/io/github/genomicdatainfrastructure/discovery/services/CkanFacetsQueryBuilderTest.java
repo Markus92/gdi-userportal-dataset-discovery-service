@@ -50,7 +50,7 @@ class CkanFacetsQueryBuilderTest {
 
         var query = new DatasetSearchQuery();
         query.setFacets(facets);
-        query.setOperator(Operator.And);
+        query.setOperator(CkanQueryOperator.And);
 
         var expected = "field1:(\"value1\" AND \"value2\") AND field2:(\"value3\")";
         var actual = CkanFacetsQueryBuilder.buildFacetQuery(query);
@@ -75,7 +75,7 @@ class CkanFacetsQueryBuilderTest {
 
         var query = new DatasetSearchQuery();
         query.setFacets(facets);
-        query.setOperator(Operator.Or);
+        query.setOperator(CkanQueryOperator.Or);
 
         var expected = "field1:(\"value1\" OR \"value2\") OR field2:(\"value3\")";
         var actual = CkanFacetsQueryBuilder.buildFacetQuery(query);

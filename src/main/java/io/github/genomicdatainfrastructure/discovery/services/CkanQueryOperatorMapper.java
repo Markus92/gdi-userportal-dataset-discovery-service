@@ -7,12 +7,12 @@ package io.github.genomicdatainfrastructure.discovery.services;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class OperatorMapper {
+public class CkanQueryOperatorMapper {
 
     private final String AND = " AND ";
     private final String OR = " OR ";
 
     public String getOperator(String operator) {
-        return operator.equals(Operator.Or) ? OR : AND;
+        return operator.equals(CkanQueryOperator.Or) ? OR : AND;
     }
 }

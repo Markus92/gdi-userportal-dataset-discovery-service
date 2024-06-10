@@ -7,7 +7,8 @@ package io.github.genomicdatainfrastructure.discovery.services;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class Operator {
+public class CkanQueryOperator {
+
     public static final String Or = "or";
     public static final String And = "and";
 }
