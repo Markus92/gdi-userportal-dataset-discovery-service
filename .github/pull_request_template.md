@@ -4,25 +4,32 @@
 
 ## 🚀 Pull Request Checklist
 
-- **Title:** 
+- **Title:**
+
   - `[ ]` A brief, descriptive title for the changes.
 
 - **Description:**
+
   - `[ ]` Provide a clear and concise description of your pull request, including the purpose of the changes and the approach you've taken.
 
 - **Context:**
+
   - `[ ]` Why are these changes necessary? What problem do they solve? Link any related issues.
 
 - **Changes:**
+
   - `[ ]` List the major changes you've made, ideally organized by commit or feature.
 
 - **Testing:**
+
   - `[ ]` Describe how the changes have been tested. Include any relevant details about the testing environment and the test cases.
 
 - **Screenshots (if applicable):**
+
   - `[ ]` If your changes are visual, include screenshots to help explain your changes.
 
 - **Additional Information:**
+
   - `[ ]` Add any other information that might be useful for reviewers, such as considerations, discussions, or dependencies.
 
 - **Checklist:**

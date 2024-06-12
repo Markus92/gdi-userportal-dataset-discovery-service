@@ -30,12 +30,12 @@ community looks forward to your contributions. 🎉
 - [Code of Conduct](#code-of-conduct)
 - [I Have a Question](#i-have-a-question)
 - [I Want To Contribute](#i-want-to-contribute)
-    - [Reporting Bugs](#reporting-bugs)
-    - [Suggesting Enhancements](#suggesting-enhancements)
-    - [Your First Code Contribution](#your-first-code-contribution)
-    - [Improving The Documentation](#improving-the-documentation)
+  - [Reporting Bugs](#reporting-bugs)
+  - [Suggesting Enhancements](#suggesting-enhancements)
+  - [Your First Code Contribution](#your-first-code-contribution)
+  - [Improving The Documentation](#improving-the-documentation)
 - [Styleguides](#styleguides)
-    - [Commit Messages](#commit-messages)
+  - [Commit Messages](#commit-messages)
 - [Join The Project Team](#join-the-project-team)
 
 ## Code of Conduct
@@ -91,11 +91,11 @@ following steps in advance to help us fix any potential bug as fast as possible.
 - Also make sure to search the internet (including Stack Overflow) to see if users outside of the GitHub community have
   discussed the issue.
 - Collect information about the bug:
-    - Stack trace (Traceback)
-    - OS, Platform and Version (Windows, Linux, macOS, x86, ARM)
-    - Version of the interpreter, compiler, SDK, runtime environment, package manager, depending on what seems relevant.
-    - Possibly your input and the output
-    - Can you reliably reproduce the issue? And can you also reproduce it with older versions?
+  - Stack trace (Traceback)
+  - OS, Platform and Version (Windows, Linux, macOS, x86, ARM)
+  - Version of the interpreter, compiler, SDK, runtime environment, package manager, depending on what seems relevant.
+  - Possibly your input and the output
+  - Can you reliably reproduce the issue? And can you also reproduce it with older versions?
 
 <!-- omit in toc -->
 

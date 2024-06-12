@@ -12,7 +12,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ghcr.io/genomicdatainfrastructure/gdi-userportal-dataset-discovery-service
- 
+
 jobs:
   ort:
     strategy:
@@ -43,7 +43,7 @@ jobs:
       - name: Set up GraalVM JDK 21
         uses: graalvm/setup-graalvm@v1
         with:
-          java-version: '21'
+          java-version: "21"
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -97,4 +97,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-  

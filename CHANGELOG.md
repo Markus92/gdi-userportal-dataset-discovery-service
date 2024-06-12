@@ -41,9 +41,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: #26 add facet query operator by @sulejmank in https://github.com/GenomicDataInfrastructure/gdi-userportal-dataset-discovery-service/pull/27
 
 ### Changed
+
 - chore: replace private constructors by @brunopacheco1 in https://github.com/GenomicDataInfrastructure/gdi-userportal-dataset-discovery-service/pull/12
 
 ### Fixed
+
 - fix: handle correctly missing beacon access token and empty beacon re… by @brunopacheco1 in https://github.com/GenomicDataInfrastructure/gdi-userportal-dataset-discovery-service/pull/14
 - fix: #17 Retrieve Beacon Facets when logged-in by @brunopacheco1 in https://github.com/GenomicDataInfrastructure/gdi-userportal-dataset-discovery-service/pull/18
 - fix: fix beacon integration by @brunopacheco1 in https://github.com/GenomicDataInfrastructure/gdi-userportal-dataset-discovery-service/pull/25

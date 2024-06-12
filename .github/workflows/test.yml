@@ -16,7 +16,7 @@ jobs:
       - name: Set up GraalVM JDK 21
         uses: graalvm/setup-graalvm@v1
         with:
-          java-version: '21'
+          java-version: "21"
       - name: run tests
         run: mvn --batch-mode --update-snapshots verify formatter:validate
       - name: run sonar
