@@ -14,6 +14,6 @@ public class CkanQueryOperatorMapper {
     private final String OR = " OR ";
 
     public String getOperator(DatasetSearchQuery.OperatorEnum operator) {
-        return operator.equals(DatasetSearchQuery.OperatorEnum.OR) ? OR : AND;
+        return DatasetSearchQuery.OperatorEnum.AND.equals(operator) ? AND : OR;
     }
 }
