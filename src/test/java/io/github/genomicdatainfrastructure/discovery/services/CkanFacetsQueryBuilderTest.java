@@ -79,7 +79,7 @@ class CkanFacetsQueryBuilderTest {
         query.setFacets(facets);
         query.setOperator(DatasetSearchQuery.OperatorEnum.OR);
 
-        var expected = "field1:(\"value1\" OR \"value2\") OR field2:(\"value3\")";
+        var expected = "field1:(\"value1\" OR \"value2\") AND field2:(\"value3\")";
         var actual = CkanFacetsQueryBuilder.buildFacetQuery(query);
         assertEquals(expected, actual);
     }

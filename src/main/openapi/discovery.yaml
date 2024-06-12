@@ -118,7 +118,7 @@ components:
           enum:
             - AND
             - OR
-          default: AND
+          default: OR
     DatasetSearchQueryFacet:
       type: object
       properties:

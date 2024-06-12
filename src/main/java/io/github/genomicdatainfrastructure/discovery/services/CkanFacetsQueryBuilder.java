@@ -22,10 +22,11 @@ public class CkanFacetsQueryBuilder {
     private final String CKAN_FACET_GROUP = "ckan";
     private final String QUOTED_VALUE = "\"%s\"";
     private final String FACET_PATTERN = "%s:(%s)";
+    private final String AND = " AND ";
 
     public String buildFacetQuery(DatasetSearchQuery query) {
         var facets = query.getFacets();
-        var operator = query.getOperator();
+        var operator = CkanQueryOperatorMapper.getOperator(query.getOperator());
 
         var nonNullFacets = ofNullable(facets)
                 .orElseGet(List::of)
@@ -35,7 +36,7 @@ public class CkanFacetsQueryBuilder {
 
         return nonNullFacets.entrySet().stream()
                 .map(entry -> getFacetQuery(entry.getKey(), entry.getValue(), operator))
-                .collect(joining(CkanQueryOperatorMapper.getOperator(operator)));
+                .collect(joining(AND));
     }
 
     private Boolean isCkanGroupAndFacetIsNotBlank(DatasetSearchQueryFacet facet) {
@@ -46,11 +47,12 @@ public class CkanFacetsQueryBuilder {
                 !facet.getValue().isBlank();
     }
 
-    private String getFacetQuery(String key, List<DatasetSearchQueryFacet> facets,
-            DatasetSearchQuery.OperatorEnum operator) {
+    private String getFacetQuery(
+            String key, List<DatasetSearchQueryFacet> facets, String operator
+    ) {
         var values = facets.stream()
                 .map(facet -> QUOTED_VALUE.formatted(facet.getValue()))
-                .collect(joining(CkanQueryOperatorMapper.getOperator(operator)));
+                .collect(joining(operator));
 
         return FACET_PATTERN.formatted(key, values);
     }
