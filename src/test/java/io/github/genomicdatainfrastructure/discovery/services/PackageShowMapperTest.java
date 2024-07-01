@@ -46,7 +46,7 @@ class PackageShowMapperTest {
         var ckanPackage = CkanPackage.builder()
                 .id("id")
                 .identifier("identifier")
-                .name("name")
+                .title("title")
                 .notes("notes")
                 .theme(List.of(CkanValueLabel.builder()
                         .displayName("theme")
@@ -109,7 +109,7 @@ class PackageShowMapperTest {
         var expected = RetrievedDataset.builder()
                 .id("id")
                 .identifier("identifier")
-                .title("name")
+                .title("title")
                 .description("notes")
                 .themes(List.of(
                         ValueLabel.builder()
