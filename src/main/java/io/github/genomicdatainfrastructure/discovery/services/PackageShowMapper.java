@@ -34,7 +34,7 @@ public class PackageShowMapper {
         return RetrievedDataset.builder()
                 .id(ckanPackage.getId())
                 .identifier(ckanPackage.getIdentifier())
-                .title(ckanPackage.getName())
+                .title(ckanPackage.getTitle())
                 .description(ckanPackage.getNotes())
                 .themes(values(ckanPackage.getTheme()))
                 .publisherName(ckanPackage.getPublisherName())
