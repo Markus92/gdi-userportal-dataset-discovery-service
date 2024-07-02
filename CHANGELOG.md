@@ -25,6 +25,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+
+## [v1.2.1] - 2024-07-02
+
+### Fixed 
+- fix(mapping): correct title mapping issue closes #29 by @hcvdwerf in https://github.com/GenomicDataInfrastructure/gdi-userportal-dataset-discovery-service/pull/30
+
 ## [v1.2.0] - 2024-06-12
 
 ### Added
