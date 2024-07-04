@@ -3,6 +3,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 package io.github.genomicdatainfrastructure.discovery.repositories;
+// SPDX-FileCopyrightText: 2024 PNED G.I.E.
+//
+// SPDX-License-Identifier: Apache-2.0
 
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
