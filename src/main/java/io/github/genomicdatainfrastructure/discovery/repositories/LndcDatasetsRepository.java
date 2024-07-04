@@ -21,7 +21,6 @@ public class LndcDatasetsRepository implements DatasetsRepository {
     }
 
     @Override
-
     public CkanPackageShowResponse retrieveCkanPackage(String id, String accessToken) {
         throw new NotImplementedException();
     }
