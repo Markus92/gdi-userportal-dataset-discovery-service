@@ -4,27 +4,20 @@
 
 package io.github.genomicdatainfrastructure.discovery.services;
 
-import org.eclipse.microprofile.rest.client.inject.RestClient;
-
+import io.github.genomicdatainfrastructure.discovery.repositories.DatasetsRepository;
 import io.github.genomicdatainfrastructure.discovery.exceptions.DatasetNotFoundException;
 import io.github.genomicdatainfrastructure.discovery.model.RetrievedDataset;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackageShowResponse;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
 
 @ApplicationScoped
 public class RetrieveDatasetService {
 
-    private final CkanQueryApi ckanQueryApi;
-
     @Inject
-    public RetrieveDatasetService(
-            @RestClient CkanQueryApi ckanQueryApi
-    ) {
-        this.ckanQueryApi = ckanQueryApi;
-    }
+    Instance<DatasetsRepository> datasetsRepository;
 
     public RetrievedDataset retrieve(String id, String accessToken) {
         var response = retrieveCkanPackage(id, accessToken);
@@ -33,7 +26,7 @@ public class RetrieveDatasetService {
 
     public CkanPackageShowResponse retrieveCkanPackage(String id, String accessToken) {
         try {
-            return ckanQueryApi.packageShow(id, accessToken);
+            return datasetsRepository.get().retrieveCkanPackage(id, accessToken);
         } catch (WebApplicationException e) {
             if (e.getResponse().getStatus() == 404) {
                 throw new DatasetNotFoundException(id);
