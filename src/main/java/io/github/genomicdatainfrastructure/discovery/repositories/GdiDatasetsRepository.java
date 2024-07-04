@@ -3,22 +3,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 package io.github.genomicdatainfrastructure.discovery.repositories;
-// SPDX-FileCopyrightText: 2024 PNED G.I.E.
-//
-// SPDX-License-Identifier: Apache-2.0
 
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
-import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackageShowResponse;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResponse;
 import io.github.genomicdatainfrastructure.discovery.services.CkanFacetsQueryBuilder;
-import io.github.genomicdatainfrastructure.discovery.services.DatasetsSearchService;
-import io.github.genomicdatainfrastructure.discovery.services.PackagesSearchResponseMapper;
 import io.quarkus.arc.lookup.LookupIfProperty;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @LookupIfProperty(name = "repositories.gdi", stringValue = "true")
