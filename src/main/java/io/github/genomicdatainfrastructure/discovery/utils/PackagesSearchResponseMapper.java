@@ -35,6 +35,7 @@ public class PackagesSearchResponseMapper {
     public DatasetsSearchResponse from(PackagesSearchResponse response) {
         var count = count(response.getResult());
         var facetGroupCount = Map.<String, Integer>of();
+
         if (count != null) {
             facetGroupCount = Map.of(CKAN_FACET_GROUP, count);
         }
