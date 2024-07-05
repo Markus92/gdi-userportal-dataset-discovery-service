@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
+import io.github.genomicdatainfrastructure.discovery.repositories.BeaconDatasetsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -36,42 +39,43 @@ import io.github.genomicdatainfrastructure.discovery.remote.keycloak.api.Keycloa
 import io.github.genomicdatainfrastructure.discovery.remote.keycloak.model.KeycloakTokenResponse;
 import jakarta.ws.rs.WebApplicationException;
 
-class BeaconDatasetsSearchServiceTest {
+class BeaconDatasetsRepositoryTest {
 
-    private BeaconDatasetsSearchService underTest;
+    private BeaconDatasetsRepository underTest;
     private BeaconQueryApi beaconQueryApi;
     private KeycloakQueryApi keycloakQueryApi;
-    private CkanDatasetsSearchService ckanDatasetsSearchService;
     private BeaconFilteringTermsService beaconFilteringTermsService;
+    private CkanQueryApi ckanQueryApi;
 
     @BeforeEach
     void setUp() {
         beaconQueryApi = mock(BeaconQueryApi.class);
         keycloakQueryApi = mock(KeycloakQueryApi.class);
-        ckanDatasetsSearchService = mock(CkanDatasetsSearchService.class);
+        ckanQueryApi = mock(CkanQueryApi.class);
         beaconFilteringTermsService = mock(BeaconFilteringTermsService.class);
 
-        underTest = new BeaconDatasetsSearchService(
+        underTest = new BeaconDatasetsRepository(
+                ckanQueryApi,
                 beaconQueryApi,
                 "beaconIdpAlias",
                 keycloakQueryApi,
-                ckanDatasetsSearchService,
                 beaconFilteringTermsService
         );
     }
 
     @Test
     void doesnt_call_beacon_if_access_token_is_null() {
-        when(ckanDatasetsSearchService.search(any(), any()))
-                .thenReturn(DatasetsSearchResponse.builder()
-                        .count(1)
-                        .facetGroupCount(Map.of("group", 1))
-                        .results(List.of(
-                                SearchedDataset.builder()
+                when(ckanQueryApi.packageSearch(any(), any(), any(), any(), any(), any(), any()))
+                .thenReturn(PackagesSearchResponse.builder()
+                        .result(PackagesSearchResult.builder()
+                                .count(1)
+                                .results(List.of(CkanPackage.builder()
                                         .id("id")
                                         .title("title")
-                                        .build()
-                        ))
+                                        .build())
+                                )
+                                .build())
+
                         .build());
 
         var query = DatasetSearchQuery.builder()
@@ -79,7 +83,6 @@ class BeaconDatasetsSearchServiceTest {
         var actual = underTest.search(query, null);
 
         verify(keycloakQueryApi, never()).retriveIdpTokens(any(), any());
-        verify(ckanDatasetsSearchService).search(any(), any());
         verify(beaconFilteringTermsService, never()).listFilteringTerms(any());
         verify(beaconQueryApi, never()).listIndividuals(any(), any());
 
@@ -87,11 +90,13 @@ class BeaconDatasetsSearchServiceTest {
                 .usingRecursiveComparison()
                 .isEqualTo(DatasetsSearchResponse.builder()
                         .count(1)
-                        .facetGroupCount(Map.of("group", 1))
+                        .facetGroupCount(Map.of("ckan", 1))
+                        .facetGroups(List.of(FacetGroup.builder().key("ckan").label("DCAT-AP").facets(List.of()).build()))
                         .results(List.of(
                                 SearchedDataset.builder()
                                         .id("id")
                                         .title("title")
+                                        .themes(List.of())
                                         .build()
                         ))
                         .build());
@@ -100,16 +105,17 @@ class BeaconDatasetsSearchServiceTest {
     @ParameterizedTest
     @ValueSource(ints = {400, 401, 403})
     void doesnt_call_beacon_if_keycloak_throws_expected_4xx_errors(Integer statusCode) {
-        when(ckanDatasetsSearchService.search(any(), any()))
-                .thenReturn(DatasetsSearchResponse.builder()
-                        .count(1)
-                        .facetGroupCount(Map.of("group", 1))
-                        .results(List.of(
-                                SearchedDataset.builder()
+        when(ckanQueryApi.packageSearch(any(), any(), any(), any(), any(), any(), any()))
+                .thenReturn(PackagesSearchResponse.builder()
+                        .result(PackagesSearchResult.builder()
+                                .count(1)
+                                .results(List.of(CkanPackage.builder()
                                         .id("id")
                                         .title("title")
-                                        .build()
-                        ))
+                                        .build())
+                                )
+                                .build())
+
                         .build());
 
         when(keycloakQueryApi.retriveIdpTokens("beaconIdpAlias", "Bearer dummy"))
@@ -120,7 +126,7 @@ class BeaconDatasetsSearchServiceTest {
         var actual = underTest.search(query, "dummy");
 
         verify(keycloakQueryApi).retriveIdpTokens(any(), any());
-        verify(ckanDatasetsSearchService).search(any(), any());
+        verify(ckanQueryApi).packageSearch(any(), any(), any(), any(), any(), any(), any());
         verify(beaconFilteringTermsService, never()).listFilteringTerms(any());
         verify(beaconQueryApi, never()).listIndividuals(any(), any());
 
@@ -128,11 +134,13 @@ class BeaconDatasetsSearchServiceTest {
                 .usingRecursiveComparison()
                 .isEqualTo(DatasetsSearchResponse.builder()
                         .count(1)
-                        .facetGroupCount(Map.of("group", 1))
+                        .facetGroupCount(Map.of("ckan", 1))
+                        .facetGroups(List.of(FacetGroup.builder().key("ckan").label("DCAT-AP").facets(List.of()).build()))
                         .results(List.of(
                                 SearchedDataset.builder()
                                         .id("id")
                                         .title("title")
+                                        .themes(List.of())
                                         .build()
                         ))
                         .build());
@@ -140,16 +148,16 @@ class BeaconDatasetsSearchServiceTest {
 
     @Test
     void doesnt_call_beacon_if_there_are_no_beacon_filters() {
-        when(ckanDatasetsSearchService.search(any(), any()))
-                .thenReturn(DatasetsSearchResponse.builder()
-                        .count(1)
-                        .facetGroupCount(Map.of("group", 1))
-                        .results(List.of(
-                                SearchedDataset.builder()
+        when(ckanQueryApi.packageSearch(any(), any(), any(), any(), any(), any(), any()))
+                .thenReturn(PackagesSearchResponse.builder()
+                        .result(PackagesSearchResult.builder()
+                                .count(1)
+                                .results(List.of(CkanPackage.builder()
                                         .id("id")
                                         .title("title")
-                                        .build()
-                        ))
+                                        .build())
+                                )
+                                .build())
                         .build());
 
         when(beaconFilteringTermsService.listFilteringTerms(any()))
@@ -175,7 +183,7 @@ class BeaconDatasetsSearchServiceTest {
 
         verify(keycloakQueryApi).retriveIdpTokens(any(), any());
         verify(beaconQueryApi, never()).listIndividuals(any(), any());
-        verify(ckanDatasetsSearchService).search(any(), any());
+        verify(ckanQueryApi).packageSearch(any(), any(), any(), any(), any(), any(), any());
         verify(beaconFilteringTermsService).listFilteringTerms(any());
 
         assertThat(actual)
@@ -183,15 +191,17 @@ class BeaconDatasetsSearchServiceTest {
                 .isEqualTo(DatasetsSearchResponse.builder()
                         .count(1)
                         .facetGroupCount(Map.of(
-                                "group", 1,
+                                "ckan", 1,
                                 "beacon", 0
                         ))
                         .results(List.of(
                                 SearchedDataset.builder()
                                         .id("id")
                                         .title("title")
+                                        .themes(List.of())
                                         .build()
                         ))
+                        .facetGroups(List.of(FacetGroup.builder().key("ckan").label("DCAT-AP").facets(List.of()).build()))
                         .facetGroups(List.of(
                                 FacetGroup.builder()
                                         .key("beacon")
@@ -202,6 +212,11 @@ class BeaconDatasetsSearchServiceTest {
                                                         .label("label")
                                                         .build()
                                         ))
+                                        .build(),
+                                FacetGroup.builder()
+                                        .key("ckan")
+                                        .label("DCAT-AP")
+                                        .facets(List.of())
                                         .build()
                         ))
                         .build());
@@ -292,7 +307,6 @@ class BeaconDatasetsSearchServiceTest {
 
         verify(keycloakQueryApi).retriveIdpTokens(any(), any());
         verify(beaconQueryApi).listIndividuals(any(), any());
-        verify(ckanDatasetsSearchService, never()).search(any(), any());
         verify(beaconFilteringTermsService).listFilteringTerms(any());
 
         assertThat(actual)
@@ -333,16 +347,17 @@ class BeaconDatasetsSearchServiceTest {
                                 .build())
                         .build());
 
-        when(ckanDatasetsSearchService.search(any(), any()))
-                .thenReturn(DatasetsSearchResponse.builder()
-                        .count(1)
-                        .facetGroupCount(Map.of("group", 1))
-                        .results(List.of(
-                                SearchedDataset.builder()
+        when(ckanQueryApi.packageSearch(any(), any(), any(), any(), any(), any(), any()))
+                .thenReturn(PackagesSearchResponse.builder()
+                        .result(PackagesSearchResult.builder()
+                                .count(1)
+                                .results(List.of(CkanPackage.builder()
                                         .id("id")
                                         .title("title")
-                                        .build()
-                        ))
+                                        .build())
+                                )
+                                .build())
+
                         .build());
 
         when(beaconFilteringTermsService.listFilteringTerms(any()))
@@ -391,7 +406,7 @@ class BeaconDatasetsSearchServiceTest {
 
         verify(keycloakQueryApi).retriveIdpTokens(any(), any());
         verify(beaconQueryApi).listIndividuals(any(), any());
-        verify(ckanDatasetsSearchService).search(any(), any());
+        verify(ckanQueryApi).packageSearch(any(), any(), any(), any(), any(), any(), any());
         verify(beaconFilteringTermsService).listFilteringTerms(any());
 
         assertThat(actual)
@@ -399,13 +414,14 @@ class BeaconDatasetsSearchServiceTest {
                 .isEqualTo(DatasetsSearchResponse.builder()
                         .count(1)
                         .facetGroupCount(Map.of(
-                                "group", 1,
+                                "ckan", 1,
                                 "beacon", 1
                         ))
                         .results(List.of(
                                 SearchedDataset.builder()
                                         .id("id")
                                         .title("title")
+                                        .themes(List.of())
                                         .build()
                         ))
                         .facetGroups(List.of(
@@ -418,6 +434,11 @@ class BeaconDatasetsSearchServiceTest {
                                                         .label("label")
                                                         .build()
                                         ))
+                                        .build(),
+                                FacetGroup.builder()
+                                        .key("ckan")
+                                        .label("DCAT-AP")
+                                        .facets(List.of())
                                         .build()
                         ))
                         .build());

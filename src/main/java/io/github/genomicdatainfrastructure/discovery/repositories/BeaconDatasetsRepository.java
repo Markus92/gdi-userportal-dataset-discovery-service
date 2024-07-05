@@ -2,24 +2,27 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.genomicdatainfrastructure.discovery.services;
+package io.github.genomicdatainfrastructure.discovery.repositories;
 
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toCollection;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
 import static java.util.stream.Collectors.toMap;
-import static io.github.genomicdatainfrastructure.discovery.services.PackagesSearchResponseMapper.CKAN_FACET_GROUP;
+import static io.github.genomicdatainfrastructure.discovery.utils.PackagesSearchResponseMapper.CKAN_FACET_GROUP;
 import static io.github.genomicdatainfrastructure.discovery.services.BeaconFilteringTermsService.BEACON_FACET_GROUP;
 
+import io.github.genomicdatainfrastructure.discovery.model.*;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi;
+import io.github.genomicdatainfrastructure.discovery.services.*;
+import io.github.genomicdatainfrastructure.discovery.utils.BeaconIndividualsRequestMapper;
+import io.github.genomicdatainfrastructure.discovery.utils.CkanFacetsQueryBuilder;
+import io.github.genomicdatainfrastructure.discovery.utils.PackagesSearchResponseMapper;
+import io.quarkus.arc.lookup.LookupIfProperty;
+import lombok.extern.java.Log;
 import org.apache.commons.lang3.ObjectUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
-import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQueryFacet;
-import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
-import io.github.genomicdatainfrastructure.discovery.model.FacetGroup;
-import io.github.genomicdatainfrastructure.discovery.model.SearchedDataset;
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.api.BeaconQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.model.BeaconIndividualsResponse;
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.model.BeaconIndividualsResponseContent;
@@ -28,43 +31,43 @@ import io.github.genomicdatainfrastructure.discovery.remote.keycloak.api.Keycloa
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
-import lombok.extern.java.Log;
 
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.logging.Level;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 
 @Log
+@LookupIfProperty(name = "sources.beacon", stringValue = "true")
 @ApplicationScoped
-public class BeaconDatasetsSearchService implements DatasetsSearchService {
+public class BeaconDatasetsRepository implements DatasetsRepository {
 
+    private static final String SELECTED_FACETS = "[\"access_rights\",\"theme\",\"tags\",\"spatial_uri\",\"organization\",\"publisher_name\",\"res_format\"]";
+    private final CkanQueryApi ckanQueryApi;
     private static final Set<Integer> SKIP_BEACON_QUERY_STATUS = Set.of(400, 401, 403);
     private static final String BEACON_ACCESS_TOKEN_INFO = "Skipping beacon search, user is not authorized or the token is invalid.";
     private static final String BEARER_PATTERN = "Bearer %s";
     private static final String BEACON_DATASET_TYPE = "dataset";
     private static final String CKAN_IDENTIFIER_FIELD = "identifier";
-
     private final BeaconQueryApi beaconQueryApi;
     private final String beaconIdpAlias;
     private final KeycloakQueryApi keycloakQueryApi;
-    private final CkanDatasetsSearchService datasetsSearchService;
     private final BeaconFilteringTermsService beaconFilteringTermsService;
 
     @Inject
-    public BeaconDatasetsSearchService(
+    public BeaconDatasetsRepository(
+            @RestClient CkanQueryApi ckanQueryApi,
             @RestClient BeaconQueryApi beaconQueryApi,
             @ConfigProperty(name = "quarkus.rest-client.keycloak_yaml.beacon_idp_alias") String beaconIdpAlias,
             @RestClient KeycloakQueryApi keycloakQueryApi,
-            CkanDatasetsSearchService datasetsSearchService,
             BeaconFilteringTermsService beaconFilteringTermsService
     ) {
+        this.ckanQueryApi = ckanQueryApi;
         this.beaconQueryApi = beaconQueryApi;
         this.beaconIdpAlias = beaconIdpAlias;
         this.keycloakQueryApi = keycloakQueryApi;
-        this.datasetsSearchService = datasetsSearchService;
         this.beaconFilteringTermsService = beaconFilteringTermsService;
     }
 
@@ -73,7 +76,7 @@ public class BeaconDatasetsSearchService implements DatasetsSearchService {
         var beaconAuthorization = retrieveBeaconAuthorization(accessToken);
 
         if (beaconAuthorization == null) {
-            return datasetsSearchService.search(query, accessToken);
+            return searchCkan(query, accessToken);
         }
 
         var resultSets = queryOnBeaconIfThereAreBeaconFilters(beaconAuthorization, query);
@@ -132,7 +135,7 @@ public class BeaconDatasetsSearchService implements DatasetsSearchService {
     }
 
     private DatasetsSearchResponse queryOnCkanIfThereIsNoBeaconFilterOrResultsetsIsNotEmpty(
-            String beaconAuthorization,
+            String ckanAuthorization,
             DatasetSearchQuery query,
             List<BeaconResultSet> resultSets
     ) {
@@ -147,7 +150,7 @@ public class BeaconDatasetsSearchService implements DatasetsSearchService {
         }
 
         var enhancedQuery = enhanceQueryFacets(query, resultSets);
-        return datasetsSearchService.search(enhancedQuery, beaconAuthorization);
+        return searchCkan(enhancedQuery, ckanAuthorization);
     }
 
     private DatasetSearchQuery enhanceQueryFacets(
@@ -210,5 +213,21 @@ public class BeaconDatasetsSearchService implements DatasetsSearchService {
                 .facetGroups(facetGroups)
                 .results(results)
                 .build();
+    }
+
+    private DatasetsSearchResponse searchCkan(DatasetSearchQuery query, String ckanAuthorization) {
+        var facetsQuery = CkanFacetsQueryBuilder.buildFacetQuery(query);
+
+        var response = ckanQueryApi.packageSearch(
+                query.getQuery(),
+                facetsQuery,
+                query.getSort(),
+                query.getRows(),
+                query.getStart(),
+                SELECTED_FACETS,
+                ckanAuthorization
+        );
+
+        return PackagesSearchResponseMapper.from(response);
     }
 }

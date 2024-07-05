@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.genomicdatainfrastructure.discovery.services;
+package io.github.genomicdatainfrastructure.discovery.repositories;
 
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
 
-public interface DatasetsSearchService {
+public interface DatasetsRepository {
 
     DatasetsSearchResponse search(DatasetSearchQuery query, String accessToken);
 }

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.genomicdatainfrastructure.discovery.services;
+package io.github.genomicdatainfrastructure.discovery.utils;
 
 import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
 import io.github.genomicdatainfrastructure.discovery.model.Facet;
@@ -35,6 +35,7 @@ public class PackagesSearchResponseMapper {
     public DatasetsSearchResponse from(PackagesSearchResponse response) {
         var count = count(response.getResult());
         var facetGroupCount = Map.<String, Integer>of();
+
         if (count != null) {
             facetGroupCount = Map.of(CKAN_FACET_GROUP, count);
         }

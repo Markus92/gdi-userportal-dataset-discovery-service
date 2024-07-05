@@ -8,6 +8,7 @@ import io.github.genomicdatainfrastructure.discovery.model.RetrievedDataset;
 import io.github.genomicdatainfrastructure.discovery.model.RetrievedDistribution;
 import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
+import io.github.genomicdatainfrastructure.discovery.utils.PackageShowMapper;
 import org.junit.jupiter.api.Test;
 
 import java.time.format.DateTimeFormatter;
