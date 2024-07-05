@@ -5,6 +5,7 @@
 package io.github.genomicdatainfrastructure.discovery.services;
 
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
+import io.github.genomicdatainfrastructure.discovery.utils.CkanFacetsQueryBuilder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.genomicdatainfrastructure.discovery.services;
+package io.github.genomicdatainfrastructure.discovery.utils;
 
 import java.util.List;
 import java.util.Objects;
