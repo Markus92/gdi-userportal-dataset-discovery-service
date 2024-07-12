@@ -65,7 +65,7 @@ class BeaconDatasetsRepositoryTest {
 
     @Test
     void doesnt_call_beacon_if_access_token_is_null() {
-                when(ckanQueryApi.packageSearch(any(), any(), any(), any(), any(), any(), any()))
+        when(ckanQueryApi.packageSearch(any(), any(), any(), any(), any(), any(), any()))
                 .thenReturn(PackagesSearchResponse.builder()
                         .result(PackagesSearchResult.builder()
                                 .count(1)
@@ -91,7 +91,8 @@ class BeaconDatasetsRepositoryTest {
                 .isEqualTo(DatasetsSearchResponse.builder()
                         .count(1)
                         .facetGroupCount(Map.of("ckan", 1))
-                        .facetGroups(List.of(FacetGroup.builder().key("ckan").label("DCAT-AP").facets(List.of()).build()))
+                        .facetGroups(List.of(FacetGroup.builder().key("ckan").label("DCAT-AP")
+                                .facets(List.of()).build()))
                         .results(List.of(
                                 SearchedDataset.builder()
                                         .id("id")
@@ -135,7 +136,8 @@ class BeaconDatasetsRepositoryTest {
                 .isEqualTo(DatasetsSearchResponse.builder()
                         .count(1)
                         .facetGroupCount(Map.of("ckan", 1))
-                        .facetGroups(List.of(FacetGroup.builder().key("ckan").label("DCAT-AP").facets(List.of()).build()))
+                        .facetGroups(List.of(FacetGroup.builder().key("ckan").label("DCAT-AP")
+                                .facets(List.of()).build()))
                         .results(List.of(
                                 SearchedDataset.builder()
                                         .id("id")
@@ -201,7 +203,8 @@ class BeaconDatasetsRepositoryTest {
                                         .themes(List.of())
                                         .build()
                         ))
-                        .facetGroups(List.of(FacetGroup.builder().key("ckan").label("DCAT-AP").facets(List.of()).build()))
+                        .facetGroups(List.of(FacetGroup.builder().key("ckan").label("DCAT-AP")
+                                .facets(List.of()).build()))
                         .facetGroups(List.of(
                                 FacetGroup.builder()
                                         .key("beacon")
