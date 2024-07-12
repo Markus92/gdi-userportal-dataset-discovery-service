@@ -173,8 +173,14 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/CkanValueLabel"
-        contact_uri:
-          type: string
+        contact_point:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContactPoint"
+        creator:
+          type: array
+          items:
+            $ref: "#/components/schemas/Creator"
         has_version:
           type: array
           items:
@@ -196,6 +202,27 @@ components:
       required:
         - id
         - title
+    ContactPoint:
+      type: object
+      properties:
+        contact_email:
+          type: string
+        contact_name:
+          type: string
+        contact_uri:
+          type: string
+      required:
+        - contact_uri
+    Creator:
+      type: object
+      properties:
+        creator_name:
+          type: string
+        creator_identifier:
+          type: string
+      required:
+        - creator_name
+        - creator_identifier
     CkanOrganization:
       type: object
       properties:

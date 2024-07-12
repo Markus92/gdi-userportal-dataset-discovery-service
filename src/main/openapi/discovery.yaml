@@ -233,7 +233,14 @@ components:
             $ref: "#/components/schemas/ValueLabel"
           title: Languages
         contact:
-          $ref: "#/components/schemas/ValueLabel"
+          type: array
+          items:
+            $ref: "#/components/schemas/ValueLabel"
+          title: Contact
+        creator:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValueLabel"
           title: Contact
         hasVersions:
           type: array
