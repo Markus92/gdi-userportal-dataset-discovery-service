@@ -35,6 +35,8 @@ class PackageShowMapperTest {
                 .languages(List.of())
                 .themes(List.of())
                 .keywords(List.of())
+                .contact(List.of())
+                .creator(List.of())
                 .build();
 
         assertThat(actual)
@@ -70,7 +72,19 @@ class PackageShowMapperTest {
                                 .displayName("language")
                                 .name("en")
                                 .build()))
-                .contactUri("contactUri")
+                .contactPoint(List.of(
+                        ContactPoint.builder()
+                                .contactEmail("contactEmail")
+                                .contactName("contactName")
+                                .contactUri("contactUri")
+                                .build()
+                ))
+                .creator(List.of(
+                        Creator.builder()
+                                .creatorName("creatorName")
+                                .creatorIdentifier("creatorIdentifier")
+                                .build()
+                ))
                 .hasVersion(List.of(
                         CkanValueLabel.builder()
                                 .displayName("version")
@@ -129,10 +143,17 @@ class PackageShowMapperTest {
                                 .label("language")
                                 .build()
                 ))
-                .contact(ValueLabel.builder()
-                        .value("contactUri")
-                        .label("contactUri")
-                        .build())
+                .contact(List.of(
+                        ValueLabel.builder()
+                                .value("contactUri")
+                                .label("contactName")
+                                .build()))
+                .creator(List.of(
+                        ValueLabel.builder()
+                                .label("creatorName")
+                                .value("creatorIdentifier")
+                                .build()
+                ))
                 .hasVersions(List.of(
                         ValueLabel.builder()
                                 .value("1")

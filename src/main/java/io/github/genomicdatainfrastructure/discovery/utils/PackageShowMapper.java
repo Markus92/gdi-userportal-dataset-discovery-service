@@ -43,7 +43,8 @@ public class PackageShowMapper {
                 .modifiedAt(parse(ckanPackage.getMetadataModified()))
                 .url(ckanPackage.getUrl())
                 .languages(values(ckanPackage.getLanguage()))
-                .contact(value(ckanPackage.getContactUri()))
+                .contact(contactPoints(ckanPackage))
+                .creator(creators(ckanPackage))
                 .hasVersions(values(ckanPackage.getHasVersion()))
                 .accessRights(value(ckanPackage.getAccessRights()))
                 .conformsTo(values(ckanPackage.getConformsTo()))
@@ -90,6 +91,22 @@ public class PackageShowMapper {
                 .orElse(null);
     }
 
+    private List<ValueLabel> contactPoints(CkanPackage ckanPackage) {
+        return ofNullable(ckanPackage.getContactPoint())
+                .orElseGet(List::of)
+                .stream()
+                .map(PackageShowMapper::contactPoint)
+                .toList();
+    }
+
+    private List<ValueLabel> creators(CkanPackage ckanPackage) {
+        return ofNullable(ckanPackage.getCreator())
+                .orElseGet(List::of)
+                .stream()
+                .map(PackageShowMapper::creator)
+                .toList();
+    }
+
     private List<RetrievedDistribution> distributions(CkanPackage ckanPackage) {
         return ofNullable(ckanPackage.getResources())
                 .orElseGet(List::of)
@@ -104,6 +121,20 @@ public class PackageShowMapper {
                 .stream()
                 .map(PackageShowMapper::keyword)
                 .toList();
+    }
+
+    private ValueLabel contactPoint(ContactPoint contactPoint) {
+        return ValueLabel.builder()
+                .label(contactPoint.getContactName())
+                .value(contactPoint.getContactUri())
+                .build();
+    }
+
+    private ValueLabel creator(Creator creator) {
+        return ValueLabel.builder()
+                .label(creator.getCreatorName())
+                .value(creator.getCreatorIdentifier())
+                .build();
     }
 
     private RetrievedDistribution distribution(CkanResource ckanResource) {
