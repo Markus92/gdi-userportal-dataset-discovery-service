@@ -148,6 +148,9 @@ class PackageShowMapperTest {
                                 .modifiedAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
                                 .build()
                 ))
+                .contacts(List.of())
+                .datasetRelationships(List.of())
+                .dataDictionary(List.of())
                 .build();
 
         assertThat(actual)
