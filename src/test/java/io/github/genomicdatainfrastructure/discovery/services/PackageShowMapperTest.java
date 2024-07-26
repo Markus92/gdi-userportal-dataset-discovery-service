@@ -4,13 +4,13 @@
 
 package io.github.genomicdatainfrastructure.discovery.services;
 
-import io.github.genomicdatainfrastructure.discovery.model.ContactPoints;
+import io.github.genomicdatainfrastructure.discovery.model.ContactPoint;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetDictionaryEntry;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetRelationEntry;
 import io.github.genomicdatainfrastructure.discovery.model.RetrievedDataset;
 import io.github.genomicdatainfrastructure.discovery.model.RetrievedDistribution;
 import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanContactPoints;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanContactPoint;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetDictionaryEntry;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetRelationEntry;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
@@ -106,9 +106,9 @@ class PackageShowMapperTest {
                                 .build()
                 ))
                 .contacts(List.of(
-                        CkanContactPoints.builder().name("Contact 1").email("contact1@example.com")
+                        CkanContactPoint.builder().name("Contact 1").email("contact1@example.com")
                                 .build(),
-                        CkanContactPoints.builder().name("Contact 2").email("contact2@example.com")
+                        CkanContactPoint.builder().name("Contact 2").email("contact2@example.com")
                                 .build()
                 ))
                 .datasetRelationships(List.of(
@@ -180,9 +180,9 @@ class PackageShowMapperTest {
                                 .build()
                 ))
                 .contacts(List.of(
-                        ContactPoints.builder().name("Contact 1").email("contact1@example.com")
+                        ContactPoint.builder().name("Contact 1").email("contact1@example.com")
                                 .build(),
-                        ContactPoints.builder().name("Contact 2").email("contact2@example.com")
+                        ContactPoint.builder().name("Contact 2").email("contact2@example.com")
                                 .build()
                 ))
                 .datasetRelationships(List.of(
