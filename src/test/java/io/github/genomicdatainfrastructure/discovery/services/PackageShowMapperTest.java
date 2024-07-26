@@ -33,6 +33,9 @@ class PackageShowMapperTest {
                 .languages(List.of())
                 .themes(List.of())
                 .keywords(List.of())
+                .contacts(List.of())
+                .datasetRelationships(List.of())
+                .dataDictionary(List.of())
                 .build();
 
         assertThat(actual)
