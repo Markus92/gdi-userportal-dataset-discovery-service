@@ -159,6 +159,21 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/CkanTag"
+        contacts:
+          type: array
+          items:
+            $ref: "#/components/schemas/CkanContactPoints"
+          title: Contacts
+        datasetRelationships:
+          type: array
+          items:
+            $ref: "#/components/schemas/CkanDatasetRelationEntry"
+          title: Dataset Relationships
+        dataDictionary:
+          type: array
+          items:
+            $ref: "#/components/schemas/CkanDatasetDictionaryEntry"
+          title: Data Dictionary
         publisher_name:
           type: string
         organization:
@@ -175,16 +190,8 @@ components:
             $ref: "#/components/schemas/CkanValueLabel"
         contact_uri:
           type: string
-        has_version:
-          type: array
-          items:
-            $ref: "#/components/schemas/CkanValueLabel"
         access_rights:
           $ref: "#/components/schemas/CkanValueLabel"
-        conforms_to:
-          type: array
-          items:
-            $ref: "#/components/schemas/CkanValueLabel"
         provenance:
           type: string
         spatial_uri:
@@ -196,6 +203,38 @@ components:
       required:
         - id
         - title
+    CkanContactPoints:
+      properties:
+        name:
+          type: string
+          title: name
+        email:
+          type: string
+          title: email
+      required:
+        - name
+        - email
+    CkanDatasetRelationEntry:
+      properties:
+        relation:
+          type: string
+        target:
+          type: string
+      required:
+        - target
+        - relation
+    CkanDatasetDictionaryEntry:
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+      required:
+        - name
+        - type
+        - description
     CkanOrganization:
       type: object
       properties:

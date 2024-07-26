@@ -7,9 +7,7 @@ package io.github.genomicdatainfrastructure.discovery.utils;
 import java.util.List;
 import java.util.Objects;
 
-import io.github.genomicdatainfrastructure.discovery.model.RetrievedDataset;
-import io.github.genomicdatainfrastructure.discovery.model.RetrievedDistribution;
-import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
+import io.github.genomicdatainfrastructure.discovery.model.*;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import lombok.experimental.UtilityClass;
 
@@ -44,14 +42,73 @@ public class PackageShowMapper {
                 .url(ckanPackage.getUrl())
                 .languages(values(ckanPackage.getLanguage()))
                 .contact(value(ckanPackage.getContactUri()))
-                .hasVersions(values(ckanPackage.getHasVersion()))
                 .accessRights(value(ckanPackage.getAccessRights()))
-                .conformsTo(values(ckanPackage.getConformsTo()))
                 .provenance(ckanPackage.getProvenance())
                 .spatial(value(ckanPackage.getSpatialUri()))
                 .distributions(distributions(ckanPackage))
                 .keywords(keywords(ckanPackage))
+                .contacts(contactPoints(ckanPackage.getContacts()))
+                .datasetRelationships(relations(ckanPackage.getDatasetRelationships()))
+                .dataDictionary(dictionary(ckanPackage.getDataDictionary()))
                 .build();
+    }
+
+    private List<ContactPoints> contactPoints(List<CkanContactPoints> values) {
+        return ofNullable(values)
+                .orElseGet(List::of)
+                .stream()
+                .map(PackageShowMapper::contactPoint)
+                .filter(Objects::nonNull)
+                .toList();
+    }
+
+    private List<DatasetRelationEntry> relations(List<CkanDatasetRelationEntry> values) {
+        return ofNullable(values)
+                .orElseGet(List::of)
+                .stream()
+                .map(PackageShowMapper::relation)
+                .filter(Objects::nonNull)
+                .toList();
+    }
+
+    private List<DatasetDictionaryEntry> dictionary(List<CkanDatasetDictionaryEntry> values) {
+        return ofNullable(values)
+                .orElseGet(List::of)
+                .stream()
+                .map(PackageShowMapper::dictionaryEntry)
+                .filter(Objects::nonNull)
+                .toList();
+    }
+
+    private ContactPoints contactPoint(CkanContactPoints value) {
+        return ofNullable(value)
+                .filter(Objects::nonNull)
+                .map(it -> ContactPoints.builder()
+                        .name(it.getName())
+                        .email(it.getEmail())
+                        .build())
+                .orElse(null);
+    }
+
+    private DatasetRelationEntry relation(CkanDatasetRelationEntry value) {
+        return ofNullable(value)
+                .filter(Objects::nonNull)
+                .map(it -> DatasetRelationEntry.builder()
+                        .relation(it.getRelation())
+                        .target(it.getTarget())
+                        .build())
+                .orElse(null);
+    }
+
+    private DatasetDictionaryEntry dictionaryEntry(CkanDatasetDictionaryEntry value) {
+        return ofNullable(value)
+                .filter(Objects::nonNull)
+                .map(it -> DatasetDictionaryEntry.builder()
+                        .name(it.getName())
+                        .type(it.getType())
+                        .description(it.getDescription())
+                        .build())
+                .orElse(null);
     }
 
     private List<ValueLabel> values(List<CkanValueLabel> values) {
