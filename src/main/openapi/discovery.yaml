@@ -210,6 +210,21 @@ components:
           items:
             $ref: "#/components/schemas/ValueLabel"
           title: Themes
+        contacts:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContactPoint"
+          title: Contacts
+        datasetRelationships:
+          type: array
+          items:
+            $ref: "#/components/schemas/DatasetRelationEntry"
+          title: Dataset Relationships
+        dataDictionary:
+          type: array
+          items:
+            $ref: "#/components/schemas/DatasetDictionaryEntry"
+          title: Data Dictionary
         publisherName:
           type: string
           title: Publisher Name
@@ -235,19 +250,9 @@ components:
         contact:
           $ref: "#/components/schemas/ValueLabel"
           title: Contact
-        hasVersions:
-          type: array
-          items:
-            $ref: "#/components/schemas/ValueLabel"
-          title: Has Versions
         accessRights:
           $ref: "#/components/schemas/ValueLabel"
           title: Access Rights
-        conformsTo:
-          type: array
-          items:
-            $ref: "#/components/schemas/ValueLabel"
-          title: Conforms to
         keywords:
           type: array
           items:
@@ -312,6 +317,43 @@ components:
       required:
         - value
         - label
+    ContactPoint:
+      properties:
+        name:
+          type: string
+          title: name
+        email:
+          type: string
+          title: email
+      required:
+        - name
+        - email
+    DatasetRelationEntry:
+      properties:
+        relation:
+          type: string
+          title: relation
+        target:
+          type: string
+          title: target
+      required:
+        - target
+        - relation
+    DatasetDictionaryEntry:
+      properties:
+        name:
+          type: string
+          title: name
+        type:
+          type: string
+          title: type
+        description:
+          type: string
+          title: description
+      required:
+        - name
+        - type
+        - description
     FacetGroup:
       properties:
         key:

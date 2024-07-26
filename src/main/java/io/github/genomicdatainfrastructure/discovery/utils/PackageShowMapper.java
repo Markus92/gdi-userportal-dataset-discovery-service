@@ -7,9 +7,7 @@ package io.github.genomicdatainfrastructure.discovery.utils;
 import java.util.List;
 import java.util.Objects;
 
-import io.github.genomicdatainfrastructure.discovery.model.RetrievedDataset;
-import io.github.genomicdatainfrastructure.discovery.model.RetrievedDistribution;
-import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
+import io.github.genomicdatainfrastructure.discovery.model.*;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import lombok.experimental.UtilityClass;
 
@@ -44,13 +42,63 @@ public class PackageShowMapper {
                 .url(ckanPackage.getUrl())
                 .languages(values(ckanPackage.getLanguage()))
                 .contact(value(ckanPackage.getContactUri()))
-                .hasVersions(values(ckanPackage.getHasVersion()))
                 .accessRights(value(ckanPackage.getAccessRights()))
-                .conformsTo(values(ckanPackage.getConformsTo()))
                 .provenance(ckanPackage.getProvenance())
                 .spatial(value(ckanPackage.getSpatialUri()))
                 .distributions(distributions(ckanPackage))
                 .keywords(keywords(ckanPackage))
+                .contacts(contactPoint(ckanPackage.getContacts()))
+                .datasetRelationships(relations(ckanPackage.getDatasetRelationships()))
+                .dataDictionary(dictionary(ckanPackage.getDataDictionary()))
+                .build();
+    }
+
+    private List<ContactPoint> contactPoint(List<CkanContactPoint> values) {
+        return ofNullable(values)
+                .orElseGet(List::of)
+                .stream()
+                .filter(Objects::nonNull)
+                .map(PackageShowMapper::contactPointEntry)
+                .toList();
+    }
+
+    private List<DatasetRelationEntry> relations(List<CkanDatasetRelationEntry> values) {
+        return ofNullable(values)
+                .orElseGet(List::of)
+                .stream()
+                .filter(Objects::nonNull)
+                .map(PackageShowMapper::relation)
+                .toList();
+    }
+
+    private List<DatasetDictionaryEntry> dictionary(List<CkanDatasetDictionaryEntry> values) {
+        return ofNullable(values)
+                .orElseGet(List::of)
+                .stream()
+                .filter(Objects::nonNull)
+                .map(PackageShowMapper::dictionaryEntry)
+                .toList();
+    }
+
+    private ContactPoint contactPointEntry(CkanContactPoint value) {
+        return ContactPoint.builder()
+                .name(value.getName())
+                .email(value.getEmail())
+                .build();
+    }
+
+    private DatasetRelationEntry relation(CkanDatasetRelationEntry value) {
+        return DatasetRelationEntry.builder()
+                .relation(value.getRelation())
+                .target(value.getTarget())
+                .build();
+    }
+
+    private DatasetDictionaryEntry dictionaryEntry(CkanDatasetDictionaryEntry value) {
+        return DatasetDictionaryEntry.builder()
+                .name(value.getName())
+                .type(value.getType())
+                .description(value.getDescription())
                 .build();
     }
 
@@ -65,7 +113,6 @@ public class PackageShowMapper {
 
     private ValueLabel value(String value) {
         return ofNullable(value)
-                .filter(Objects::nonNull)
                 .filter(not(String::isBlank))
                 .map(it -> ValueLabel.builder()
                         .value(it)
@@ -76,12 +123,12 @@ public class PackageShowMapper {
 
     private ValueLabel value(CkanValueLabel value) {
         return ofNullable(value)
-                .filter(Objects::nonNull)
                 .map(it -> ValueLabel.builder()
-                        .value(it.getName())
-                        .label(it.getDisplayName())
+                        .value(value.getName())
+                        .label(value.getDisplayName())
                         .build())
                 .orElse(null);
+
     }
 
     private LocalDateTime parse(String date) {
