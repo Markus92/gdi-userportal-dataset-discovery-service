@@ -47,18 +47,18 @@ public class PackageShowMapper {
                 .spatial(value(ckanPackage.getSpatialUri()))
                 .distributions(distributions(ckanPackage))
                 .keywords(keywords(ckanPackage))
-                .contacts(contactPoints(ckanPackage.getContacts()))
+                .contacts(contactPoint(ckanPackage.getContacts()))
                 .datasetRelationships(relations(ckanPackage.getDatasetRelationships()))
                 .dataDictionary(dictionary(ckanPackage.getDataDictionary()))
                 .build();
     }
 
-    private List<ContactPoints> contactPoints(List<CkanContactPoints> values) {
+    private List<ContactPoint> contactPoint(List<CkanContactPoint> values) {
         return ofNullable(values)
                 .orElseGet(List::of)
                 .stream()
-                .map(PackageShowMapper::contactPoint)
                 .filter(Objects::nonNull)
+                .map(PackageShowMapper::contactPointEntry)
                 .toList();
     }
 
@@ -66,8 +66,8 @@ public class PackageShowMapper {
         return ofNullable(values)
                 .orElseGet(List::of)
                 .stream()
-                .map(PackageShowMapper::relation)
                 .filter(Objects::nonNull)
+                .map(PackageShowMapper::relation)
                 .toList();
     }
 
@@ -75,48 +75,39 @@ public class PackageShowMapper {
         return ofNullable(values)
                 .orElseGet(List::of)
                 .stream()
-                .map(PackageShowMapper::dictionaryEntry)
                 .filter(Objects::nonNull)
+                .map(PackageShowMapper::dictionaryEntry)
                 .toList();
     }
 
-    private ContactPoints contactPoint(CkanContactPoints value) {
-        return ofNullable(value)
-                .filter(Objects::nonNull)
-                .map(it -> ContactPoints.builder()
-                        .name(it.getName())
-                        .email(it.getEmail())
-                        .build())
-                .orElse(null);
+    private ContactPoint contactPointEntry(CkanContactPoint value) {
+        return ContactPoint.builder()
+                .name(value.getName())
+                .email(value.getEmail())
+                .build();
     }
 
     private DatasetRelationEntry relation(CkanDatasetRelationEntry value) {
-        return ofNullable(value)
-                .filter(Objects::nonNull)
-                .map(it -> DatasetRelationEntry.builder()
-                        .relation(it.getRelation())
-                        .target(it.getTarget())
-                        .build())
-                .orElse(null);
+        return DatasetRelationEntry.builder()
+                .relation(value.getRelation())
+                .target(value.getTarget())
+                .build();
     }
 
     private DatasetDictionaryEntry dictionaryEntry(CkanDatasetDictionaryEntry value) {
-        return ofNullable(value)
-                .filter(Objects::nonNull)
-                .map(it -> DatasetDictionaryEntry.builder()
-                        .name(it.getName())
-                        .type(it.getType())
-                        .description(it.getDescription())
-                        .build())
-                .orElse(null);
+        return DatasetDictionaryEntry.builder()
+                .name(value.getName())
+                .type(value.getType())
+                .description(value.getDescription())
+                .build();
     }
 
     private List<ValueLabel> values(List<CkanValueLabel> values) {
         return ofNullable(values)
                 .orElseGet(List::of)
                 .stream()
-                .map(PackageShowMapper::value)
                 .filter(Objects::nonNull)
+                .map(PackageShowMapper::value)
                 .toList();
     }
 
@@ -132,13 +123,10 @@ public class PackageShowMapper {
     }
 
     private ValueLabel value(CkanValueLabel value) {
-        return ofNullable(value)
-                .filter(Objects::nonNull)
-                .map(it -> ValueLabel.builder()
-                        .value(it.getName())
-                        .label(it.getDisplayName())
-                        .build())
-                .orElse(null);
+        return ValueLabel.builder()
+                .value(value.getName())
+                .label(value.getDisplayName())
+                .build();
     }
 
     private LocalDateTime parse(String date) {

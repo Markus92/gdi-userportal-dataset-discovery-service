@@ -213,7 +213,7 @@ components:
         contacts:
           type: array
           items:
-            $ref: "#/components/schemas/ContactPoints"
+            $ref: "#/components/schemas/ContactPoint"
           title: Contacts
         datasetRelationships:
           type: array
@@ -317,7 +317,7 @@ components:
       required:
         - value
         - label
-    ContactPoints:
+    ContactPoint:
       properties:
         name:
           type: string

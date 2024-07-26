@@ -162,7 +162,7 @@ components:
         contacts:
           type: array
           items:
-            $ref: "#/components/schemas/CkanContactPoints"
+            $ref: "#/components/schemas/CkanContactPoint"
           title: Contacts
         datasetRelationships:
           type: array
@@ -203,7 +203,7 @@ components:
       required:
         - id
         - title
-    CkanContactPoints:
+    CkanContactPoint:
       properties:
         name:
           type: string
