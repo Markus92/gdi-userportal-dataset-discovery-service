@@ -106,14 +106,13 @@ public class PackageShowMapper {
         return ofNullable(values)
                 .orElseGet(List::of)
                 .stream()
-                .filter(Objects::nonNull)
                 .map(PackageShowMapper::value)
+                .filter(Objects::nonNull)
                 .toList();
     }
 
     private ValueLabel value(String value) {
         return ofNullable(value)
-                .filter(Objects::nonNull)
                 .filter(not(String::isBlank))
                 .map(it -> ValueLabel.builder()
                         .value(it)
@@ -123,10 +122,13 @@ public class PackageShowMapper {
     }
 
     private ValueLabel value(CkanValueLabel value) {
-        return ValueLabel.builder()
-                .value(value.getName())
-                .label(value.getDisplayName())
-                .build();
+        return ofNullable(value)
+                .map(it -> ValueLabel.builder()
+                        .value(value.getName())
+                        .label(value.getDisplayName())
+                        .build())
+                .orElse(null);
+
     }
 
     private LocalDateTime parse(String date) {
