@@ -4,10 +4,20 @@
 
 package io.github.genomicdatainfrastructure.discovery.services;
 
+import io.github.genomicdatainfrastructure.discovery.model.ContactPoints;
+import io.github.genomicdatainfrastructure.discovery.model.DatasetDictionaryEntry;
+import io.github.genomicdatainfrastructure.discovery.model.DatasetRelationEntry;
 import io.github.genomicdatainfrastructure.discovery.model.RetrievedDataset;
 import io.github.genomicdatainfrastructure.discovery.model.RetrievedDistribution;
 import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanContactPoints;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetDictionaryEntry;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetRelationEntry;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanResource;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanTag;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanValueLabel;
 import io.github.genomicdatainfrastructure.discovery.utils.PackageShowMapper;
 import org.junit.jupiter.api.Test;
 
@@ -95,6 +105,24 @@ class PackageShowMapperTest {
                                 .lastModified("2024-03-19T13:37:05.472970")
                                 .build()
                 ))
+                .contacts(List.of(
+                        CkanContactPoints.builder().name("Contact 1").email("contact1@example.com")
+                                .build(),
+                        CkanContactPoints.builder().name("Contact 2").email("contact2@example.com")
+                                .build()
+                ))
+                .datasetRelationships(List.of(
+                        CkanDatasetRelationEntry.builder().target("Dataset 1").relation(
+                                "Relation 1").build(),
+                        CkanDatasetRelationEntry.builder().target("Dataset 2").relation(
+                                "Relation 2").build()
+                ))
+                .dataDictionary(List.of(
+                        CkanDatasetDictionaryEntry.builder().name("Entry 1").type("Type 1")
+                                .description("Description 1").build(),
+                        CkanDatasetDictionaryEntry.builder().name("Entry 2").type("Type 2")
+                                .description("Description 2").build()
+                ))
                 .build();
 
         var actual = PackageShowMapper.from(ckanPackage);
@@ -151,9 +179,24 @@ class PackageShowMapperTest {
                                 .modifiedAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
                                 .build()
                 ))
-                .contacts(List.of())
-                .datasetRelationships(List.of())
-                .dataDictionary(List.of())
+                .contacts(List.of(
+                        ContactPoints.builder().name("Contact 1").email("contact1@example.com")
+                                .build(),
+                        ContactPoints.builder().name("Contact 2").email("contact2@example.com")
+                                .build()
+                ))
+                .datasetRelationships(List.of(
+                        DatasetRelationEntry.builder().relation("Relation 1").target("Dataset 1")
+                                .build(),
+                        DatasetRelationEntry.builder().relation("Relation 2").target("Dataset 2")
+                                .build()
+                ))
+                .dataDictionary(List.of(
+                        DatasetDictionaryEntry.builder().name("Entry 1").type("Type 1").description(
+                                "Description 1").build(),
+                        DatasetDictionaryEntry.builder().name("Entry 2").type("Type 2").description(
+                                "Description 2").build()
+                ))
                 .build();
 
         assertThat(actual)
