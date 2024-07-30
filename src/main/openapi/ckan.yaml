@@ -190,8 +190,18 @@ components:
             $ref: "#/components/schemas/CkanValueLabel"
         contact_uri:
           type: string
+        has_version:
+          type: array
+          items:
+            $ref: "#/components/schemas/CkanValueLabel"
+          deprecated: true
         access_rights:
           $ref: "#/components/schemas/CkanValueLabel"
+        conforms_to:
+          type: array
+          items:
+            $ref: "#/components/schemas/CkanValueLabel"
+          deprecated: true
         provenance:
           type: string
         spatial_uri:
