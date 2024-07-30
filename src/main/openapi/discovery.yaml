@@ -255,6 +255,7 @@ components:
           items:
             $ref: "#/components/schemas/ValueLabel"
           title: Has Versions
+          deprecated: true
         accessRights:
           $ref: "#/components/schemas/ValueLabel"
           title: Access Rights
@@ -263,6 +264,7 @@ components:
           items:
             $ref: "#/components/schemas/ValueLabel"
           title: Conforms to
+          deprecated: true
         keywords:
           type: array
           items:
