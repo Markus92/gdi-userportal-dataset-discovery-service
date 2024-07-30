@@ -250,9 +250,19 @@ components:
         contact:
           $ref: "#/components/schemas/ValueLabel"
           title: Contact
+        hasVersions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValueLabel"
+          title: Has Versions
         accessRights:
           $ref: "#/components/schemas/ValueLabel"
           title: Access Rights
+        conformsTo:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValueLabel"
+          title: Conforms to
         keywords:
           type: array
           items:
