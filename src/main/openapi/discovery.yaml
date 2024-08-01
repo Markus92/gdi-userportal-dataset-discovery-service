@@ -74,6 +74,22 @@ paths:
       security:
         - discovery_auth:
             - read:datasets
+            -
+  /api/v1/organizations:
+    get:
+      summary: Retrieves a list of organizations
+      operationId: retrieve_organizations
+      tags:
+        - "organization-query"
+      responses:
+        "200":
+          description: The list of organizations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
 components:
   securitySchemes:
     discovery_auth:
