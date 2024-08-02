@@ -109,6 +109,8 @@ paths:
     get:
       summary: Retrieves a list of organizations
       operationId: organization_list
+      tags:
+        - "ckan-query"
       responses:
         "200":
           description: List of organizations
