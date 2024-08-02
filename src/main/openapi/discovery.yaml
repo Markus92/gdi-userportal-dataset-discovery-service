@@ -162,6 +162,9 @@ components:
         description:
           type: string
           title: Description
+        organization:
+          $ref: "#/components/schemas/DatasetOrganization"
+          title: Organization
         themes:
           type: array
           items:
@@ -292,6 +295,9 @@ components:
         spatial:
           $ref: "#/components/schemas/ValueLabel"
           title: Spatial
+        organization:
+          $ref: "#/components/schemas/DatasetOrganization"
+          title: Organization
         distributions:
           type: array
           items:
@@ -367,6 +373,20 @@ components:
       required:
         - target
         - relation
+    DatasetOrganization:
+      properties:
+        name:
+          type: string
+          title: Name of organization
+        title:
+          type: string
+          title: Title of organization
+        description:
+          type: string
+          title: Description of organization
+        image_url:
+          type: string
+          title: Image url of organization
     DatasetDictionaryEntry:
       properties:
         name:

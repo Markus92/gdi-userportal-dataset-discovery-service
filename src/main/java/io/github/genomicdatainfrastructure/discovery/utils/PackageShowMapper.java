@@ -37,6 +37,7 @@ public class PackageShowMapper {
                 .themes(values(ckanPackage.getTheme()))
                 .publisherName(ckanPackage.getPublisherName())
                 .catalogue(catalogue)
+                .organization(DatasetOrganizationMapper.from(ckanPackage.getOrganization()))
                 .createdAt(parse(ckanPackage.getMetadataCreated()))
                 .modifiedAt(parse(ckanPackage.getMetadataModified()))
                 .url(ckanPackage.getUrl())

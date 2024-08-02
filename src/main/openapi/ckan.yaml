@@ -267,9 +267,7 @@ components:
           type: string
         title:
           type: string
-        display_name:
-          type: string
-        display_image_url:
+        image_url:
           type: string
         description:
           type: string
