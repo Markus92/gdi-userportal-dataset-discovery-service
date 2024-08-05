@@ -314,6 +314,10 @@ components:
         contact:
           $ref: "#/components/schemas/ValueLabel"
           title: Contact
+        creators:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValueLabel"
         hasVersions:
           type: array
           items:

@@ -6,6 +6,7 @@ package io.github.genomicdatainfrastructure.discovery.services;
 
 import io.github.genomicdatainfrastructure.discovery.model.*;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanContactPoint;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanCreator;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetDictionaryEntry;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetRelationEntry;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
@@ -41,6 +42,7 @@ class PackageShowMapperTest {
                 .themes(List.of())
                 .keywords(List.of())
                 .contacts(List.of())
+                .creators(List.of())
                 .organization(DatasetOrganization.builder().build())
                 .datasetRelationships(List.of())
                 .dataDictionary(List.of())
@@ -121,6 +123,12 @@ class PackageShowMapperTest {
                         CkanContactPoint.builder().name("Contact 2").email("contact2@example.com")
                                 .build()
                 ))
+                .creators(List.of(
+                        CkanCreator.builder()
+                                .creatorName("creatorName")
+                                .creatorIdentifier("creatorIdentifier")
+                                .build()
+                ))
                 .datasetRelationships(List.of(
                         CkanDatasetRelationEntry.builder().target("Dataset 1").relation(
                                 "Relation 1").build(),
@@ -166,6 +174,12 @@ class PackageShowMapperTest {
                         ValueLabel.builder()
                                 .value("1")
                                 .label("version")
+                                .build()
+                ))
+                .creators(List.of(
+                        ValueLabel.builder()
+                                .label("creatorName")
+                                .value("creatorIdentifier")
                                 .build()
                 ))
                 .accessRights(ValueLabel.builder()

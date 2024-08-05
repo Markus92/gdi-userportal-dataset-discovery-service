@@ -43,6 +43,7 @@ public class PackageShowMapper {
                 .url(ckanPackage.getUrl())
                 .languages(values(ckanPackage.getLanguage()))
                 .contact(value(ckanPackage.getContactUri()))
+                .creators(creator(ckanPackage))
                 .hasVersions(values(ckanPackage.getHasVersion()))
                 .accessRights(value(ckanPackage.getAccessRights()))
                 .conformsTo(values(ckanPackage.getConformsTo()))
@@ -90,6 +91,14 @@ public class PackageShowMapper {
                 .build();
     }
 
+    private List<ValueLabel> creator(CkanPackage ckanPackage) {
+        return ofNullable(ckanPackage.getCreators())
+                .orElseGet(List::of)
+                .stream()
+                .map(PackageShowMapper::creator)
+                .toList();
+    }
+
     private DatasetRelationEntry relation(CkanDatasetRelationEntry value) {
         return DatasetRelationEntry.builder()
                 .relation(value.getRelation())
@@ -132,6 +141,13 @@ public class PackageShowMapper {
                         .build())
                 .orElse(null);
 
+    }
+
+    private ValueLabel creator(CkanCreator creator) {
+        return ValueLabel.builder()
+                .label(creator.getCreatorName())
+                .value(creator.getCreatorIdentifier())
+                .build();
     }
 
     private LocalDateTime parse(String date) {

@@ -225,6 +225,10 @@ components:
           items:
             $ref: "#/components/schemas/CkanContactPoint"
           title: Contacts
+        creators:
+          type: array
+          items:
+            $ref: "#/components/schemas/CkanCreator"
         datasetRelationships:
           type: array
           items:
@@ -285,6 +289,16 @@ components:
       required:
         - name
         - email
+    CkanCreator:
+      type: object
+      properties:
+        creator_name:
+          type: string
+        creator_identifier:
+          type: string
+      required:
+        - creator_name
+        - creator_identifier
     CkanDatasetRelationEntry:
       properties:
         relation:
