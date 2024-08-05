@@ -250,6 +250,10 @@ components:
         contact:
           $ref: "#/components/schemas/ValueLabel"
           title: Contact
+        creator:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValueLabel"
         hasVersions:
           type: array
           items:
