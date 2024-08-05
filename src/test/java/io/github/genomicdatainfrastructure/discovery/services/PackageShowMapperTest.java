@@ -11,7 +11,7 @@ import io.github.genomicdatainfrastructure.discovery.model.RetrievedDataset;
 import io.github.genomicdatainfrastructure.discovery.model.RetrievedDistribution;
 import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanContactPoint;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.Creator;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanCreator;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetDictionaryEntry;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetRelationEntry;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
@@ -126,7 +126,7 @@ class PackageShowMapperTest {
                                 .build()
                 ))
                 .creators(List.of(
-                        Creator.builder()
+                        CkanCreator.builder()
                                 .creatorName("creatorName")
                                 .creatorIdentifier("creatorIdentifier")
                                 .build()

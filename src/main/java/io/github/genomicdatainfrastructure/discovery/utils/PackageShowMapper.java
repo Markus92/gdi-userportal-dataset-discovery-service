@@ -142,7 +142,7 @@ public class PackageShowMapper {
 
     }
 
-    private ValueLabel creator(Creator creator) {
+    private ValueLabel creator(CkanCreator creator) {
         return ValueLabel.builder()
                 .label(creator.getCreatorName())
                 .value(creator.getCreatorIdentifier())

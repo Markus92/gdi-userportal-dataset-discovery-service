@@ -167,7 +167,7 @@ components:
         creators:
           type: array
           items:
-            $ref: "#/components/schemas/Creator"
+            $ref: "#/components/schemas/CkanCreator"
         datasetRelationships:
           type: array
           items:
@@ -228,7 +228,7 @@ components:
       required:
         - name
         - email
-    Creator:
+    CkanCreator:
       type: object
       properties:
         creator_name:
