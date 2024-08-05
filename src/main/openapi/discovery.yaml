@@ -250,7 +250,7 @@ components:
         contact:
           $ref: "#/components/schemas/ValueLabel"
           title: Contact
-        creator:
+        creators:
           type: array
           items:
             $ref: "#/components/schemas/ValueLabel"

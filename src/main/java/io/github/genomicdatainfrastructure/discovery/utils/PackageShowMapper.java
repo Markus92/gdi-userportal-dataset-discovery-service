@@ -42,7 +42,7 @@ public class PackageShowMapper {
                 .url(ckanPackage.getUrl())
                 .languages(values(ckanPackage.getLanguage()))
                 .contact(value(ckanPackage.getContactUri()))
-                .creator(creators(ckanPackage))
+                .creators(creator(ckanPackage))
                 .hasVersions(values(ckanPackage.getHasVersion()))
                 .accessRights(value(ckanPackage.getAccessRights()))
                 .conformsTo(values(ckanPackage.getConformsTo()))
@@ -90,7 +90,7 @@ public class PackageShowMapper {
                 .build();
     }
 
-    private List<ValueLabel> creators(CkanPackage ckanPackage) {
+    private List<ValueLabel> creator(CkanPackage ckanPackage) {
         return ofNullable(ckanPackage.getCreators())
                 .orElseGet(List::of)
                 .stream()

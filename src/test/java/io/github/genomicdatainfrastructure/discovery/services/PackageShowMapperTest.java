@@ -47,7 +47,7 @@ class PackageShowMapperTest {
                 .themes(List.of())
                 .keywords(List.of())
                 .contacts(List.of())
-                .creator(List.of())
+                .creators(List.of())
                 .datasetRelationships(List.of())
                 .dataDictionary(List.of())
                 .build();
@@ -178,7 +178,7 @@ class PackageShowMapperTest {
                                 .label("version")
                                 .build()
                 ))
-                .creator(List.of(
+                .creators(List.of(
                         ValueLabel.builder()
                                 .label("creatorName")
                                 .value("creatorIdentifier")
