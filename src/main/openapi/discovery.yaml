@@ -90,6 +90,51 @@ paths:
                 type: array
                 items:
                   type: string
+  /api/v1/datasets/{id}.{format}:
+    get:
+      summary: Retrieves a dataset by its ID, in the requested format
+      operationId: retrieve_dataset_in_format
+      tags:
+        - "dataset-query"
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the dataset to retrieve
+          required: true
+          schema:
+            type: string
+        - name: format
+          in: path
+          description: the expected format of the response
+          required: true
+          schema:
+            type: string
+            enum:
+              - jsonld
+              - rdf
+              - ttl
+      responses:
+        "200":
+          description: The dataset in the requested format
+          content:
+            application/ld+json:
+              schema:
+                type: string
+            application/rdf+xml:
+              schema:
+                type: string
+            text/turtle:
+              schema:
+                type: string
+        "404":
+          description: Dataset not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+      security:
+        - discovery_auth:
+            - read:datasets
 components:
   securitySchemes:
     discovery_auth:

@@ -1,7 +1,7 @@
 {
     "request": {
         "method": "GET",
-        "url": "/api/3/action/enhanced_package_show?id=dataset_with_error"
+        "url": "/dataset/dataset_with_error.jsonld"
     },
     "response": {
         "status": 500,
@@ -9,7 +9,7 @@
             "Content-Type": "application/json"
         },
         "jsonBody": {
-            "help": "https://ckan-test.healthdata.nl/api/3/action/help_show?name=package_show",
+            "help": "https://ckan-test.healthdata.nl/dataset/dataset_with_error.jsonld",
             "error": {
                 "__type": "Not Expected Error",
                 "message": "Not expected error"

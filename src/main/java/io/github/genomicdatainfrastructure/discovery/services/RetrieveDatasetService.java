@@ -39,4 +39,15 @@ public class RetrieveDatasetService {
             throw e;
         }
     }
+
+    public String retrieveInFormat(String id, String format, String accessToken) {
+        try {
+            return ckanQueryApi.retrieveDatasetInFormat(id, format, accessToken);
+        } catch (WebApplicationException e) {
+            if (e.getResponse().getStatus() == 404) {
+                throw new DatasetNotFoundException(id);
+            }
+            throw e;
+        }
+    }
 }

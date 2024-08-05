@@ -30,6 +30,11 @@ public class DatasetQueryApiImpl implements DatasetQueryApi {
         return retrievedDatasetService.retrieve(id, accessToken());
     }
 
+    @Override
+    public String retrieveDatasetInFormat(String id, String format) {
+        return retrievedDatasetService.retrieveInFormat(id, format, accessToken());
+    }
+
     private String accessToken() {
         if (identity.isAnonymous()) {
             return null;
