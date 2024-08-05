@@ -8,19 +8,30 @@ import io.github.genomicdatainfrastructure.discovery.model.*;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import lombok.experimental.UtilityClass;
 
+import java.util.Optional;
+import java.util.function.Predicate;
+
 @UtilityClass
 public class DatasetOrganizationMapper {
 
     public DatasetOrganization from(CkanOrganization organization) {
         if (organization == null) {
-            return DatasetOrganization.builder().build();
+            return null;
         }
 
         return DatasetOrganization.builder()
-                .title(organization.getTitle())
+                .id(organization.getId())
                 .name(organization.getName())
-                .description(organization.getDescription())
-                .imageUrl(organization.getImageUrl())
+                .title(nullableString(organization.getTitle()))
+                .description(nullableString(organization.getDescription()))
+                .imageUrl(nullableString(organization.getImageUrl()))
+                .numberOfDatasets(organization.getPackageCount())
                 .build();
+    }
+
+    private String nullableString(String value) {
+        return Optional.ofNullable(value)
+                .filter(Predicate.not(String::isBlank))
+                .orElse(null);
     }
 }

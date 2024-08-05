@@ -79,6 +79,14 @@ paths:
     get:
       summary: Retrieves a list of organizations
       operationId: retrieve_organizations
+      parameters:
+        - name: limit
+          in: query
+          description: maximum number of organizations per query
+          required: true
+          schema:
+            type: integer
+            default: 100
       tags:
         - "organization-query"
       responses:
@@ -89,7 +97,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: string
+                  $ref: "#/components/schemas/DatasetOrganization"
   /api/v1/datasets/{id}.{format}:
     get:
       summary: Retrieves a dataset by its ID, in the requested format
@@ -424,6 +432,9 @@ components:
         - relation
     DatasetOrganization:
       properties:
+        id:
+          type: string
+          title: ID of organization
         name:
           type: string
           title: Name of organization
@@ -433,9 +444,16 @@ components:
         description:
           type: string
           title: Description of organization
-        image_url:
+        imageUrl:
           type: string
           title: Image url of organization
+        numberOfDatasets:
+          type: integer
+          title: Number of datasets
+      required:
+        - id
+        - name
+        - numberOfDatasets
     DatasetDictionaryEntry:
       properties:
         name:

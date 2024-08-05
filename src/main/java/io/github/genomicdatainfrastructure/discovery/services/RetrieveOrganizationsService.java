@@ -4,19 +4,25 @@
 
 package io.github.genomicdatainfrastructure.discovery.services;
 
+import io.github.genomicdatainfrastructure.discovery.model.DatasetOrganization;
 import io.github.genomicdatainfrastructure.discovery.repositories.CkanOrganizationsRepository;
+import io.github.genomicdatainfrastructure.discovery.utils.DatasetOrganizationMapper;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @ApplicationScoped
+@RequiredArgsConstructor
 public class RetrieveOrganizationsService {
 
-    @Inject
-    CkanOrganizationsRepository organizationsRepository;
+    private final CkanOrganizationsRepository organizationsRepository;
 
-    public List<String> get() {
-        return organizationsRepository.retrieveOrganizations();
+    public List<DatasetOrganization> retrieve(Integer limit) {
+        var ckanOrganizations = organizationsRepository.retrieveOrganizations(limit);
+
+        return ckanOrganizations.stream()
+                .map(DatasetOrganizationMapper::from)
+                .toList();
     }
 }

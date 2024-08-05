@@ -43,7 +43,6 @@ class PackageShowMapperTest {
                 .keywords(List.of())
                 .contacts(List.of())
                 .creators(List.of())
-                .organization(DatasetOrganization.builder().build())
                 .datasetRelationships(List.of())
                 .dataDictionary(List.of())
                 .build();
