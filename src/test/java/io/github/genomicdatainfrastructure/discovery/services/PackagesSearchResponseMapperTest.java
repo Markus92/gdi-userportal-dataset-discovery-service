@@ -10,14 +10,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 import java.util.Map;
 
+import io.github.genomicdatainfrastructure.discovery.model.*;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import io.github.genomicdatainfrastructure.discovery.utils.PackagesSearchResponseMapper;
 import org.junit.jupiter.api.Test;
-import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
-import io.github.genomicdatainfrastructure.discovery.model.Facet;
-import io.github.genomicdatainfrastructure.discovery.model.FacetGroup;
-import io.github.genomicdatainfrastructure.discovery.model.SearchedDataset;
-import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
 
 import java.time.format.DateTimeFormatter;
 
@@ -237,15 +233,19 @@ class PackagesSearchResponseMapperTest {
                                         .identifier("identifier")
                                         .title("title")
                                         .notes("notes")
+                                        .organization(CkanOrganization
+                                                .builder()
+                                                .title("organization")
+                                                .imageUrl("image.com")
+                                                .description("desc")
+                                                .name("org")
+                                                .build())
                                         .theme(List.of(
                                                 CkanValueLabel.builder()
                                                         .displayName("theme")
                                                         .name("theme")
                                                         .build()))
                                         .publisherName("publisherName")
-                                        .organization(CkanOrganization.builder()
-                                                .title("title")
-                                                .build())
                                         .metadataModified("2024-03-19T13:37:05.472970")
                                         .build()
                         ))
@@ -263,13 +263,20 @@ class PackagesSearchResponseMapperTest {
                                 .identifier("identifier")
                                 .title("title")
                                 .description("notes")
+                                .organization(DatasetOrganization
+                                        .builder()
+                                        .title("organization")
+                                        .imageUrl("image.com")
+                                        .description("desc")
+                                        .name("org")
+                                        .build())
                                 .themes(List.of(
                                         ValueLabel.builder()
                                                 .value("theme")
                                                 .label("theme")
                                                 .build()
                                 ))
-                                .catalogue("title")
+                                .catalogue("organization")
                                 .modifiedAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
                                 .build()
                 ))

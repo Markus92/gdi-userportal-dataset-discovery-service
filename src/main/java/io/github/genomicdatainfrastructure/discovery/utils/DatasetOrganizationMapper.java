@@ -12,11 +12,15 @@ import lombok.experimental.UtilityClass;
 public class DatasetOrganizationMapper {
 
     public DatasetOrganization from(CkanOrganization organization) {
+        if (organization == null) {
+            return DatasetOrganization.builder().build();
+        }
+
         return DatasetOrganization.builder()
                 .title(organization.getTitle())
+                .name(organization.getName())
                 .description(organization.getDescription())
                 .imageUrl(organization.getImageUrl())
-                .name(organization.getName())
                 .build();
     }
 }

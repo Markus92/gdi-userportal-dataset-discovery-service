@@ -1,0 +1,26 @@
+{
+    "request": {
+        "method": "GET",
+        "url": "/api/3/action/organization_list"
+    },
+    "response": {
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "jsonBody": {
+            "help": "https://ckan-test.healthdata.nl/api/3/action/help_show?name=organization_list",
+            "success": true,
+            "result": [
+                "cscfi",
+                "ega",
+                "instituto-superior-tecnico",
+                "lnds",
+                "nbis",
+                "radboud",
+                "umcg",
+                "university-of-oslo"
+            ]
+        }
+    }
+}
