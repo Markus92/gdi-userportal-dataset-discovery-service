@@ -5,6 +5,7 @@
 package io.github.genomicdatainfrastructure.discovery.api;
 
 import io.github.genomicdatainfrastructure.discovery.services.RetrieveOrganizationsService;
+import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 
@@ -14,7 +15,8 @@ public class OrganizationQueryApiImpl implements OrganizationQueryApi {
     private final RetrieveOrganizationsService retrieveOrganizationsService;
 
     @Override
-    public List<String> retrieveOrganizations() {
-        return retrieveOrganizationsService.get();
+    public Response retrieveOrganizations() {
+        var content = retrieveOrganizationsService.get();
+        return Response.ok(content).build();
     }
 }

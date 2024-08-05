@@ -114,4 +114,18 @@ class RetrieveDatasetTest extends BaseTest {
                         "Received: 'Server Error, status code 500' when invoking: Rest Client method: 'io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi#retrieveDatasetInFormat'"
                 ));
     }
+
+    @Test
+    void retrieves_400_when_not_expected_file_format() {
+        given()
+                .auth()
+                .oauth2(getAccessToken("alice"))
+                .when()
+                .get("/api/v1/datasets/dataset_with_error.dummy")
+                .then()
+                .statusCode(400)
+                .body("title", equalTo("Not expected argument"))
+                .body("status", equalTo(400))
+                .body("detail", equalTo("Unsupported format: dummy"));
+    }
 }
