@@ -74,6 +74,22 @@ paths:
       security:
         - discovery_auth:
             - read:datasets
+            -
+  /api/v1/organizations:
+    get:
+      summary: Retrieves a list of organizations
+      operationId: retrieve_organizations
+      tags:
+        - "organization-query"
+      responses:
+        "200":
+          description: The list of organizations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
 components:
   securitySchemes:
     discovery_auth:
@@ -146,6 +162,9 @@ components:
         description:
           type: string
           title: Description
+        organization:
+          $ref: "#/components/schemas/DatasetOrganization"
+          title: Organization
         themes:
           type: array
           items:
@@ -276,6 +295,9 @@ components:
         spatial:
           $ref: "#/components/schemas/ValueLabel"
           title: Spatial
+        organization:
+          $ref: "#/components/schemas/DatasetOrganization"
+          title: Organization
         distributions:
           type: array
           items:
@@ -351,6 +373,20 @@ components:
       required:
         - target
         - relation
+    DatasetOrganization:
+      properties:
+        name:
+          type: string
+          title: Name of organization
+        title:
+          type: string
+          title: Title of organization
+        description:
+          type: string
+          title: Description of organization
+        image_url:
+          type: string
+          title: Image url of organization
     DatasetDictionaryEntry:
       properties:
         name:

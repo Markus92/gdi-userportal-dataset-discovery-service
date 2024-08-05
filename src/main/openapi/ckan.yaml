@@ -105,6 +105,19 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CkanErrorResponse"
+  /api/3/action/organization_list:
+    get:
+      summary: Retrieves a list of organizations
+      operationId: organization_list
+      tags:
+        - "ckan-query"
+      responses:
+        "200":
+          description: List of organizations
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CkanOrganizationsResponse"
 components:
   schemas:
     PackagesSearchResponse:
@@ -254,10 +267,25 @@ components:
           type: string
         title:
           type: string
+        image_url:
+          type: string
+        description:
+          type: string
       required:
         - id
         - name
         - title
+    CkanOrganizationsResponse:
+      type: object
+      properties:
+        help:
+          type: string
+        success:
+          type: boolean
+        result:
+          type: array
+          items:
+            type: string
     CkanResource:
       type: object
       properties:
