@@ -4,12 +4,7 @@
 
 package io.github.genomicdatainfrastructure.discovery.services;
 
-import io.github.genomicdatainfrastructure.discovery.model.ContactPoint;
-import io.github.genomicdatainfrastructure.discovery.model.DatasetDictionaryEntry;
-import io.github.genomicdatainfrastructure.discovery.model.DatasetRelationEntry;
-import io.github.genomicdatainfrastructure.discovery.model.RetrievedDataset;
-import io.github.genomicdatainfrastructure.discovery.model.RetrievedDistribution;
-import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
+import io.github.genomicdatainfrastructure.discovery.model.*;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanContactPoint;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanCreator;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetDictionaryEntry;
@@ -48,6 +43,7 @@ class PackageShowMapperTest {
                 .keywords(List.of())
                 .contacts(List.of())
                 .creators(List.of())
+                .organization(DatasetOrganization.builder().build())
                 .datasetRelationships(List.of())
                 .dataDictionary(List.of())
                 .build();
@@ -71,6 +67,8 @@ class PackageShowMapperTest {
                 .publisherName("publisherName")
                 .organization(CkanOrganization.builder()
                         .title("organization")
+                        .description("description")
+                        .imageUrl("https://image.com")
                         .build())
                 .metadataCreated("2024-03-19T13:37:05.472970")
                 .metadataModified("2024-03-19T13:37:05.472970")
@@ -194,6 +192,12 @@ class PackageShowMapperTest {
                                 .label("conformsTo")
                                 .build()
                 ))
+                .organization(DatasetOrganization
+                        .builder()
+                        .title("organization")
+                        .description("description")
+                        .imageUrl("https://image.com")
+                        .build())
                 .provenance("provenance")
                 .keywords(List.of(ValueLabel.builder()
                         .label("key-tag")

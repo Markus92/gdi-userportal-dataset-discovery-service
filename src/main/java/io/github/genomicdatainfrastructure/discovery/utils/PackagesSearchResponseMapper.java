@@ -4,11 +4,7 @@
 
 package io.github.genomicdatainfrastructure.discovery.utils;
 
-import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
-import io.github.genomicdatainfrastructure.discovery.model.Facet;
-import io.github.genomicdatainfrastructure.discovery.model.FacetGroup;
-import io.github.genomicdatainfrastructure.discovery.model.SearchedDataset;
-import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
+import io.github.genomicdatainfrastructure.discovery.model.*;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import lombok.experimental.UtilityClass;
 
@@ -115,6 +111,7 @@ public class PackagesSearchResponseMapper {
                 .description(dataset.getNotes())
                 .themes(values(dataset.getTheme()))
                 .catalogue(catalogue)
+                .organization(DatasetOrganizationMapper.from(dataset.getOrganization()))
                 .modifiedAt(parse(dataset.getMetadataModified()))
                 .createdAt(parse(dataset.getMetadataCreated()))
                 .build();

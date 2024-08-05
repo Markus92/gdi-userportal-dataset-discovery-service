@@ -32,16 +32,17 @@ POST http://localhost:8080/api/v1/datasets/search
 Content-Type: application/json
 
 {
-    "query": "COVID",
-    "facets": [{
-        "facetGroup": "beacon",
-        "facet": "cellosaurus",
-        "value": "NCIT:C16352"
-    }]
+    "query": "COVID"
 }
 
 ###
-GET http://localhost:8080/api/v1/datasets/e1b3eff9-13eb-48b0-b180-7ecb76b84454
+GET http://localhost:8080/api/v1/datasets/577f4d4b-a861-4178-91d5-f46019174193
 
 ###
 GET http://localhost:8080/api/v1/datasets/dummy
+
+###
+GET http://localhost:8080/api/v1/datasets/577f4d4b-a861-4178-91d5-f46019174193.ttl
+
+###
+GET http://localhost:8080/api/v1/organizations
