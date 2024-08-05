@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import io.github.genomicdatainfrastructure.discovery.model.*;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import io.github.genomicdatainfrastructure.discovery.repositories.BeaconDatasetsRepository;
@@ -25,12 +26,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
-import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQueryFacet;
-import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
-import io.github.genomicdatainfrastructure.discovery.model.Facet;
-import io.github.genomicdatainfrastructure.discovery.model.FacetGroup;
-import io.github.genomicdatainfrastructure.discovery.model.SearchedDataset;
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.api.BeaconQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.model.BeaconIndividualsResponse;
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.model.BeaconIndividualsResponseContent;
@@ -38,6 +33,8 @@ import io.github.genomicdatainfrastructure.discovery.remote.beacon.model.BeaconR
 import io.github.genomicdatainfrastructure.discovery.remote.keycloak.api.KeycloakQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.keycloak.model.KeycloakTokenResponse;
 import jakarta.ws.rs.WebApplicationException;
+
+import javax.xml.crypto.Data;
 
 class BeaconDatasetsRepositoryTest {
 
@@ -97,6 +94,7 @@ class BeaconDatasetsRepositoryTest {
                                 SearchedDataset.builder()
                                         .id("id")
                                         .title("title")
+                                        .organization(DatasetOrganization.builder().build())
                                         .themes(List.of())
                                         .build()
                         ))
@@ -142,6 +140,7 @@ class BeaconDatasetsRepositoryTest {
                                 SearchedDataset.builder()
                                         .id("id")
                                         .title("title")
+                                        .organization(DatasetOrganization.builder().build())
                                         .themes(List.of())
                                         .build()
                         ))
@@ -200,6 +199,7 @@ class BeaconDatasetsRepositoryTest {
                                 SearchedDataset.builder()
                                         .id("id")
                                         .title("title")
+                                        .organization(DatasetOrganization.builder().build())
                                         .themes(List.of())
                                         .build()
                         ))
@@ -424,6 +424,7 @@ class BeaconDatasetsRepositoryTest {
                                 SearchedDataset.builder()
                                         .id("id")
                                         .title("title")
+                                        .organization(DatasetOrganization.builder().build())
                                         .themes(List.of())
                                         .build()
                         ))
