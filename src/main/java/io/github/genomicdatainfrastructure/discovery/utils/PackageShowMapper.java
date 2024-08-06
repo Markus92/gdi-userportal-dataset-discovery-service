@@ -88,6 +88,7 @@ public class PackageShowMapper {
         return ContactPoint.builder()
                 .name(value.getContactName())
                 .email(value.getContactEmail())
+                .uri(value.getContactUri())
                 .build();
     }
 

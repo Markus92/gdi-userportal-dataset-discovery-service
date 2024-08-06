@@ -124,6 +124,7 @@ class PackageShowMapperTest {
                         CkanContactPoint.builder()
                                 .contactName("Contact 2")
                                 .contactEmail("contact2@example.com")
+                                .contactUri("http://example.com")
                                 .build()
                 ))
                 .creators(List.of(
@@ -225,9 +226,14 @@ class PackageShowMapperTest {
                                 .build()
                 ))
                 .contacts(List.of(
-                        ContactPoint.builder().name("Contact 1").email("contact1@example.com")
+                        ContactPoint.builder()
+                                .name("Contact 1")
+                                .email("contact1@example.com")
                                 .build(),
-                        ContactPoint.builder().name("Contact 2").email("contact2@example.com")
+                        ContactPoint.builder()
+                                .name("Contact 2")
+                                .email("contact2@example.com")
+                                .uri("http://example.com")
                                 .build()
                 ))
                 .datasetRelationships(List.of(

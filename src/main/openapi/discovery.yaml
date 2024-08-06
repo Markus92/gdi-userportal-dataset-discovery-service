@@ -416,6 +416,9 @@ components:
         email:
           type: string
           title: email
+        uri:
+          type: string
+          title: uri
       required:
         - name
         - email

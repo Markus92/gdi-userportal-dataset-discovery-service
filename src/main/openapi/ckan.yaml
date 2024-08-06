@@ -302,7 +302,10 @@ components:
           title: email
         contact_uri:
           type: string
-          title: email
+          title: uri
+      required:
+        - name
+        - email
     CkanCreator:
       type: object
       properties:
