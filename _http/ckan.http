@@ -15,3 +15,6 @@ GET https://catalogue.portal.dev.gdi.lu/api/3/action/enhanced_package_show?id=du
 
 ###
 GET https://catalogue.portal.dev.gdi.lu/dataset/vcf-and-phenotypic-data-of-stage-ii-and-iii-colorectal-cancer-patients-from-a-portuguese-use-ca.rdf
+
+###
+GET https://catalogue.portal.dev.gdi.lu/api/3/action/organization_list?all_fields=true&limit=100
