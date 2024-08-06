@@ -220,7 +220,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/CkanTag"
-        contacts:
+        contact_point:
           type: array
           items:
             $ref: "#/components/schemas/CkanContactPoint"
@@ -280,12 +280,15 @@ components:
         - title
     CkanContactPoint:
       properties:
-        name:
+        contact_name:
           type: string
           title: name
-        email:
+        contact_email:
           type: string
           title: email
+        contact_uri:
+          type: string
+          title: uri
       required:
         - name
         - email

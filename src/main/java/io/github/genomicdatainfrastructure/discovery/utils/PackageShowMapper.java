@@ -51,7 +51,7 @@ public class PackageShowMapper {
                 .spatial(value(ckanPackage.getSpatialUri()))
                 .distributions(distributions(ckanPackage))
                 .keywords(keywords(ckanPackage))
-                .contacts(contactPoint(ckanPackage.getContacts()))
+                .contacts(contactPoint(ckanPackage.getContactPoint()))
                 .datasetRelationships(relations(ckanPackage.getDatasetRelationships()))
                 .dataDictionary(dictionary(ckanPackage.getDataDictionary()))
                 .build();
@@ -86,8 +86,9 @@ public class PackageShowMapper {
 
     private ContactPoint contactPointEntry(CkanContactPoint value) {
         return ContactPoint.builder()
-                .name(value.getName())
-                .email(value.getEmail())
+                .name(value.getContactName())
+                .email(value.getContactEmail())
+                .uri(value.getContactUri())
                 .build();
     }
 
