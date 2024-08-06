@@ -116,10 +116,14 @@ class PackageShowMapperTest {
                                 .lastModified("2024-03-19T13:37:05.472970")
                                 .build()
                 ))
-                .contacts(List.of(
-                        CkanContactPoint.builder().name("Contact 1").email("contact1@example.com")
+                .contactPoint(List.of(
+                        CkanContactPoint.builder()
+                                .contactName("Contact 1")
+                                .contactEmail("contact1@example.com")
                                 .build(),
-                        CkanContactPoint.builder().name("Contact 2").email("contact2@example.com")
+                        CkanContactPoint.builder()
+                                .contactName("Contact 2")
+                                .contactEmail("contact2@example.com")
                                 .build()
                 ))
                 .creators(List.of(

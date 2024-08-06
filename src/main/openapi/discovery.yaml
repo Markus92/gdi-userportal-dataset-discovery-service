@@ -348,7 +348,7 @@ components:
           title: Keywords
         provenance:
           type: string
-          title: Contact URI
+          title: Provenance
         spatial:
           $ref: "#/components/schemas/ValueLabel"
           title: Spatial
