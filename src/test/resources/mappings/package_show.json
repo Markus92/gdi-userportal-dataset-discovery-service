@@ -72,6 +72,13 @@
                     "state": "active",
                     "temporal_end": "2025-12-31",
                     "temporal_start": "2020-01-01",
+                    "contact_point": [
+                        {
+                            "contact_email": "file:///srv/app/cto@biodata.pt",
+                            "contact_name": "Chief Technology Officer of BioData.pt",
+                            "contact_uri": ""
+                        }
+                    ],
                     "theme": [
                         {
                             "display_name": "Bio ontology",

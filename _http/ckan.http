@@ -8,10 +8,13 @@ GET https://catalogue.portal.dev.gdi.lu/api/3/action/enhanced_package_search?fq=
 GET https://catalogue.portal.dev.gdi.lu/api/3/action/enhanced_package_show?id=bc7664b4-284a-44c0-9ce8-bc3d6882e7fe
 
 ###
-GET https://catalogue.portal.dev.gdi.lu/api/3/action/enhanced_package_show?id=dummy
+GET https://catalogue.portal.dev.gdi.lu/api/3/action/enhanced_package_show?id=bc7664b4-284a-44c0-9ce8-bc3d6882e7fe
 
 ###
 GET https://catalogue.portal.dev.gdi.lu/api/3/action/enhanced_package_show?id=dummy
 
 ###
 GET https://catalogue.portal.dev.gdi.lu/dataset/vcf-and-phenotypic-data-of-stage-ii-and-iii-colorectal-cancer-patients-from-a-portuguese-use-ca.rdf
+
+###
+GET https://catalogue.portal.dev.gdi.lu/api/3/action/organization_list?all_fields=true&limit=100

@@ -109,6 +109,21 @@ paths:
     get:
       summary: Retrieves a list of organizations
       operationId: organization_list
+      parameters:
+        - name: all_fields
+          in: query
+          description: if all metadata of organization is required
+          required: true
+          schema:
+            type: boolean
+            default: true
+        - name: limit
+          in: query
+          description: maximum number of organizations per query
+          required: true
+          schema:
+            type: integer
+            default: 100
       tags:
         - "ckan-query"
       responses:
@@ -224,7 +239,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/CkanContactPoint"
-          title: Contacts
         creators:
           type: array
           items:
@@ -336,10 +350,12 @@ components:
           type: string
         description:
           type: string
+        package_count:
+          type: integer
       required:
         - id
         - name
-        - title
+        - package_count
     CkanOrganizationsResponse:
       type: object
       properties:
@@ -350,7 +366,7 @@ components:
         result:
           type: array
           items:
-            type: string
+            $ref: "#/components/schemas/CkanOrganization"
     CkanResource:
       type: object
       properties:
