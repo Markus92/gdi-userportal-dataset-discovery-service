@@ -93,7 +93,7 @@ public class PackageShowMapper {
     }
 
     private List<ValueLabel> creator(CkanPackage ckanPackage) {
-        return ofNullable(ckanPackage.getCreators())
+        return ofNullable(ckanPackage.getCreator())
                 .orElseGet(List::of)
                 .stream()
                 .map(PackageShowMapper::creator)
