@@ -235,10 +235,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/CkanTag"
-        contact_point:
-          type: array
-          items:
-            $ref: "#/components/schemas/CkanContactPoint"
         creator:
           type: array
           items:
@@ -267,8 +263,15 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/CkanValueLabel"
+        contact_name:
+          type: string
+          title: name
+        contact_email:
+          type: string
+          title: email
         contact_uri:
           type: string
+          title: uri
         has_version:
           type: array
           items:
@@ -292,20 +295,6 @@ components:
       required:
         - id
         - title
-    CkanContactPoint:
-      properties:
-        contact_name:
-          type: string
-          title: name
-        contact_email:
-          type: string
-          title: email
-        contact_uri:
-          type: string
-          title: uri
-      required:
-        - name
-        - email
     CkanCreator:
       type: object
       properties:
