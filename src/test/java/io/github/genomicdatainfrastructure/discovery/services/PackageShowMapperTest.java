@@ -5,6 +5,7 @@
 package io.github.genomicdatainfrastructure.discovery.services;
 
 import io.github.genomicdatainfrastructure.discovery.model.*;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanContactPoint;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanCreator;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetDictionaryEntry;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetRelationEntry;
@@ -82,8 +83,6 @@ class PackageShowMapperTest {
                                 .name("en")
                                 .build()))
                 .contactUri("contactUri")
-                .contactEmail("contactEmail")
-                .contactName("contactName")
                 .hasVersion(List.of(
                         CkanValueLabel.builder()
                                 .displayName("version")
@@ -115,22 +114,37 @@ class PackageShowMapperTest {
                                 .uri("uri")
                                 .created("2024-03-19T13:37:05.472970")
                                 .lastModified("2024-03-19T13:37:05.472970")
-                                .build()))
+                                .build()
+                ))
+                .contactPoint(List.of(
+                        CkanContactPoint.builder()
+                                .contactName("Contact 1")
+                                .contactEmail("contact1@example.com")
+                                .build(),
+                        CkanContactPoint.builder()
+                                .contactName("Contact 2")
+                                .contactEmail("contact2@example.com")
+                                .contactUri("http://example.com")
+                                .build()
+                ))
                 .creator(List.of(
                         CkanCreator.builder()
                                 .creatorName("creatorName")
                                 .creatorIdentifier("creatorIdentifier")
-                                .build()))
+                                .build()
+                ))
                 .datasetRelationships(List.of(
                         CkanDatasetRelationEntry.builder().target("Dataset 1").relation(
                                 "Relation 1").build(),
                         CkanDatasetRelationEntry.builder().target("Dataset 2").relation(
-                                "Relation 2").build()))
+                                "Relation 2").build()
+                ))
                 .dataDictionary(List.of(
                         CkanDatasetDictionaryEntry.builder().name("Entry 1").type("Type 1")
                                 .description("Description 1").build(),
                         CkanDatasetDictionaryEntry.builder().name("Entry 2").type("Type 2")
-                                .description("Description 2").build()))
+                                .description("Description 2").build()
+                ))
                 .build();
 
         var actual = PackageShowMapper.from(ckanPackage);
@@ -143,7 +157,8 @@ class PackageShowMapperTest {
                         ValueLabel.builder()
                                 .value("theme-name")
                                 .label("theme")
-                                .build()))
+                                .build()
+                ))
                 .publisherName("publisherName")
                 .catalogue("organization")
                 .createdAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
@@ -153,17 +168,24 @@ class PackageShowMapperTest {
                         ValueLabel.builder()
                                 .value("en")
                                 .label("language")
-                                .build()))
+                                .build()
+                ))
+                .contact(ValueLabel.builder()
+                        .value("contactUri")
+                        .label("contactUri")
+                        .build())
                 .hasVersions(List.of(
                         ValueLabel.builder()
                                 .value("1")
                                 .label("version")
-                                .build()))
+                                .build()
+                ))
                 .creators(List.of(
                         ValueLabel.builder()
                                 .label("creatorName")
                                 .value("creatorIdentifier")
-                                .build()))
+                                .build()
+                ))
                 .accessRights(ValueLabel.builder()
                         .value("public")
                         .label("accessRights")
@@ -172,7 +194,8 @@ class PackageShowMapperTest {
                         ValueLabel.builder()
                                 .value("conforms")
                                 .label("conformsTo")
-                                .build()))
+                                .build()
+                ))
                 .organization(DatasetOrganization
                         .builder()
                         .title("organization")
@@ -198,33 +221,33 @@ class PackageShowMapperTest {
                                         .label("format")
                                         .build())
                                 .uri("uri")
-                                .createdAt(parse("2024-03-19T13:37:05.472970",
-                                        DATE_FORMATTER))
-                                .modifiedAt(parse("2024-03-19T13:37:05.472970",
-                                        DATE_FORMATTER))
-                                .build()))
+                                .createdAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
+                                .modifiedAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
+                                .build()
+                ))
                 .contacts(List.of(
                         ContactPoint.builder()
-                                .name("contactName")
-                                .email("contactEmail")
-                                .uri("contactUri")
-                                .build()))
+                                .name("Contact 1")
+                                .email("contact1@example.com")
+                                .build(),
+                        ContactPoint.builder()
+                                .name("Contact 2")
+                                .email("contact2@example.com")
+                                .uri("http://example.com")
+                                .build()
+                ))
                 .datasetRelationships(List.of(
-                        DatasetRelationEntry.builder().relation("Relation 1")
-                                .target("Dataset 1")
+                        DatasetRelationEntry.builder().relation("Relation 1").target("Dataset 1")
                                 .build(),
-                        DatasetRelationEntry.builder().relation("Relation 2")
-                                .target("Dataset 2")
-                                .build()))
+                        DatasetRelationEntry.builder().relation("Relation 2").target("Dataset 2")
+                                .build()
+                ))
                 .dataDictionary(List.of(
-                        DatasetDictionaryEntry.builder().name("Entry 1").type("Type 1")
-                                .description(
-                                        "Description 1")
-                                .build(),
-                        DatasetDictionaryEntry.builder().name("Entry 2").type("Type 2")
-                                .description(
-                                        "Description 2")
-                                .build()))
+                        DatasetDictionaryEntry.builder().name("Entry 1").type("Type 1").description(
+                                "Description 1").build(),
+                        DatasetDictionaryEntry.builder().name("Entry 2").type("Type 2").description(
+                                "Description 2").build()
+                ))
                 .build();
 
         assertThat(actual)

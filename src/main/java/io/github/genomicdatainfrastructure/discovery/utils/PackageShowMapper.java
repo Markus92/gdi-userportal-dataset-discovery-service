@@ -42,6 +42,7 @@ public class PackageShowMapper {
                 .modifiedAt(parse(ckanPackage.getMetadataModified()))
                 .url(ckanPackage.getUrl())
                 .languages(values(ckanPackage.getLanguage()))
+                .contact(value(ckanPackage.getContactUri()))
                 .creators(creator(ckanPackage))
                 .hasVersions(values(ckanPackage.getHasVersion()))
                 .accessRights(value(ckanPackage.getAccessRights()))
@@ -50,10 +51,19 @@ public class PackageShowMapper {
                 .spatial(value(ckanPackage.getSpatialUri()))
                 .distributions(distributions(ckanPackage))
                 .keywords(keywords(ckanPackage))
-                .contacts(contactPointEntry(ckanPackage))
+                .contacts(contactPoint(ckanPackage.getContactPoint()))
                 .datasetRelationships(relations(ckanPackage.getDatasetRelationships()))
                 .dataDictionary(dictionary(ckanPackage.getDataDictionary()))
                 .build();
+    }
+
+    private List<ContactPoint> contactPoint(List<CkanContactPoint> values) {
+        return ofNullable(values)
+                .orElseGet(List::of)
+                .stream()
+                .filter(Objects::nonNull)
+                .map(PackageShowMapper::contactPointEntry)
+                .toList();
     }
 
     private List<DatasetRelationEntry> relations(List<CkanDatasetRelationEntry> values) {
@@ -74,12 +84,12 @@ public class PackageShowMapper {
                 .toList();
     }
 
-    private List<ContactPoint> contactPointEntry(CkanPackage ckanPackage) {
-        return List.of(ContactPoint.builder()
-                .name(ckanPackage.getContactName())
-                .email(ckanPackage.getContactEmail())
-                .uri(ckanPackage.getContactUri())
-                .build());
+    private ContactPoint contactPointEntry(CkanContactPoint value) {
+        return ContactPoint.builder()
+                .name(value.getContactName())
+                .email(value.getContactEmail())
+                .uri(value.getContactUri())
+                .build();
     }
 
     private List<ValueLabel> creator(CkanPackage ckanPackage) {
