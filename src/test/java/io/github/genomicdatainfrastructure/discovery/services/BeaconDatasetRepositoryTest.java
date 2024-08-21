@@ -18,7 +18,6 @@ import java.util.stream.Stream;
 import io.github.genomicdatainfrastructure.discovery.model.*;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
-import io.github.genomicdatainfrastructure.discovery.repositories.BeaconDatasetsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,8 +32,6 @@ import io.github.genomicdatainfrastructure.discovery.remote.beacon.model.BeaconR
 import io.github.genomicdatainfrastructure.discovery.remote.keycloak.api.KeycloakQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.keycloak.model.KeycloakTokenResponse;
 import jakarta.ws.rs.WebApplicationException;
-
-import javax.xml.crypto.Data;
 
 class BeaconDatasetsRepositoryTest {
 

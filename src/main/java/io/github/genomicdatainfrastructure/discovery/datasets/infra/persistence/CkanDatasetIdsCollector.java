@@ -1,11 +1,9 @@
-// SPDX-FileCopyrightText: 2024 PNED G.I.E.
-//
-// SPDX-License-Identifier: Apache-2.0
+package io.github.genomicdatainfrastructure.discovery.datasets.infra.persistence;
 
-package io.github.genomicdatainfrastructure.discovery.repositories;
-
+import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.DatasetIdsCollector;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
+import io.github.genomicdatainfrastructure.discovery.model.SearchedDataset;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi;
 import io.github.genomicdatainfrastructure.discovery.utils.CkanFacetsQueryBuilder;
 import io.github.genomicdatainfrastructure.discovery.utils.PackagesSearchResponseMapper;
@@ -13,21 +11,23 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-@ApplicationScoped
-public class CkanDatasetsRepository implements IDatasetsRepository {
+import java.util.Set;
+import java.util.stream.Collectors;
 
-    private static final String SELECTED_FACETS = "[\"access_rights\",\"theme\",\"tags\",\"spatial_uri\",\"organization\",\"publisher_name\",\"res_format\"]";
+@ApplicationScoped
+public class CkanDatasetIdsCollector implements DatasetIdsCollector {
+
     private final CkanQueryApi ckanQueryApi;
 
     @Inject
-    public CkanDatasetsRepository(
+    public CkanDatasetIdsCollector(
             @RestClient CkanQueryApi ckanQueryApi
     ) {
         this.ckanQueryApi = ckanQueryApi;
     }
 
     @Override
-    public DatasetsSearchResponse search(DatasetSearchQuery query, String accessToken) {
+    public Set<String> collect(DatasetSearchQuery query, String accessToken) {
         var facetsQuery = CkanFacetsQueryBuilder.buildFacetQuery(query);
 
         var response = ckanQueryApi.packageSearch(
@@ -36,10 +36,18 @@ public class CkanDatasetsRepository implements IDatasetsRepository {
                 query.getSort(),
                 query.getRows(),
                 query.getStart(),
-                SELECTED_FACETS,
+                null,
                 accessToken
         );
 
-        return PackagesSearchResponseMapper.from(response).;
+        DatasetsSearchResponse searchResponse = PackagesSearchResponseMapper.from(response);
+
+        var datasetIds = searchResponse
+                .getResults()
+                .stream()
+                .map(SearchedDataset::getId)
+                .collect(Collectors.toSet());
+
+        return datasetIds;
     }
 }
