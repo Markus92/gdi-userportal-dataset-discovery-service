@@ -9,5 +9,5 @@ import io.github.genomicdatainfrastructure.discovery.model.FacetGroup;
 
 public interface FacetsBuilder {
 
-    FacetGroup buildFacets(DatasetSearchQuery query, String accessToken);
+    FacetGroup build(DatasetSearchQuery query, String accessToken);
 }

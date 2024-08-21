@@ -20,8 +20,8 @@ import static java.util.Optional.ofNullable;
 @ApplicationScoped
 public class CkanFacetsBuilder implements FacetsBuilder {
 
-    private final static String CKAN_FACET_GROUP = "ckan";
-    private final static String SELECTED_FACETS = "[\"access_rights\",\"theme\",\"tags\",\"spatial_uri\",\"organization\",\"publisher_name\",\"res_format\"]";
+    private static final String CKAN_FACET_GROUP = "ckan";
+    private static final String SELECTED_FACETS = "[\"access_rights\",\"theme\",\"tags\",\"spatial_uri\",\"organization\",\"publisher_name\",\"res_format\"]";
 
     private final CkanQueryApi ckanQueryApi;
 
@@ -30,7 +30,7 @@ public class CkanFacetsBuilder implements FacetsBuilder {
     }
 
     @Override
-    public FacetGroup buildFacets(DatasetSearchQuery query, String accessToken) {
+    public FacetGroup build(DatasetSearchQuery query, String accessToken) {
         var facetsQuery = CkanFacetsQueryBuilder.buildFacetQuery(query);
 
         var response = ckanQueryApi.packageSearch(
@@ -38,7 +38,7 @@ public class CkanFacetsBuilder implements FacetsBuilder {
                 facetsQuery,
                 query.getSort(),
                 0,
-                null,
+                0,
                 SELECTED_FACETS,
                 accessToken
         );

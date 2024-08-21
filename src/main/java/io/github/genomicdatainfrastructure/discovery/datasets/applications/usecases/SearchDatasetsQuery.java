@@ -41,7 +41,7 @@ public class SearchDatasetsQuery {
 
         var facetGroups = facetsBuilders
                 .stream()
-                .map(facetBuilder -> facetBuilder.buildFacets(query, accessToken))
+                .map(facetBuilder -> facetBuilder.build(query, accessToken))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
