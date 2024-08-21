@@ -5,16 +5,18 @@
 package io.github.genomicdatainfrastructure.discovery.datasets.applications.usecases;
 
 import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.DatasetIdsCollector;
+import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.DatasetsRepository;
 import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.FacetsBuilder;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
-import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.DatasetsRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@ApplicationScoped
 @RequiredArgsConstructor
 public class SearchDatasetsQuery {
 
@@ -27,7 +29,7 @@ public class SearchDatasetsQuery {
                 .stream()
                 .map(collector -> collector.collect(query, accessToken))
                 .filter(Objects::nonNull)
-                .reduce((a, b) -> findIdsIntersection(a, b))
+                .reduce(this::findIdsIntersection)
                 .orElse(List.of());
 
         var datasets = repository.search(datasetIds,

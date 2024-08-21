@@ -4,6 +4,7 @@
 
 package io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.persistence;
 
+import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.DatasetsRepository;
 import io.github.genomicdatainfrastructure.discovery.model.*;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
