@@ -10,19 +10,20 @@ import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class SearchDatasetsQuery {
 
     private final DatasetsRepository repository;
-    private final Set<DatasetIdsCollector> collectors;
-    private final Set<FacetsBuilder> facetsBuilders;
+    private final Instance<DatasetIdsCollector> collectors;
+    private final Instance<FacetsBuilder> facetsBuilders;
 
     public DatasetsSearchResponse execute(DatasetSearchQuery query, String accessToken) {
         var datasetIds = collectors

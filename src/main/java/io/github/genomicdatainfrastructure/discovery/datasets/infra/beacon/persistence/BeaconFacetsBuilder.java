@@ -9,8 +9,10 @@ import io.github.genomicdatainfrastructure.discovery.datasets.infra.beacon.auth.
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.model.FacetGroup;
 import io.github.genomicdatainfrastructure.discovery.services.BeaconFilteringTermsService;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+@ApplicationScoped
 public class BeaconFacetsBuilder implements FacetsBuilder {
 
     private final BeaconFilteringTermsService service;
