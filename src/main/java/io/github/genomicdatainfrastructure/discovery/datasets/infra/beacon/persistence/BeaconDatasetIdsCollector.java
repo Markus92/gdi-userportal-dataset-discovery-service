@@ -46,7 +46,7 @@ public class BeaconDatasetIdsCollector implements DatasetIdsCollector {
 
         var beaconQuery = BeaconIndividualsRequestMapper.from(query);
 
-        if (beaconQuery.getQuery().getFilters().isEmpty()) {
+        if (beaconAuthorization == null || beaconQuery.getQuery().getFilters().isEmpty()) {
             return null;
         }
 

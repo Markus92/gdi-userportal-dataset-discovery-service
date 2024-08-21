@@ -27,6 +27,9 @@ public class BeaconFacetsBuilder implements FacetsBuilder {
     @Override
     public FacetGroup buildFacets(DatasetSearchQuery query, String accessToken) {
         var beaconAuthorization = beaconAuth.retrieveAuthorization(accessToken);
+        if (beaconAuthorization == null) {
+            return null;
+        }
         return service.listFilteringTerms(beaconAuthorization);
     }
 }
