@@ -1,4 +1,4 @@
-package io.github.genomicdatainfrastructure.discovery.datasets.infra.persistence;
+package io.github.genomicdatainfrastructure.discovery.datasets.infra.persistence.beacon;
 
 import io.github.genomicdatainfrastructure.discovery.core.infrastructure.beacon.auth.BeaconAuth;
 import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.DatasetIdsCollector;
@@ -8,6 +8,7 @@ import io.github.genomicdatainfrastructure.discovery.remote.beacon.model.BeaconI
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.model.BeaconIndividualsResponseContent;
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.model.BeaconResultSet;
 import io.github.genomicdatainfrastructure.discovery.utils.BeaconIndividualsRequestMapper;
+import io.quarkus.arc.lookup.LookupIfProperty;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.commons.lang3.ObjectUtils;
@@ -21,6 +22,7 @@ import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @ApplicationScoped
+@LookupIfProperty(name = "sources.beacon", stringValue = "true")
 public class BeaconDatasetIdsCollector implements DatasetIdsCollector {
 
     private static final String BEACON_DATASET_TYPE = "dataset";
@@ -35,13 +37,13 @@ public class BeaconDatasetIdsCollector implements DatasetIdsCollector {
     }
 
     @Override
-    public Set<String> collect(DatasetSearchQuery query, String accessToken) {
+    public List<String> collect(DatasetSearchQuery query, String accessToken) {
         var beaconAuthorization = beaconAuth.retrieveAuthorization(accessToken);
 
         var beaconQuery = BeaconIndividualsRequestMapper.from(query);
 
         if (beaconQuery.getQuery().getFilters().isEmpty()) {
-            return Set.of();
+            return null;
         }
 
         var response = beaconQueryApi.listIndividuals(beaconAuthorization, beaconQuery);
@@ -58,7 +60,7 @@ public class BeaconDatasetIdsCollector implements DatasetIdsCollector {
                 .filter(it -> isNotBlank(it.getId()))
                 .filter(it -> it.getResultsCount() != null && it.getResultsCount() > 0)
                 .map(BeaconResultSet::getId)
-                .collect(Collectors.toSet());
+                .toList();
 
         return datasetIds;
     }

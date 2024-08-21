@@ -249,10 +249,6 @@ components:
         count:
           type: integer
           description: The number of results found
-        facetGroupCount:
-          type: object
-          additionalProperties:
-            type: integer
         results:
           type: array
           items:

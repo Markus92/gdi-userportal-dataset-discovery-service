@@ -2,8 +2,8 @@ package io.github.genomicdatainfrastructure.discovery.datasets.applications.port
 
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 
-import java.util.Set;
+import java.util.List;
 
 public interface DatasetIdsCollector {
-    Set<String> collect(DatasetSearchQuery query, String accessToken);
+    List<String> collect(DatasetSearchQuery query, String accessToken);
 }

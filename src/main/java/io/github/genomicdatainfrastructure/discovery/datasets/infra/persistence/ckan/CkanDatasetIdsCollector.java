@@ -1,18 +1,15 @@
-package io.github.genomicdatainfrastructure.discovery.datasets.infra.persistence;
+package io.github.genomicdatainfrastructure.discovery.datasets.infra.persistence.ckan;
 
 import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.DatasetIdsCollector;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
-import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
-import io.github.genomicdatainfrastructure.discovery.model.SearchedDataset;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
 import io.github.genomicdatainfrastructure.discovery.utils.CkanFacetsQueryBuilder;
-import io.github.genomicdatainfrastructure.discovery.utils.PackagesSearchResponseMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @ApplicationScoped
 public class CkanDatasetIdsCollector implements DatasetIdsCollector {
@@ -27,27 +24,27 @@ public class CkanDatasetIdsCollector implements DatasetIdsCollector {
     }
 
     @Override
-    public Set<String> collect(DatasetSearchQuery query, String accessToken) {
+    public List<String> collect(DatasetSearchQuery query, String accessToken) {
         var facetsQuery = CkanFacetsQueryBuilder.buildFacetQuery(query);
 
         var response = ckanQueryApi.packageSearch(
                 query.getQuery(),
                 facetsQuery,
-                query.getSort(),
-                query.getRows(),
-                query.getStart(),
+                null,
+                null,
+                null,
                 null,
                 accessToken
         );
 
-        DatasetsSearchResponse searchResponse = PackagesSearchResponseMapper.from(response);
-
-        var datasetIds = searchResponse
+        var datasetIds = response
+                .getResult()
                 .getResults()
                 .stream()
-                .map(SearchedDataset::getId)
-                .collect(Collectors.toSet());
+                .map(CkanPackage::getIdentifier)
+                .toList();
 
         return datasetIds;
+
     }
 }

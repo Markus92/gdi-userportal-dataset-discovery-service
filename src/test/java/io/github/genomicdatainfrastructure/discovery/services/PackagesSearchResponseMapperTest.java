@@ -12,7 +12,6 @@ import java.util.Map;
 
 import io.github.genomicdatainfrastructure.discovery.model.*;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
-import io.github.genomicdatainfrastructure.discovery.utils.PackagesSearchResponseMapper;
 import org.junit.jupiter.api.Test;
 
 import java.time.format.DateTimeFormatter;
