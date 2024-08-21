@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 PNED G.I.E.
+//
+// SPDX-License-Identifier: Apache-2.0
+
 package io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.persistence;
 
 import io.github.genomicdatainfrastructure.discovery.model.*;
@@ -33,17 +37,17 @@ public class CkanDatasetsRepository implements DatasetsRepository {
 
     @Inject
     public CkanDatasetsRepository(
-            @RestClient CkanQueryApi ckanQueryApi,
+            @RestClient CkanQueryApi ckanQueryApi
     ) {
         this.ckanQueryApi = ckanQueryApi;
     }
 
     @Override
     public List<SearchedDataset> search(List<String> datasetIds,
-                                       String sort,
-                                       Integer rows,
-                                       Integer start,
-                                       String accessToken) {
+            String sort,
+            Integer rows,
+            Integer start,
+            String accessToken) {
 
         var facets = datasetIds
                 .stream()
@@ -69,7 +73,6 @@ public class CkanDatasetsRepository implements DatasetsRepository {
                 null,
                 accessToken
         );
-
 
         return results(response.getResult());
     }

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 PNED G.I.E.
+//
+// SPDX-License-Identifier: Apache-2.0
+
 package io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.persistence;
 
 import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.FacetsBuilder;
@@ -15,6 +19,7 @@ import static java.util.Optional.ofNullable;
 
 @ApplicationScoped
 public class CkanFacetsBuilder implements FacetsBuilder {
+
     private final static String CKAN_FACET_GROUP = "ckan";
     private final static String SELECTED_FACETS = "[\"access_rights\",\"theme\",\"tags\",\"spatial_uri\",\"organization\",\"publisher_name\",\"res_format\"]";
 

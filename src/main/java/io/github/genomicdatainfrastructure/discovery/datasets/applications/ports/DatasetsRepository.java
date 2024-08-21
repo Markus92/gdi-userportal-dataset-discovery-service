@@ -9,9 +9,10 @@ import io.github.genomicdatainfrastructure.discovery.model.SearchedDataset;
 import java.util.List;
 
 public interface DatasetsRepository {
+
     List<SearchedDataset> search(List<String> datasetIds,
-                                String sort,
-                                Integer rows,
-                                Integer start,
-                                String accessToken);
+            String sort,
+            Integer rows,
+            Integer start,
+            String accessToken);
 }

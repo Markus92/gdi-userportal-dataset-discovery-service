@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 PNED G.I.E.
+//
+// SPDX-License-Identifier: Apache-2.0
+
 package io.github.genomicdatainfrastructure.discovery.datasets.infra.beacon.persistence;
 
 import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.FacetsBuilder;
@@ -8,6 +12,7 @@ import io.github.genomicdatainfrastructure.discovery.services.BeaconFilteringTer
 import jakarta.inject.Inject;
 
 public class BeaconFacetsBuilder implements FacetsBuilder {
+
     private final BeaconFilteringTermsService service;
     private final BeaconAuth beaconAuth;
 
