@@ -50,7 +50,7 @@ public class CkanDatasetsRepository implements DatasetsRepository {
             Integer start,
             String accessToken) {
 
-        if(datasetIds == null || datasetIds.isEmpty()) {
+        if (datasetIds == null || datasetIds.isEmpty()) {
             return List.of();
         }
 
