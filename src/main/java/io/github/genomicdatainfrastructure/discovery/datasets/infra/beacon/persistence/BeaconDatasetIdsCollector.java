@@ -1,7 +1,7 @@
-package io.github.genomicdatainfrastructure.discovery.datasets.infra.persistence.beacon;
+package io.github.genomicdatainfrastructure.discovery.datasets.infra.beacon.persistence;
 
-import io.github.genomicdatainfrastructure.discovery.core.infrastructure.beacon.auth.BeaconAuth;
 import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.DatasetIdsCollector;
+import io.github.genomicdatainfrastructure.discovery.datasets.infra.beacon.auth.BeaconAuth;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.api.BeaconQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.model.BeaconIndividualsResponse;
@@ -12,11 +12,10 @@ import io.quarkus.arc.lookup.LookupIfProperty;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.commons.lang3.ObjectUtils;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -31,7 +30,7 @@ public class BeaconDatasetIdsCollector implements DatasetIdsCollector {
     private final BeaconAuth beaconAuth;
 
     @Inject
-    public BeaconDatasetIdsCollector(BeaconQueryApi beaconQueryApi, BeaconAuth beaconAuth) {
+    public BeaconDatasetIdsCollector(@RestClient BeaconQueryApi beaconQueryApi, BeaconAuth beaconAuth) {
         this.beaconQueryApi = beaconQueryApi;
         this.beaconAuth = beaconAuth;
     }

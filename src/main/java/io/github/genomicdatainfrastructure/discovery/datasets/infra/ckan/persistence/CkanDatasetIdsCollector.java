@@ -1,4 +1,4 @@
-package io.github.genomicdatainfrastructure.discovery.datasets.infra.persistence.ckan;
+package io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.persistence;
 
 import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.DatasetIdsCollector;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;

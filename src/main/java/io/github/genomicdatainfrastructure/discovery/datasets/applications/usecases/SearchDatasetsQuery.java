@@ -4,37 +4,23 @@ import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports
 import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.FacetsBuilder;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
-import jakarta.inject.Inject;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 public class SearchDatasetsQuery {
-    private final DatasetSearchQuery query;
-    private final String accessToken;
     private final DatasetsRepository repository;
     private final Set<DatasetIdsCollector> collectors;
     private final Set<FacetsBuilder> facetsBuilders;
 
-    @Inject
-    public SearchDatasetsQuery(DatasetSearchQuery query,
-                               String accessToken,
-                               DatasetsRepository repository,
-                               Set<DatasetIdsCollector> collectors,
-                               Set<FacetsBuilder> facetsBuilders) {
-        this.query = query;
-        this.accessToken = accessToken;
-        this.repository = repository;
-        this.collectors = collectors;
-        this.facetsBuilders = facetsBuilders;
-    }
-
-    public DatasetsSearchResponse execute() {
+    public DatasetsSearchResponse execute(DatasetSearchQuery query, String accessToken) {
         var datasetIds = collectors
                 .stream()
-                .map(collector -> collector.collect(this.query, this.accessToken))
+                .map(collector -> collector.collect(query, accessToken))
                 .filter(Objects::nonNull)
                 .reduce((a, b) -> findIdsIntersection(a, b))
                 .orElse(List.of());
@@ -43,7 +29,7 @@ public class SearchDatasetsQuery {
                                             query.getSort(),
                                             query.getRows(),
                                             query.getStart(),
-                                            this.accessToken);
+                                            accessToken);
 
         var facetGroups = facetsBuilders
                 .stream()

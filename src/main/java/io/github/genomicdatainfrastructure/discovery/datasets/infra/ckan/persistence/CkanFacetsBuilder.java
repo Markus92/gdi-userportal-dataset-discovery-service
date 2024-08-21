@@ -1,25 +1,26 @@
-package io.github.genomicdatainfrastructure.discovery.datasets.infra.persistence.ckan;
+package io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.persistence;
 
 import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.FacetsBuilder;
 import io.github.genomicdatainfrastructure.discovery.model.*;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import io.github.genomicdatainfrastructure.discovery.utils.CkanFacetsQueryBuilder;
-import jakarta.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.List;
 import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 
+@ApplicationScoped
 public class CkanFacetsBuilder implements FacetsBuilder {
     private final static String CKAN_FACET_GROUP = "ckan";
-    private static final String SELECTED_FACETS = "[\"access_rights\",\"theme\",\"tags\",\"spatial_uri\",\"organization\",\"publisher_name\",\"res_format\"]";
+    private final static String SELECTED_FACETS = "[\"access_rights\",\"theme\",\"tags\",\"spatial_uri\",\"organization\",\"publisher_name\",\"res_format\"]";
 
     private final CkanQueryApi ckanQueryApi;
 
-    @Inject
-    public CkanFacetsBuilder(CkanQueryApi ckanQueryApi) {
+    public CkanFacetsBuilder(@RestClient CkanQueryApi ckanQueryApi) {
         this.ckanQueryApi = ckanQueryApi;
     }
 

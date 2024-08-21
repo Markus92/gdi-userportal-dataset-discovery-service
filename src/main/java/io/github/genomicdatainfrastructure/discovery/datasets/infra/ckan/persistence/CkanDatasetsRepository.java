@@ -1,4 +1,4 @@
-package io.github.genomicdatainfrastructure.discovery.datasets.infra.persistence.ckan;
+package io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.persistence;
 
 import io.github.genomicdatainfrastructure.discovery.model.*;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi;
@@ -8,7 +8,6 @@ import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanValue
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResult;
 import io.github.genomicdatainfrastructure.discovery.utils.CkanFacetsQueryBuilder;
 import io.github.genomicdatainfrastructure.discovery.utils.DatasetOrganizationMapper;
-import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.DatasetsRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.commons.lang3.ObjectUtils;
@@ -26,20 +25,17 @@ public class CkanDatasetsRepository implements DatasetsRepository {
 
     private static final String CKAN_IDENTIFIER_FIELD = "identifier";
     private static final String CKAN_FACET_GROUP = "ckan";
-    private final static DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
             "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
     );
 
     private final CkanQueryApi ckanQueryApi;
-    private final CkanDatasetIdsCollector ckanSearchContextBuilder;
 
     @Inject
     public CkanDatasetsRepository(
             @RestClient CkanQueryApi ckanQueryApi,
-            CkanDatasetIdsCollector ckanSearchContextBuilder
     ) {
         this.ckanQueryApi = ckanQueryApi;
-        this.ckanSearchContextBuilder = ckanSearchContextBuilder;
     }
 
     @Override
