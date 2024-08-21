@@ -25,8 +25,9 @@ public class BeaconAuth {
     private final KeycloakQueryApi keycloakQueryApi;
     private final String beaconIdpAlias;
 
-    public BeaconAuth(@RestClient KeycloakQueryApi keycloakQueryApi,
-            @ConfigProperty String beaconIdpAlias
+    public BeaconAuth(
+            @RestClient KeycloakQueryApi keycloakQueryApi,
+            @ConfigProperty(name = "quarkus.rest-client.keycloak_yaml.beacon_idp_alias") String beaconIdpAlias
     ) {
         this.keycloakQueryApi = keycloakQueryApi;
         this.beaconIdpAlias = beaconIdpAlias;
