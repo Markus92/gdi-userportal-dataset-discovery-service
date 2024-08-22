@@ -32,10 +32,17 @@ public class CkanDatasetsRepository implements DatasetsRepository {
     public DatasetsSearchResponse search(DatasetSearchQuery query, String accessToken) {
         var facetsQuery = CkanFacetsQueryBuilder.buildFacetQuery(query);
 
+        String sortString = query.getSort();
+        if (sortString != null) {
+            if (sortString.contains("title") && !sortString.contains("title_string")) {
+                sortString = sortString.replace("title", "title_string");
+            }
+        }
+
         var response = ckanQueryApi.packageSearch(
                 query.getQuery(),
                 facetsQuery,
-                query.getSort(),
+                sortString,
                 query.getRows(),
                 query.getStart(),
                 SELECTED_FACETS,
