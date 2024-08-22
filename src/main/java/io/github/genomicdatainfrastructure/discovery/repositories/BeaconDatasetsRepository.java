@@ -225,18 +225,18 @@ public class BeaconDatasetsRepository implements DatasetsRepository {
     private DatasetsSearchResponse searchCkan(DatasetSearchQuery query, String ckanAuthorization) {
         var facetsQuery = CkanFacetsQueryBuilder.buildFacetQuery(query);
 
-        String sortString = query.getSort();
+        String sort_string = query.getSort();
 
-        if (sortString != null) {
-            if (sortString.contains("title") && !sortString.contains("title_string")) {
-                sortString = sortString.replace("title", "title_string");
+        if (sort_string != null) {
+            if (sort_string.contains("title") && !sort_string.contains("title_string")) {
+                sort_string = sort_string.replace("title", "title_string");
             }
         }
 
         var response = ckanQueryApi.packageSearch(
                 query.getQuery(),
                 facetsQuery,
-                sortString,
+                sort_string,
                 query.getRows(),
                 query.getStart(),
                 selectedFacets,
