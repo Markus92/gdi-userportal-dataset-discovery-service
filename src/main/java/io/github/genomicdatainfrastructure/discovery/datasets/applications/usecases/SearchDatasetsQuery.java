@@ -34,6 +34,7 @@ public class SearchDatasetsQuery {
                 .orElse(List.of());
 
         var datasets = repository.search(datasetIds,
+                query.getReturnFields(),
                 query.getSort(),
                 query.getRows(),
                 query.getStart(),

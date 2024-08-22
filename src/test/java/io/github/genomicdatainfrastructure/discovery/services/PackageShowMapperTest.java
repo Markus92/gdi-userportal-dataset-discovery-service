@@ -127,7 +127,7 @@ class PackageShowMapperTest {
                                 .contactUri("http://example.com")
                                 .build()
                 ))
-                .creators(List.of(
+                .creator(List.of(
                         CkanCreator.builder()
                                 .creatorName("creatorName")
                                 .creatorIdentifier("creatorIdentifier")

@@ -245,7 +245,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/CkanContactPoint"
-        creators:
+        creator:
           type: array
           items:
             $ref: "#/components/schemas/CkanCreator"

@@ -10,6 +10,7 @@ import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryAp
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import io.github.genomicdatainfrastructure.discovery.utils.CkanFacetsQueryBuilder;
 import jakarta.enterprise.context.ApplicationScoped;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.List;
@@ -21,11 +22,16 @@ import static java.util.Optional.ofNullable;
 @ApplicationScoped
 public class CkanFacetsBuilder implements FacetsBuilder {
 
+    private static final String SELECTED_FACETS_PATTERN = "[\"%s\"]";
 
     private final CkanQueryApi ckanQueryApi;
+    private final String selectedFacets;
 
-    public CkanFacetsBuilder(@RestClient CkanQueryApi ckanQueryApi) {
+    public CkanFacetsBuilder(@RestClient CkanQueryApi ckanQueryApi,
+            @ConfigProperty(name = "dataset.filters") String datasetFiltersAsString) {
         this.ckanQueryApi = ckanQueryApi;
+        this.selectedFacets = SELECTED_FACETS_PATTERN.formatted(String.join("\",\"",
+                datasetFiltersAsString.split(",")));
     }
 
     @Override
@@ -35,11 +41,11 @@ public class CkanFacetsBuilder implements FacetsBuilder {
         var response = ckanQueryApi.packageSearch(
                 query.getQuery(),
                 facetsQuery,
-                query.getFl(),
+                query.getReturnFields(),
                 query.getSort(),
                 0,
                 query.getStart(),
-                SELECTED_FACETS,
+                selectedFacets,
                 accessToken
         );
 
