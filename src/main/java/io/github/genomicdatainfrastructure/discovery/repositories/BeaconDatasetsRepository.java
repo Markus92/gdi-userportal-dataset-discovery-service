@@ -44,31 +44,38 @@ import java.util.logging.Level;
 @ApplicationScoped
 public class BeaconDatasetsRepository implements DatasetsRepository {
 
-    private static final String SELECTED_FACETS = "[\"access_rights\",\"theme\",\"tags\",\"spatial_uri\",\"organization\",\"publisher_name\",\"res_format\"]";
-    private final CkanQueryApi ckanQueryApi;
+    private static final String SELECTED_FACETS_PATTERN = "[\"%s\"]";
     private static final Set<Integer> SKIP_BEACON_QUERY_STATUS = Set.of(400, 401, 403);
     private static final String BEACON_ACCESS_TOKEN_INFO = "Skipping beacon search, user is not authorized or the token is invalid.";
     private static final String BEARER_PATTERN = "Bearer %s";
     private static final String BEACON_DATASET_TYPE = "dataset";
     private static final String CKAN_IDENTIFIER_FIELD = "identifier";
+
+    private final CkanQueryApi ckanQueryApi;
     private final BeaconQueryApi beaconQueryApi;
-    private final String beaconIdpAlias;
     private final KeycloakQueryApi keycloakQueryApi;
     private final BeaconFilteringTermsService beaconFilteringTermsService;
+
+    private final String beaconIdpAlias;
+    private final String selectedFacets;
 
     @Inject
     public BeaconDatasetsRepository(
             @RestClient CkanQueryApi ckanQueryApi,
             @RestClient BeaconQueryApi beaconQueryApi,
-            @ConfigProperty(name = "quarkus.rest-client.keycloak_yaml.beacon_idp_alias") String beaconIdpAlias,
             @RestClient KeycloakQueryApi keycloakQueryApi,
-            BeaconFilteringTermsService beaconFilteringTermsService
+            BeaconFilteringTermsService beaconFilteringTermsService,
+            @ConfigProperty(name = "quarkus.rest-client.keycloak_yaml.beacon_idp_alias") String beaconIdpAlias,
+            @ConfigProperty(name = "datasets.filters") String datasetFiltersAsString
     ) {
         this.ckanQueryApi = ckanQueryApi;
         this.beaconQueryApi = beaconQueryApi;
-        this.beaconIdpAlias = beaconIdpAlias;
         this.keycloakQueryApi = keycloakQueryApi;
         this.beaconFilteringTermsService = beaconFilteringTermsService;
+        this.beaconIdpAlias = beaconIdpAlias;
+        this.selectedFacets = SELECTED_FACETS_PATTERN.formatted(
+                String.join("\",\"", datasetFiltersAsString.split(","))
+        );
     }
 
     @Override
@@ -224,7 +231,7 @@ public class BeaconDatasetsRepository implements DatasetsRepository {
                 query.getSort(),
                 query.getRows(),
                 query.getStart(),
-                SELECTED_FACETS,
+                selectedFacets,
                 ckanAuthorization
         );
 

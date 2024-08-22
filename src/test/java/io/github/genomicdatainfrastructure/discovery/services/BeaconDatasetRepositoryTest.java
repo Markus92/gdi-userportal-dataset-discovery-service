@@ -54,9 +54,10 @@ class BeaconDatasetsRepositoryTest {
         underTest = new BeaconDatasetsRepository(
                 ckanQueryApi,
                 beaconQueryApi,
-                "beaconIdpAlias",
                 keycloakQueryApi,
-                beaconFilteringTermsService
+                beaconFilteringTermsService,
+                "beaconIdpAlias",
+                "access_rights,theme,tags,organization,res_format"
         );
     }
 
