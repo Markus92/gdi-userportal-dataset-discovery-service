@@ -74,7 +74,6 @@ paths:
       security:
         - discovery_auth:
             - read:datasets
-            -
   /api/v1/organizations:
     get:
       summary: Retrieves a list of organizations
