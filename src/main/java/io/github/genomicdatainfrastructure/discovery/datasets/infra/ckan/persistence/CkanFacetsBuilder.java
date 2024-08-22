@@ -15,13 +15,12 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import java.util.List;
 import java.util.Map;
 
+import static io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.config.CkanConfiguration.*;
 import static java.util.Optional.ofNullable;
 
 @ApplicationScoped
 public class CkanFacetsBuilder implements FacetsBuilder {
 
-    private static final String CKAN_FACET_GROUP = "ckan";
-    private static final String SELECTED_FACETS = "[\"access_rights\",\"theme\",\"tags\",\"spatial_uri\",\"organization\",\"publisher_name\",\"res_format\"]";
 
     private final CkanQueryApi ckanQueryApi;
 
@@ -36,9 +35,10 @@ public class CkanFacetsBuilder implements FacetsBuilder {
         var response = ckanQueryApi.packageSearch(
                 query.getQuery(),
                 facetsQuery,
+                query.getFl(),
                 query.getSort(),
                 0,
-                0,
+                query.getStart(),
                 SELECTED_FACETS,
                 accessToken
         );
@@ -53,7 +53,7 @@ public class CkanFacetsBuilder implements FacetsBuilder {
     private FacetGroup facetGroup(Map<String, CkanFacet> facets) {
         return FacetGroup.builder()
                 .key(CKAN_FACET_GROUP)
-                .label("DCAT-AP")
+                .label(CKAN_FACET_LABEL)
                 .facets(facets.entrySet().stream()
                         .map(this::facet)
                         .toList())

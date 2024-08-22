@@ -166,6 +166,10 @@ components:
           title: Facets
           items:
             $ref: "#/components/schemas/DatasetSearchQueryFacet"
+        returnFields:
+          type: string
+          title: dataset fields to return
+          default: "*"
         sort:
           type: string
           title: Sorting of search results

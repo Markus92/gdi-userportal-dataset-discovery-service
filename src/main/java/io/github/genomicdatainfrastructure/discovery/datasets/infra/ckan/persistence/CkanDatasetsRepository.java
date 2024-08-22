@@ -23,13 +23,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
+import static io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.config.CkanConfiguration.CKAN_FACET_GROUP;
+import static io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.config.CkanConfiguration.CKAN_IDENTIFIER_FIELD;
 import static java.util.Optional.ofNullable;
 
 @ApplicationScoped
 public class CkanDatasetsRepository implements DatasetsRepository {
 
-    private static final String CKAN_IDENTIFIER_FIELD = "identifier";
-    private static final String CKAN_FACET_GROUP = "ckan";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
             "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
     );
@@ -45,6 +45,7 @@ public class CkanDatasetsRepository implements DatasetsRepository {
 
     @Override
     public List<SearchedDataset> search(List<String> datasetIds,
+            String returnFields,
             String sort,
             Integer rows,
             Integer start,
@@ -72,10 +73,11 @@ public class CkanDatasetsRepository implements DatasetsRepository {
         var response = ckanQueryApi.packageSearch(
                 "",
                 facetsQuery,
+                returnFields,
                 sort,
                 rows,
                 start,
-                null,
+                "",
                 accessToken
         );
 

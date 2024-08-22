@@ -11,6 +11,7 @@ import java.util.List;
 public interface DatasetsRepository {
 
     List<SearchedDataset> search(List<String> datasetIds,
+            String returnFields,
             String sort,
             Integer rows,
             Integer start,

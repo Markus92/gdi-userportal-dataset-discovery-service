@@ -15,6 +15,8 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.List;
 
+import static io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.config.CkanConfiguration.CKAN_IDENTIFIER_FIELD;
+
 @ApplicationScoped
 public class CkanDatasetIdsCollector implements DatasetIdsCollector {
 
@@ -34,10 +36,11 @@ public class CkanDatasetIdsCollector implements DatasetIdsCollector {
         var response = ckanQueryApi.packageSearch(
                 query.getQuery(),
                 facetsQuery,
-                null,
-                null,
-                null,
-                null,
+                CKAN_IDENTIFIER_FIELD,
+                "",
+                1000,
+                0,
+                "",
                 accessToken
         );
 
