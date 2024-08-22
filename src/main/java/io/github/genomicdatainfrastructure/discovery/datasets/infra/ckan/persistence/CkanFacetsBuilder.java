@@ -28,7 +28,7 @@ public class CkanFacetsBuilder implements FacetsBuilder {
     private final String selectedFacets;
 
     public CkanFacetsBuilder(@RestClient CkanQueryApi ckanQueryApi,
-            @ConfigProperty(name = "dataset.filters") String datasetFiltersAsString) {
+                             @ConfigProperty(name = "datasets.filters") String datasetFiltersAsString) {
         this.ckanQueryApi = ckanQueryApi;
         this.selectedFacets = SELECTED_FACETS_PATTERN.formatted(String.join("\",\"",
                 datasetFiltersAsString.split(",")));
