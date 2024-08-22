@@ -4,7 +4,7 @@
 
 package io.github.genomicdatainfrastructure.discovery.api;
 
-import io.github.genomicdatainfrastructure.discovery.datasets.applications.usecases.SearchDatasetsQuery;
+import io.github.genomicdatainfrastructure.discovery.datasets.application.usecases.SearchDatasetsQuery;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.services.RetrieveDatasetService;
 import io.quarkus.oidc.runtime.OidcJwtCallerPrincipal;

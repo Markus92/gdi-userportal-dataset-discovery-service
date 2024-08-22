@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.persistence;
+package io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.ckan.persistence;
 
-import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.DatasetIdsCollector;
+import io.github.genomicdatainfrastructure.discovery.datasets.application.ports.DatasetIdsCollector;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
@@ -15,7 +15,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.List;
 
-import static io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.config.CkanConfiguration.CKAN_IDENTIFIER_FIELD;
+import static io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.ckan.config.CkanConfiguration.CKAN_IDENTIFIER_FIELD;
 
 @ApplicationScoped
 public class CkanDatasetIdsCollector implements DatasetIdsCollector {

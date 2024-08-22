@@ -25,108 +25,108 @@ class DatasetSearchTest extends BaseTest {
 
     WireMock wireMock;
 
-//    @Test
-//    void can_anonymously_search_datasets() {
-//        var query = DatasetSearchQuery.builder().build();
-//
-//        given()
-//                .contentType("application/json")
-//                .body(query)
-//                .when()
-//                .post("/api/v1/datasets/search")
-//                .then()
-//                .statusCode(200)
-//                .body("count", equalTo(1167));
-//    }
-//
-//    @Test
-//    void can_search_datasets_without_beacon_filters() {
-//        var query = DatasetSearchQuery.builder()
-//                .build();
-//        given()
-//                .auth()
-//                .oauth2(getAccessToken("alice"))
-//                .contentType("application/json")
-//                .body(query)
-//                .when()
-//                .post("/api/v1/datasets/search")
-//                .then()
-//                .statusCode(200)
-//                .body("count", equalTo(1167));
-//    }
-//
-//    @Test
-//    void can_search_datasets_with_beacon_filters() {
-//        var query = DatasetSearchQuery.builder()
-//                .facets(List.of(
-//                        DatasetSearchQueryFacet.builder()
-//                                .facetGroup("beacon")
-//                                .facet("dummy")
-//                                .value("true")
-//                                .build()
-//                ))
-//                .build();
-//        given()
-//                .auth()
-//                .oauth2(getAccessToken("alice"))
-//                .contentType("application/json")
-//                .body(query)
-//                .when()
-//                .post("/api/v1/datasets/search")
-//                .then()
-//                .statusCode(200)
-//                .body("count", equalTo(1167))
-//                .body("results[0].recordsCount", equalTo(64));
-//    }
-//
-//    @Test
-//    void skip_search_datasets_when_beacon_returns_empty_resultsets() {
-//        var query = DatasetSearchQuery.builder()
-//                .facets(List.of(
-//                        DatasetSearchQueryFacet.builder()
-//                                .facetGroup("beacon")
-//                                .facet("dummy")
-//                                .value("DUMMY:FILTER")
-//                                .build()
-//                ))
-//                .build();
-//        given()
-//                .auth()
-//                .oauth2(getAccessToken("alice"))
-//                .contentType("application/json")
-//                .body(query)
-//                .when()
-//                .post("/api/v1/datasets/search")
-//                .then()
-//                .statusCode(200)
-//                .body("count", equalTo(0));
-//    }
-//
-//    @Test
-//    void retrieves_beacon_filtering_terms() {
-//        var query = DatasetSearchQuery.builder().build();
-//
-//        var response = given()
-//                .auth()
-//                .oauth2(getAccessToken("alice"))
-//                .contentType("application/json")
-//                .body(query)
-//                .when()
-//                .post("/api/v1/datasets/search");
-//
-//        var body = response.getBody().as(DatasetsSearchResponse.class);
-//        var facetGroup = body.getFacetGroups().stream()
-//                .filter(it -> "beacon".equals(it.getKey()))
-//                .findFirst()
-//                .orElseGet(FacetGroup::new);
-//
-//        var actual = facetGroup.getFacets().stream()
-//                .map(Facet::getKey)
-//                .toList();
-//
-//        assertThat(actual)
-//                .containsExactlyInAnyOrder(
-//                        "gaz", "ncit", "opcs4", "hp", "loinc", "icd10"
-//                );
-//    }
+    @Test
+    void can_anonymously_search_datasets() {
+        var query = DatasetSearchQuery.builder().build();
+
+        given()
+                .contentType("application/json")
+                .body(query)
+                .when()
+                .post("/api/v1/datasets/search")
+                .then()
+                .statusCode(200)
+                .body("count", equalTo(1167));
+    }
+
+    @Test
+    void can_search_datasets_without_beacon_filters() {
+        var query = DatasetSearchQuery.builder()
+                .build();
+        given()
+                .auth()
+                .oauth2(getAccessToken("alice"))
+                .contentType("application/json")
+                .body(query)
+                .when()
+                .post("/api/v1/datasets/search")
+                .then()
+                .statusCode(200)
+                .body("count", equalTo(1167));
+    }
+
+    @Test
+    void can_search_datasets_with_beacon_filters() {
+        var query = DatasetSearchQuery.builder()
+                .facets(List.of(
+                        DatasetSearchQueryFacet.builder()
+                                .facetGroup("beacon")
+                                .facet("dummy")
+                                .value("true")
+                                .build()
+                ))
+                .build();
+        given()
+                .auth()
+                .oauth2(getAccessToken("alice"))
+                .contentType("application/json")
+                .body(query)
+                .when()
+                .post("/api/v1/datasets/search")
+                .then()
+                .statusCode(200)
+                .body("count", equalTo(1167))
+                .body("results[0].recordsCount", equalTo(64));
+    }
+
+    @Test
+    void skip_search_datasets_when_beacon_returns_empty_resultsets() {
+        var query = DatasetSearchQuery.builder()
+                .facets(List.of(
+                        DatasetSearchQueryFacet.builder()
+                                .facetGroup("beacon")
+                                .facet("dummy")
+                                .value("DUMMY:FILTER")
+                                .build()
+                ))
+                .build();
+        given()
+                .auth()
+                .oauth2(getAccessToken("alice"))
+                .contentType("application/json")
+                .body(query)
+                .when()
+                .post("/api/v1/datasets/search")
+                .then()
+                .statusCode(200)
+                .body("count", equalTo(0));
+    }
+
+    @Test
+    void retrieves_beacon_filtering_terms() {
+        var query = DatasetSearchQuery.builder().build();
+
+        var response = given()
+                .auth()
+                .oauth2(getAccessToken("alice"))
+                .contentType("application/json")
+                .body(query)
+                .when()
+                .post("/api/v1/datasets/search");
+
+        var body = response.getBody().as(DatasetsSearchResponse.class);
+        var facetGroup = body.getFacetGroups().stream()
+                .filter(it -> "beacon".equals(it.getKey()))
+                .findFirst()
+                .orElseGet(FacetGroup::new);
+
+        var actual = facetGroup.getFacets().stream()
+                .map(Facet::getKey)
+                .toList();
+
+        assertThat(actual)
+                .containsExactlyInAnyOrder(
+                        "gaz", "ncit", "opcs4", "hp", "loinc", "icd10"
+                );
+    }
 }

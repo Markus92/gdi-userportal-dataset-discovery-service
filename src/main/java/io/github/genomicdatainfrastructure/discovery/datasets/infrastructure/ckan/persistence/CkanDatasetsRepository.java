@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.persistence;
+package io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.ckan.persistence;
 
-import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.DatasetsRepository;
+import io.github.genomicdatainfrastructure.discovery.datasets.application.ports.DatasetsRepository;
 import io.github.genomicdatainfrastructure.discovery.model.*;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
@@ -23,8 +23,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
-import static io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.config.CkanConfiguration.CKAN_FACET_GROUP;
-import static io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.config.CkanConfiguration.CKAN_IDENTIFIER_FIELD;
+import static io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.ckan.config.CkanConfiguration.CKAN_FACET_GROUP;
+import static io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.ckan.config.CkanConfiguration.CKAN_IDENTIFIER_FIELD;
 import static java.util.Optional.ofNullable;
 
 @ApplicationScoped

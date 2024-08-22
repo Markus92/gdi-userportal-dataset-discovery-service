@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.genomicdatainfrastructure.discovery.datasets.applications.usecases;
+package io.github.genomicdatainfrastructure.discovery.datasets.application.usecases;
 
-import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.DatasetIdsCollector;
-import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.DatasetsRepository;
-import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.FacetsBuilder;
+import io.github.genomicdatainfrastructure.discovery.datasets.application.ports.DatasetIdsCollector;
+import io.github.genomicdatainfrastructure.discovery.datasets.application.ports.DatasetsRepository;
+import io.github.genomicdatainfrastructure.discovery.datasets.application.ports.FacetsBuilder;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
 import jakarta.enterprise.context.ApplicationScoped;

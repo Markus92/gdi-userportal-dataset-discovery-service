@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.config;
+package io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.ckan.config;
 
 public class CkanConfiguration {
 

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.genomicdatainfrastructure.discovery.datasets.infra.beacon.auth;
+package io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.beacon.auth;
 
 import io.github.genomicdatainfrastructure.discovery.remote.keycloak.api.KeycloakQueryApi;
 import jakarta.enterprise.context.ApplicationScoped;

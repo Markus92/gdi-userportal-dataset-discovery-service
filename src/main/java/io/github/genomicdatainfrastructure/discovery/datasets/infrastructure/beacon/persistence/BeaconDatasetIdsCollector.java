@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.genomicdatainfrastructure.discovery.datasets.infra.beacon.persistence;
+package io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.beacon.persistence;
 
-import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.DatasetIdsCollector;
-import io.github.genomicdatainfrastructure.discovery.datasets.infra.beacon.auth.BeaconAuth;
+import io.github.genomicdatainfrastructure.discovery.datasets.application.ports.DatasetIdsCollector;
+import io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.beacon.auth.BeaconAuth;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.api.BeaconQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.model.BeaconIndividualsResponse;

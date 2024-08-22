@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.persistence;
+package io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.ckan.persistence;
 
-import io.github.genomicdatainfrastructure.discovery.datasets.applications.ports.FacetsBuilder;
+import io.github.genomicdatainfrastructure.discovery.datasets.application.ports.FacetsBuilder;
 import io.github.genomicdatainfrastructure.discovery.model.*;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
@@ -16,7 +16,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.genomicdatainfrastructure.discovery.datasets.infra.ckan.config.CkanConfiguration.*;
+import static io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.ckan.config.CkanConfiguration.*;
 import static java.util.Optional.ofNullable;
 
 @ApplicationScoped
