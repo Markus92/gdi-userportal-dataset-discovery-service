@@ -2,7 +2,7 @@
     "priority": 2,
     "request": {
         "method": "GET",
-        "urlPattern": "/api/3/action/enhanced_package_search.*"
+        "urlPattern": "/api/3/action/enhanced_package_searchhh.*"
     },
     "response": {
         "status": 200,

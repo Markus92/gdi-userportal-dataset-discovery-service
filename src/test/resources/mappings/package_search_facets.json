@@ -1,0 +1,45 @@
+{
+    "priority": 3,
+    "request": {
+        "method": "GET",
+        "urlPattern": "/api/3/action/enhanced_package_search.*rows=0.*"
+    },
+    "response": {
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "jsonBody": {
+            "help": "https://ckan-test.healthdata.nl/api/3/action/help_show?name=package_search",
+            "success": true,
+            "result": {
+                "count": 3,
+                "facets": {
+                    "organization": {
+                        "lumc": 3
+                    },
+                    "theme": {
+                        "https://publications.europa.eu/resource/authority/data-theme/HEAL": 3
+                    },
+                    "conforms_to": {
+                        "https://health-ri.sandbox.semlab-leiden.nl/profile/2f08228e-1789-40f8-84cd-28e3288c3604": 3
+                    },
+                    "access_rights": {
+                        "https://health-ri.sandbox.semlab-leiden.nl/dataset/d73d04ba-23f7-429f-8506-3aa9dccb0435#accessRights": 3
+                    },
+                    "language": {
+                        "https://publications.europa.eu/resource/authority/language/ENG": 3
+
+                    },
+                    "publisher_name": {
+                        "lumc": 3
+                    },
+                    "res_format": {
+                    },
+                    "provenance": {
+                    }
+                }
+            }
+        }
+    }
+}

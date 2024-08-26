@@ -16,6 +16,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import java.util.List;
 
 import static io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.ckan.config.CkanConfiguration.CKAN_IDENTIFIER_FIELD;
+import static io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.ckan.config.CkanConfiguration.CKAN_PAGINATION_MAX_SIZE;
 
 @ApplicationScoped
 public class CkanDatasetIdsCollector implements DatasetIdsCollector {
@@ -38,7 +39,7 @@ public class CkanDatasetIdsCollector implements DatasetIdsCollector {
                 facetsQuery,
                 CKAN_IDENTIFIER_FIELD,
                 "",
-                1000,
+                CKAN_PAGINATION_MAX_SIZE,
                 0,
                 "",
                 accessToken
