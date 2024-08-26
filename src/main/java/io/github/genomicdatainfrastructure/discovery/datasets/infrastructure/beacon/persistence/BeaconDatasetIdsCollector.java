@@ -58,7 +58,7 @@ public class BeaconDatasetIdsCollector implements DatasetIdsCollector, RecordsCo
         return datasetIds;
     }
 
-    @CacheResult(cacheName = "beacon-result-sets")
+    @CacheResult(cacheName = "beacon-results-sets")
     @Override
     public Map<String, Integer> collectRecordsCount(DatasetSearchQuery query, String accessToken) {
         var beaconAuthorization = beaconAuth.retrieveAuthorization(accessToken);

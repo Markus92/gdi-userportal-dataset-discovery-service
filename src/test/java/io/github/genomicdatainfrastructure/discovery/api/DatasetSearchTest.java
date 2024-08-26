@@ -57,7 +57,6 @@ class DatasetSearchTest extends BaseTest {
                 .then()
                 .statusCode(200)
                 .body("count", equalTo(3))
-                .body("count", equalTo(3))
                 .body("results[0].identifier", equalTo("27866022694497975"))
                 .body("results[1].identifier", equalTo("euc_kauno_uc6"))
                 .body("results[2].identifier", equalTo("cp-tavi"));
