@@ -44,8 +44,10 @@ public class SearchDatasetQueryTest {
         DatasetIdsCollector collector2 = Mockito.mock(DatasetIdsCollector.class);
 
         // Mocking what the map function should return
-        when(collector1.collect(Mockito.any(), Mockito.any())).thenReturn(List.of("123", "456", "789"));
-        when(collector2.collect(Mockito.any(), Mockito.any())).thenReturn(List.of("111", "789", "1032", "456"));
+        when(collector1.collect(Mockito.any(), Mockito.any())).thenReturn(List.of("123", "456",
+                "789"));
+        when(collector2.collect(Mockito.any(), Mockito.any())).thenReturn(List.of("111", "789",
+                "1032", "456"));
 
         when(collectors.stream())
                 .thenReturn(Stream.of(collector1, collector2));
@@ -75,7 +77,6 @@ public class SearchDatasetQueryTest {
 //        when(builder2.build(Mockito.any(), Mockito.any())).thenReturn(FacetGroup.builder().key("ckan").label("dcat-ap").build());
 
     }
-
 
     @Test
     public void testSearchDatasetQuery() {
