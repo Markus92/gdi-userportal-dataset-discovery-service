@@ -165,10 +165,6 @@ components:
           title: Facets
           items:
             $ref: "#/components/schemas/DatasetSearchQueryFacet"
-        returnFields:
-          type: string
-          title: dataset fields to return
-          default: "*"
         sort:
           type: string
           title: Sorting of search results
@@ -252,6 +248,10 @@ components:
         count:
           type: integer
           description: The number of results found
+        facetGroupCount:
+          type: object
+          additionalProperties:
+            type: integer
         results:
           type: array
           items:
