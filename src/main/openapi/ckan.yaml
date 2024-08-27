@@ -30,12 +30,6 @@ paths:
           required: false
           schema:
             type: string
-        - name: fl
-          in: query
-          description: dataset fields to be returned
-          required: false
-          schema:
-            type: string
         - name: sort
           in: query
           description: Sorting of search results
