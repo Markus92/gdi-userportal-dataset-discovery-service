@@ -36,13 +36,17 @@ class DatasetSearchTest extends BaseTest {
                 .post("/api/v1/datasets/search")
                 .then()
                 .statusCode(200)
-                .body("count", equalTo(1167));
+                .body("count", equalTo(3))
+                .body("results[0].identifier", equalTo("27866022694497975"))
+                .body("results[1].identifier", equalTo("euc_kauno_uc6"))
+                .body("results[2].identifier", equalTo("cp-tavi"));
     }
 
     @Test
     void can_search_datasets_without_beacon_filters() {
         var query = DatasetSearchQuery.builder()
                 .build();
+
         given()
                 .auth()
                 .oauth2(getAccessToken("alice"))
@@ -52,7 +56,10 @@ class DatasetSearchTest extends BaseTest {
                 .post("/api/v1/datasets/search")
                 .then()
                 .statusCode(200)
-                .body("count", equalTo(1167));
+                .body("count", equalTo(3))
+                .body("results[0].identifier", equalTo("27866022694497975"))
+                .body("results[1].identifier", equalTo("euc_kauno_uc6"))
+                .body("results[2].identifier", equalTo("cp-tavi"));
     }
 
     @Test
@@ -66,6 +73,7 @@ class DatasetSearchTest extends BaseTest {
                                 .build()
                 ))
                 .build();
+
         given()
                 .auth()
                 .oauth2(getAccessToken("alice"))
@@ -75,7 +83,8 @@ class DatasetSearchTest extends BaseTest {
                 .post("/api/v1/datasets/search")
                 .then()
                 .statusCode(200)
-                .body("count", equalTo(1167))
+                .body("count", equalTo(1))
+                .body("results[0].identifier", equalTo("27866022694497975"))
                 .body("results[0].recordsCount", equalTo(64));
     }
 

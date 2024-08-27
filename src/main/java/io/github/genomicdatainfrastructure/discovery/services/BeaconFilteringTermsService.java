@@ -46,7 +46,7 @@ public class BeaconFilteringTermsService {
 
     @CacheResult(cacheName = "beacon-facet-group-cache")
     public FacetGroup listFilteringTerms(String authorization) {
-        var filteringTermsResponse = retreiveNonNullFilteringTermsResponse(authorization);
+        var filteringTermsResponse = retrieveNonNullFilteringTermsResponse(authorization);
 
         var valuesGroupedByFacetId = groupValuesByFacetId(filteringTermsResponse);
 
@@ -61,7 +61,7 @@ public class BeaconFilteringTermsService {
                 .build();
     }
 
-    private BeaconFilteringTermsResponseContent retreiveNonNullFilteringTermsResponse(
+    private BeaconFilteringTermsResponseContent retrieveNonNullFilteringTermsResponse(
             String authorization
     ) {
         var filteringTerms = beaconQueryApi.listFilteringTerms(authorization);
