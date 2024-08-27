@@ -2,7 +2,7 @@
     "priority": 3,
     "request": {
         "method": "GET",
-        "urlPattern": "/api/3/action/enhanced_package_search.*rows=0.*"
+        "urlPattern": "/api/3/action/enhanced_package_search.*facet.field=.*"
     },
     "response": {
         "status": 200,
