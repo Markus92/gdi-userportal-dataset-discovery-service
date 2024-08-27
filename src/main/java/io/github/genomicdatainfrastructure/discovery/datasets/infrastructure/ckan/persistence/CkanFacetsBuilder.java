@@ -41,10 +41,10 @@ public class CkanFacetsBuilder implements FacetsBuilder {
         var response = ckanQueryApi.packageSearch(
                 query.getQuery(),
                 facetsQuery,
-                query.getReturnFields(),
-                query.getSort(),
-                0,
-                query.getStart(),
+                null,
+                null,
+                null,
+                null,
                 selectedFacets,
                 accessToken
         );

@@ -38,10 +38,10 @@ public class CkanDatasetIdsCollector implements DatasetIdsCollector {
                 query.getQuery(),
                 facetsQuery,
                 CKAN_IDENTIFIER_FIELD,
-                "",
+                null,
                 CKAN_PAGINATION_MAX_SIZE,
                 0,
-                "",
+                null,
                 accessToken
         );
 

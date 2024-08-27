@@ -45,7 +45,6 @@ public class CkanDatasetsRepository implements DatasetsRepository {
 
     @Override
     public List<SearchedDataset> search(List<String> datasetIds,
-            String returnFields,
             String sort,
             Integer rows,
             Integer start,
@@ -71,13 +70,13 @@ public class CkanDatasetsRepository implements DatasetsRepository {
                 .build());
 
         var response = ckanQueryApi.packageSearch(
-                "",
+                null,
                 facetsQuery,
-                returnFields,
+                null,
                 sort,
                 rows,
                 start,
-                "",
+                null,
                 accessToken
         );
 
