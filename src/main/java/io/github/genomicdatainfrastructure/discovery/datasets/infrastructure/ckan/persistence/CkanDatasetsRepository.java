@@ -72,7 +72,6 @@ public class CkanDatasetsRepository implements DatasetsRepository {
         var response = ckanQueryApi.packageSearch(
                 null,
                 facetsQuery,
-                null,
                 sort,
                 rows,
                 start,
