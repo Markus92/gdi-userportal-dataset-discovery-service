@@ -14,8 +14,8 @@ import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.List;
+import java.util.Objects;
 
-import static io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.ckan.config.CkanConfiguration.CKAN_IDENTIFIER_FIELD;
 import static io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.ckan.config.CkanConfiguration.CKAN_PAGINATION_MAX_SIZE;
 
 @ApplicationScoped
@@ -49,6 +49,7 @@ public class CkanDatasetIdsCollector implements DatasetIdsCollector {
                 .getResults()
                 .stream()
                 .map(CkanPackage::getIdentifier)
+                .filter(Objects::nonNull)
                 .toList();
 
         return datasetIds;
