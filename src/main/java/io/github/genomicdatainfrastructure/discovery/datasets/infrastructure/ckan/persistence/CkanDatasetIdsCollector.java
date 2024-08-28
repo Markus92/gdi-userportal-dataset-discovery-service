@@ -37,7 +37,6 @@ public class CkanDatasetIdsCollector implements DatasetIdsCollector {
         var response = ckanQueryApi.packageSearch(
                 query.getQuery(),
                 facetsQuery,
-                CKAN_IDENTIFIER_FIELD,
                 null,
                 CKAN_PAGINATION_MAX_SIZE,
                 0,

@@ -44,7 +44,6 @@ public class CkanFacetsBuilder implements FacetsBuilder {
                 null,
                 null,
                 null,
-                null,
                 selectedFacets,
                 accessToken
         );
