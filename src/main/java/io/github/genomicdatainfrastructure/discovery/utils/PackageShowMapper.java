@@ -4,25 +4,36 @@
 
 package io.github.genomicdatainfrastructure.discovery.utils;
 
+import static java.util.Optional.*;
+import static java.util.function.Predicate.*;
+
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
-import io.github.genomicdatainfrastructure.discovery.model.*;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
+import io.github.genomicdatainfrastructure.discovery.model.ContactPoint;
+import io.github.genomicdatainfrastructure.discovery.model.DatasetDictionaryEntry;
+import io.github.genomicdatainfrastructure.discovery.model.DatasetRelationEntry;
+import io.github.genomicdatainfrastructure.discovery.model.RetrievedDataset;
+import io.github.genomicdatainfrastructure.discovery.model.RetrievedDistribution;
+import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanContactPoint;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanCreator;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetDictionaryEntry;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetRelationEntry;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanResource;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanTag;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanValueLabel;
 import lombok.experimental.UtilityClass;
-
-import static java.util.Optional.ofNullable;
-import static java.util.function.Predicate.not;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @UtilityClass
 public class PackageShowMapper {
 
     private final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
-            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
-    );
+            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 
     public RetrievedDataset from(CkanPackage ckanPackage) {
         var catalogue = ofNullable(ckanPackage.getOrganization())
@@ -38,8 +49,8 @@ public class PackageShowMapper {
                 .publisherName(ckanPackage.getPublisherName())
                 .catalogue(catalogue)
                 .organization(DatasetOrganizationMapper.from(ckanPackage.getOrganization()))
-                .createdAt(parse(ckanPackage.getMetadataCreated()))
-                .modifiedAt(parse(ckanPackage.getMetadataModified()))
+                .createdAt(offsetDateTimeParse(ckanPackage.getIssued()))
+                .modifiedAt(offsetDateTimeParse(ckanPackage.getModified()))
                 .url(ckanPackage.getUrl())
                 .languages(values(ckanPackage.getLanguage()))
                 .contact(value(ckanPackage.getContactUri()))
@@ -151,9 +162,9 @@ public class PackageShowMapper {
                 .build();
     }
 
-    private LocalDateTime parse(String date) {
+    private OffsetDateTime offsetDateTimeParse(String date) {
         return ofNullable(date)
-                .map(it -> LocalDateTime.parse(it, DATE_FORMATTER))
+                .map(it -> OffsetDateTime.parse(it))
                 .orElse(null);
     }
 
@@ -180,8 +191,6 @@ public class PackageShowMapper {
                 .description(ckanResource.getDescription())
                 .format(value(ckanResource.getFormat()))
                 .uri(ckanResource.getUri())
-                .createdAt(parse(ckanResource.getCreated()))
-                .modifiedAt(parse(ckanResource.getLastModified()))
                 .build();
     }
 

@@ -4,29 +4,32 @@
 
 package io.github.genomicdatainfrastructure.discovery.utils;
 
-import io.github.genomicdatainfrastructure.discovery.model.*;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
-import lombok.experimental.UtilityClass;
+import static java.util.Optional.*;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.lang3.ObjectUtils;
 
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;
-
-import static java.util.Optional.ofNullable;
+import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
+import io.github.genomicdatainfrastructure.discovery.model.Facet;
+import io.github.genomicdatainfrastructure.discovery.model.FacetGroup;
+import io.github.genomicdatainfrastructure.discovery.model.SearchedDataset;
+import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanFacet;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanValueLabel;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResponse;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResult;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class PackagesSearchResponseMapper {
 
     public static final String CKAN_FACET_GROUP = "ckan";
-
-    private final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
-            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
-    );
 
     public DatasetsSearchResponse from(PackagesSearchResponse response) {
         var count = count(response.getResult());
@@ -77,8 +80,7 @@ public class PackagesSearchResponseMapper {
                 .map(value -> ValueLabel.builder()
                         .value(value.getName())
                         .label(value.getDisplayName())
-                        .build()
-                )
+                        .build())
                 .toList();
 
         return Facet.builder()
@@ -112,14 +114,14 @@ public class PackagesSearchResponseMapper {
                 .themes(values(dataset.getTheme()))
                 .catalogue(catalogue)
                 .organization(DatasetOrganizationMapper.from(dataset.getOrganization()))
-                .modifiedAt(parse(dataset.getMetadataModified()))
-                .createdAt(parse(dataset.getMetadataCreated()))
+                .createdAt(parse(dataset.getIssued()))
+                .modifiedAt(parse(dataset.getModified()))
                 .build();
     }
 
-    private LocalDateTime parse(String date) {
+    private OffsetDateTime parse(String date) {
         return ofNullable(date)
-                .map(it -> LocalDateTime.parse(it, DATE_FORMATTER))
+                .map(OffsetDateTime::parse)
                 .orElse(null);
     }
 

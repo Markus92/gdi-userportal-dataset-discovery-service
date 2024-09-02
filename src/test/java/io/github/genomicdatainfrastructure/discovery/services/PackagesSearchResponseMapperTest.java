@@ -4,24 +4,29 @@
 
 package io.github.genomicdatainfrastructure.discovery.services;
 
-import static java.time.LocalDateTime.parse;
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.time.OffsetDateTime.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 import java.util.Map;
 
-import io.github.genomicdatainfrastructure.discovery.model.*;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
-import io.github.genomicdatainfrastructure.discovery.utils.PackagesSearchResponseMapper;
 import org.junit.jupiter.api.Test;
 
-import java.time.format.DateTimeFormatter;
+import io.github.genomicdatainfrastructure.discovery.model.DatasetOrganization;
+import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
+import io.github.genomicdatainfrastructure.discovery.model.Facet;
+import io.github.genomicdatainfrastructure.discovery.model.FacetGroup;
+import io.github.genomicdatainfrastructure.discovery.model.SearchedDataset;
+import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanFacet;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanValueLabel;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResponse;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResult;
+import io.github.genomicdatainfrastructure.discovery.utils.PackagesSearchResponseMapper;
 
 class PackagesSearchResponseMapperTest {
-
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
-            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
-    );
 
     @Test
     void accepts_null_result() {
@@ -30,8 +35,7 @@ class PackagesSearchResponseMapperTest {
                 .build();
 
         var actual = PackagesSearchResponseMapper.from(
-                packagesSearchResponse
-        );
+                packagesSearchResponse);
         var expected = DatasetsSearchResponse.builder()
                 .results(List.of())
                 .facetGroupCount(Map.of())
@@ -40,8 +44,7 @@ class PackagesSearchResponseMapperTest {
                                 .key("ckan")
                                 .label("DCAT-AP")
                                 .facets(List.of())
-                                .build()
-                ))
+                                .build()))
                 .build();
 
         assertThat(actual)
@@ -60,8 +63,7 @@ class PackagesSearchResponseMapperTest {
                 .build();
 
         var actual = PackagesSearchResponseMapper.from(
-                packagesSearchResponse
-        );
+                packagesSearchResponse);
         var expected = DatasetsSearchResponse.builder()
                 .results(List.of())
                 .facetGroupCount(Map.of())
@@ -70,8 +72,7 @@ class PackagesSearchResponseMapperTest {
                                 .key("ckan")
                                 .label("DCAT-AP")
                                 .facets(List.of())
-                                .build()
-                ))
+                                .build()))
                 .build();
 
         assertThat(actual)
@@ -89,8 +90,7 @@ class PackagesSearchResponseMapperTest {
                         .build())
                 .build();
         var actual = PackagesSearchResponseMapper.from(
-                packagesSearchResponse
-        );
+                packagesSearchResponse);
         var expected = DatasetsSearchResponse.builder()
                 .count(1)
                 .facetGroupCount(Map.of("ckan", 1))
@@ -100,8 +100,7 @@ class PackagesSearchResponseMapperTest {
                                 .key("ckan")
                                 .label("DCAT-AP")
                                 .facets(List.of())
-                                .build()
-                ))
+                                .build()))
                 .build();
 
         assertThat(actual)
@@ -119,8 +118,7 @@ class PackagesSearchResponseMapperTest {
                         .build())
                 .build();
         var actual = PackagesSearchResponseMapper.from(
-                packagesSearchResponse
-        );
+                packagesSearchResponse);
         var expected = DatasetsSearchResponse.builder()
                 .count(1)
                 .facetGroupCount(Map.of("ckan", 1))
@@ -130,8 +128,7 @@ class PackagesSearchResponseMapperTest {
                                 .key("ckan")
                                 .label("DCAT-AP")
                                 .facets(List.of())
-                                .build()
-                ))
+                                .build()))
                 .build();
 
         assertThat(actual)
@@ -151,8 +148,7 @@ class PackagesSearchResponseMapperTest {
                         .build())
                 .build();
         var actual = PackagesSearchResponseMapper.from(
-                packagesSearchResponse
-        );
+                packagesSearchResponse);
         var expected = DatasetsSearchResponse.builder()
                 .count(1)
                 .facetGroupCount(Map.of("ckan", 1))
@@ -166,8 +162,7 @@ class PackagesSearchResponseMapperTest {
                                         .label(null)
                                         .values(List.of())
                                         .build()))
-                                .build()
-                ))
+                                .build()))
                 .build();
 
         assertThat(actual)
@@ -187,8 +182,7 @@ class PackagesSearchResponseMapperTest {
                         .build())
                 .build();
         var actual = PackagesSearchResponseMapper.from(
-                packagesSearchResponse
-        );
+                packagesSearchResponse);
         var expected = DatasetsSearchResponse.builder()
                 .count(1)
                 .facetGroupCount(Map.of("ckan", 1))
@@ -202,8 +196,7 @@ class PackagesSearchResponseMapperTest {
                                         .label(null)
                                         .values(List.of())
                                         .build()))
-                                .build()
-                ))
+                                .build()))
                 .build();
 
         assertThat(actual)
@@ -223,8 +216,7 @@ class PackagesSearchResponseMapperTest {
                                                 CkanValueLabel.builder()
                                                         .name("value")
                                                         .displayName("label")
-                                                        .build()
-                                        ))
+                                                        .build()))
                                         .build()))
                         .count(1)
                         .results(List.of(
@@ -246,14 +238,13 @@ class PackagesSearchResponseMapperTest {
                                                         .name("theme")
                                                         .build()))
                                         .publisherName("publisherName")
-                                        .metadataModified("2024-03-19T13:37:05.472970")
-                                        .build()
-                        ))
+                                        .issued("2007-12-03T10:15:30+01:00")
+                                        .modified("2024-09-20T00:00:00+00:00")
+                                        .build()))
                         .build())
                 .build();
         var actual = PackagesSearchResponseMapper.from(
-                packagesSearchResponse
-        );
+                packagesSearchResponse);
         var expected = DatasetsSearchResponse.builder()
                 .count(1)
                 .facetGroupCount(Map.of("ckan", 1))
@@ -274,12 +265,11 @@ class PackagesSearchResponseMapperTest {
                                         ValueLabel.builder()
                                                 .value("theme")
                                                 .label("theme")
-                                                .build()
-                                ))
+                                                .build()))
                                 .catalogue("organization")
-                                .modifiedAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
-                                .build()
-                ))
+                                .createdAt(parse("2007-12-03T10:15:30+01:00"))
+                                .modifiedAt(parse("2024-09-20T00:00:00+00:00"))
+                                .build()))
                 .facetGroups(List.of(
                         FacetGroup.builder()
                                 .key("ckan")
@@ -291,11 +281,9 @@ class PackagesSearchResponseMapperTest {
                                                 ValueLabel.builder()
                                                         .value("value")
                                                         .label("label")
-                                                        .build()
-                                        ))
+                                                        .build()))
                                         .build()))
-                                .build()
-                ))
+                                .build()))
                 .build();
 
         assertThat(actual)
