@@ -46,7 +46,7 @@ public class BeaconFilteringTermsService {
 
     @CacheResult(cacheName = "beacon-facet-group-cache")
     public FacetGroup listFilteringTerms(String authorization) {
-        var filteringTermsResponse = retreiveNonNullFilteringTermsResponse(authorization);
+        var filteringTermsResponse = retrieveNonNullFilteringTermsResponse(authorization);
 
         var valuesGroupedByFacetId = groupValuesByFacetId(filteringTermsResponse);
 
@@ -61,7 +61,20 @@ public class BeaconFilteringTermsService {
                 .build();
     }
 
-    private BeaconFilteringTermsResponseContent retreiveNonNullFilteringTermsResponse(
+    @CacheResult(cacheName = "beacon-facets-cache")
+    public List<Facet> listFilteringTermList(String authorization) {
+        var filteringTermsResponse = retrieveNonNullFilteringTermsResponse(authorization);
+
+        var valuesGroupedByFacetId = groupValuesByFacetId(filteringTermsResponse);
+
+        var facetIdsMappedByName = mapFacetNamesByFacetId(filteringTermsResponse);
+
+        var facets = buildFacets(valuesGroupedByFacetId, facetIdsMappedByName);
+
+        return facets;
+    }
+
+    private BeaconFilteringTermsResponseContent retrieveNonNullFilteringTermsResponse(
             String authorization
     ) {
         var filteringTerms = beaconQueryApi.listFilteringTerms(authorization);
@@ -116,6 +129,7 @@ public class BeaconFilteringTermsService {
         return termsGroupedByType.entrySet().stream()
                 .filter(entry -> facetNamesMappedById.containsKey(entry.getKey()))
                 .map(entry -> Facet.builder()
+                        .facetGroup(BEACON_FACET_GROUP)
                         .key(entry.getKey())
                         .label(facetNamesMappedById.get(entry.getKey()))
                         .values(entry.getValue())

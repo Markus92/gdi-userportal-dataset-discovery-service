@@ -4,9 +4,9 @@
 
 package io.github.genomicdatainfrastructure.discovery.api;
 
+import io.github.genomicdatainfrastructure.discovery.datasets.application.usecases.SearchDatasetsQuery;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.services.RetrieveDatasetService;
-import io.github.genomicdatainfrastructure.discovery.services.SearchDatasetsService;
 import io.quarkus.oidc.runtime.OidcJwtCallerPrincipal;
 import io.quarkus.security.identity.SecurityIdentity;
 import jakarta.ws.rs.core.Response;
@@ -16,12 +16,12 @@ import lombok.RequiredArgsConstructor;
 public class DatasetQueryApiImpl implements DatasetQueryApi {
 
     private final SecurityIdentity identity;
-    private final SearchDatasetsService searchDatasetsService;
     private final RetrieveDatasetService retrievedDatasetService;
+    private final SearchDatasetsQuery searchDatasetsQuery;
 
     @Override
     public Response datasetSearch(DatasetSearchQuery datasetSearchQuery) {
-        var content = searchDatasetsService.search(datasetSearchQuery, accessToken());
+        var content = searchDatasetsQuery.execute(datasetSearchQuery, accessToken());
         return Response.ok(content).build();
     }
 
