@@ -12,28 +12,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
-import io.github.genomicdatainfrastructure.discovery.model.ContactPoint;
-import io.github.genomicdatainfrastructure.discovery.model.DatasetDictionaryEntry;
-import io.github.genomicdatainfrastructure.discovery.model.DatasetRelationEntry;
-import io.github.genomicdatainfrastructure.discovery.model.RetrievedDataset;
-import io.github.genomicdatainfrastructure.discovery.model.RetrievedDistribution;
-import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanContactPoint;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanCreator;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetDictionaryEntry;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetRelationEntry;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanResource;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanTag;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanValueLabel;
+import io.github.genomicdatainfrastructure.discovery.model.*;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class PackageShowMapper {
-
-    private final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
-            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 
     public RetrievedDataset from(CkanPackage ckanPackage) {
         var catalogue = ofNullable(ckanPackage.getOrganization())

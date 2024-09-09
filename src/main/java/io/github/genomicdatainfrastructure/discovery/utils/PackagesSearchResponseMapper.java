@@ -13,17 +13,8 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.ObjectUtils;
 
-import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
-import io.github.genomicdatainfrastructure.discovery.model.Facet;
-import io.github.genomicdatainfrastructure.discovery.model.FacetGroup;
-import io.github.genomicdatainfrastructure.discovery.model.SearchedDataset;
-import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanFacet;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanValueLabel;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResponse;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResult;
+import io.github.genomicdatainfrastructure.discovery.model.*;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
