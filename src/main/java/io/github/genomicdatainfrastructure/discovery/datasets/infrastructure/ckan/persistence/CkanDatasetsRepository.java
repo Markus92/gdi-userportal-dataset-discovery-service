@@ -7,10 +7,7 @@ package io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.ck
 import io.github.genomicdatainfrastructure.discovery.datasets.application.ports.DatasetsRepository;
 import io.github.genomicdatainfrastructure.discovery.model.*;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanValueLabel;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResult;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import io.github.genomicdatainfrastructure.discovery.utils.CkanFacetsQueryBuilder;
 import io.github.genomicdatainfrastructure.discovery.utils.DatasetOrganizationMapper;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -104,10 +101,26 @@ public class CkanDatasetsRepository implements DatasetsRepository {
                 .title(dataset.getTitle())
                 .description(dataset.getNotes())
                 .themes(values(dataset.getTheme()))
+                .keywords(keywords(dataset.getTags()))
                 .catalogue(catalogue)
                 .organization(DatasetOrganizationMapper.from(dataset.getOrganization()))
                 .modifiedAt(parse(dataset.getMetadataModified()))
                 .createdAt(parse(dataset.getMetadataCreated()))
+                .build();
+    }
+
+    private List<ValueLabel> keywords(List<CkanTag> tags) {
+        return ofNullable(tags)
+                .orElseGet(List::of)
+                .stream()
+                .map(this::keyword)
+                .toList();
+    }
+
+    private ValueLabel keyword(CkanTag ckanTag) {
+        return ValueLabel.builder()
+                .label(ckanTag.getDisplayName())
+                .value(ckanTag.getName())
                 .build();
     }
 
