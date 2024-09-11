@@ -104,6 +104,7 @@ public class CkanDatasetsRepository implements DatasetsRepository {
                 .title(dataset.getTitle())
                 .description(dataset.getNotes())
                 .themes(values(dataset.getTheme()))
+                .keywords(values(dataset.getTags()))
                 .catalogue(catalogue)
                 .organization(DatasetOrganizationMapper.from(dataset.getOrganization()))
                 .modifiedAt(parse(dataset.getMetadataModified()))
