@@ -241,6 +241,11 @@ components:
           items:
             $ref: "#/components/schemas/ValueLabel"
           title: Themes
+        keywords:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValueLabel"
+          title: Keywords
         catalogue:
           type: string
           title: Catalogue
