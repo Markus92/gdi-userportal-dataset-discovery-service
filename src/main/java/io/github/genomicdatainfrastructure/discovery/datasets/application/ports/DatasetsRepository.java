@@ -7,10 +7,12 @@ package io.github.genomicdatainfrastructure.discovery.datasets.application.ports
 import io.github.genomicdatainfrastructure.discovery.model.SearchedDataset;
 
 import java.util.List;
+import java.util.Set;
 
 public interface DatasetsRepository {
 
-    List<SearchedDataset> search(List<String> datasetIds,
+    List<SearchedDataset> search(
+            Set<String> datasetIds,
             String sort,
             Integer rows,
             Integer start,
