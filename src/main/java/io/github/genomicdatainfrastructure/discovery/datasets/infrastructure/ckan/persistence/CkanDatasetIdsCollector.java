@@ -8,6 +8,7 @@ import io.github.genomicdatainfrastructure.discovery.datasets.application.ports.
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackageSearchRequest;
 import io.github.genomicdatainfrastructure.discovery.utils.CkanFacetsQueryBuilder;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -34,14 +35,17 @@ public class CkanDatasetIdsCollector implements DatasetIdsCollector {
     public List<String> collect(DatasetSearchQuery query, String accessToken) {
         var facetsQuery = CkanFacetsQueryBuilder.buildFacetQuery(query);
 
-        var response = ckanQueryApi.packageSearch(
+        var request = new PackageSearchRequest(
                 query.getQuery(),
                 facetsQuery,
                 null,
                 CKAN_PAGINATION_MAX_SIZE,
                 0,
-                null,
-                accessToken
+                null);
+
+        var response = ckanQueryApi.packageSearch(
+                accessToken,
+                request
         );
 
         var datasetIds = response
