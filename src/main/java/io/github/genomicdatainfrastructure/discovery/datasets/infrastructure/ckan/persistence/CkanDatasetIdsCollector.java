@@ -14,7 +14,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.ckan.config.CkanConfiguration.CKAN_PAGINATION_MAX_SIZE;
@@ -32,7 +33,7 @@ public class CkanDatasetIdsCollector implements DatasetIdsCollector {
     }
 
     @Override
-    public List<String> collect(DatasetSearchQuery query, String accessToken) {
+    public Map<String, Integer> collect(DatasetSearchQuery query, String accessToken) {
         var facetsQuery = CkanFacetsQueryBuilder.buildFacetQuery(query);
 
         var request = new PackageSearchRequest(
@@ -48,15 +49,15 @@ public class CkanDatasetIdsCollector implements DatasetIdsCollector {
                 request
         );
 
-        var datasetIds = response
-                .getResult()
+        var datasetIdsByRecordCount = new HashMap<String, Integer>();
+
+        response.getResult()
                 .getResults()
                 .stream()
                 .map(CkanPackage::getIdentifier)
                 .filter(Objects::nonNull)
-                .toList();
+                .forEach(id -> datasetIdsByRecordCount.put(id, null));
 
-        return datasetIds;
-
+        return datasetIdsByRecordCount;
     }
 }

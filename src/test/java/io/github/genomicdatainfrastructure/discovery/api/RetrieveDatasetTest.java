@@ -61,7 +61,7 @@ class RetrieveDatasetTest extends BaseTest {
                 .body("title", equalTo("Not expected exception"))
                 .body("status", equalTo(500))
                 .body("detail", equalTo(
-                        "Received: 'Server Error, status code 500' when invoking: Rest Client method: 'io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi#packageShow'"
+                        "Received: 'Server Error, status code 500' when invoking REST Client method: 'io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi#packageShow'"
                 ));
     }
 
@@ -111,7 +111,7 @@ class RetrieveDatasetTest extends BaseTest {
                 .body("title", equalTo("Not expected exception"))
                 .body("status", equalTo(500))
                 .body("detail", equalTo(
-                        "Received: 'Server Error, status code 500' when invoking: Rest Client method: 'io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi#retrieveDatasetInFormat'"
+                        "Received: 'Server Error, status code 500' when invoking REST Client method: 'io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi#retrieveDatasetInFormat'"
                 ));
     }
 

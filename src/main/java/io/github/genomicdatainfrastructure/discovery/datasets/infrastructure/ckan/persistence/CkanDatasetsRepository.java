@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import static io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.ckan.config.CkanConfiguration.CKAN_FACET_GROUP;
 import static io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.ckan.config.CkanConfiguration.CKAN_IDENTIFIER_FIELD;
@@ -41,7 +42,8 @@ public class CkanDatasetsRepository implements DatasetsRepository {
     }
 
     @Override
-    public List<SearchedDataset> search(List<String> datasetIds,
+    public List<SearchedDataset> search(
+            Set<String> datasetIds,
             String sort,
             Integer rows,
             Integer start,
