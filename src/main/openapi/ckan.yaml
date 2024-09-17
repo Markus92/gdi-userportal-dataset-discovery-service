@@ -247,6 +247,10 @@ components:
           type: string
         organization:
           $ref: "#/components/schemas/CkanOrganization"
+        issued:
+          type: string
+        modified:
+          type: string
         metadata_created:
           type: string
         metadata_modified:
