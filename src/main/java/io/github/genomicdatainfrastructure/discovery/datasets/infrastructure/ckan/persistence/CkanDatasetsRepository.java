@@ -145,7 +145,6 @@ public class CkanDatasetsRepository implements DatasetsRepository {
                 .orElse(null);
     }
 
-
     private OffsetDateTime parse(String date) {
         return ofNullable(date)
                 .map(it -> OffsetDateTime.parse(it, DATE_FORMATTER))
