@@ -6,7 +6,6 @@ package io.github.genomicdatainfrastructure.discovery.datasets.application.useca
 
 import io.github.genomicdatainfrastructure.discovery.datasets.application.ports.DatasetIdsCollector;
 import io.github.genomicdatainfrastructure.discovery.datasets.application.ports.DatasetsRepository;
-import io.github.genomicdatainfrastructure.discovery.datasets.application.ports.RecordsCountCollector;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
 import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -14,10 +13,12 @@ import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
-import static java.util.Optional.ofNullable;
+import static java.lang.Math.min;
+import static java.util.Objects.nonNull;
 
 @ApplicationScoped
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
@@ -25,45 +26,58 @@ public class SearchDatasetsQuery {
 
     private final DatasetsRepository repository;
     private final Instance<DatasetIdsCollector> collectors;
-    private final RecordsCountCollector recordsCountCollector;
 
     public DatasetsSearchResponse execute(DatasetSearchQuery query, String accessToken) {
-        var datasetIds = collectors
+        var datasetIdsByRecordCount = collectors
                 .stream()
                 .map(collector -> collector.collect(query, accessToken))
                 .filter(Objects::nonNull)
                 .reduce(this::findIdsIntersection)
-                .orElse(List.of());
+                .orElseGet(Map::of);
 
-        var datasets = repository.search(datasetIds,
+        var datasets = repository.search(datasetIdsByRecordCount.keySet(),
                 query.getSort(),
                 query.getRows(),
                 query.getStart(),
                 accessToken);
 
-        var potentialRecordsCounts = ofNullable(recordsCountCollector.collectRecordsCount(query,
-                accessToken));
-
         var enhancedDatasets = datasets
                 .stream()
                 .map(dataset -> dataset
                         .toBuilder()
-                        .recordsCount(potentialRecordsCounts
-                                .map(recordsCounts -> recordsCounts.get(dataset.getIdentifier()))
-                                .orElse(null))
+                        .recordsCount(datasetIdsByRecordCount.get(dataset.getIdentifier()))
                         .build())
                 .toList();
 
         return DatasetsSearchResponse
                 .builder()
-                .count(datasetIds.size())
+                .count(datasetIdsByRecordCount.size())
                 .results(enhancedDatasets)
                 .build();
     }
 
-    private List<String> findIdsIntersection(List<String> a, List<String> b) {
-        return a.stream()
-                .filter(b::contains)
-                .toList();
+    private Map<String, Integer> findIdsIntersection(
+            Map<String, Integer> a,
+            Map<String, Integer> b
+    ) {
+        var newMap = new HashMap<String, Integer>();
+        for (var entryA : a.entrySet()) {
+
+            if (b.containsKey(entryA.getKey())) {
+                var recordCountA = entryA.getValue();
+                var recordCountB = b.get(entryA.getKey());
+
+                var newRecordCount = recordCountA;
+                if (nonNull(recordCountA) && nonNull(recordCountB)) {
+                    newRecordCount = min(recordCountA, recordCountB);
+                } else if (nonNull(recordCountB)) {
+                    newRecordCount = recordCountB;
+                }
+
+                newMap.put(entryA.getKey(), newRecordCount);
+            }
+        }
+
+        return newMap;
     }
 }
