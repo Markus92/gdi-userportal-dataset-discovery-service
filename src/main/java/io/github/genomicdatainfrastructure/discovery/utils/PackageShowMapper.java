@@ -7,7 +7,7 @@ package io.github.genomicdatainfrastructure.discovery.utils;
 import static java.util.Optional.*;
 import static java.util.function.Predicate.*;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
@@ -18,6 +18,10 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class PackageShowMapper {
+
+    private final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
+            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+    );
 
     public RetrievedDataset from(CkanPackage ckanPackage) {
         var catalogue = ofNullable(ckanPackage.getOrganization())
@@ -33,8 +37,8 @@ public class PackageShowMapper {
                 .publisherName(ckanPackage.getPublisherName())
                 .catalogue(catalogue)
                 .organization(DatasetOrganizationMapper.from(ckanPackage.getOrganization()))
-                .createdAt(offsetDateTimeParse(ckanPackage.getIssued()))
-                .modifiedAt(offsetDateTimeParse(ckanPackage.getModified()))
+                .createdAt(parse(ckanPackage.getMetadataCreated()))
+                .modifiedAt(parse(ckanPackage.getMetadataModified()))
                 .url(ckanPackage.getUrl())
                 .languages(values(ckanPackage.getLanguage()))
                 .contact(value(ckanPackage.getContactUri()))
@@ -146,9 +150,9 @@ public class PackageShowMapper {
                 .build();
     }
 
-    private OffsetDateTime offsetDateTimeParse(String date) {
+    private LocalDateTime parse(String date) {
         return ofNullable(date)
-                .map(it -> OffsetDateTime.parse(it))
+                .map(it -> LocalDateTime.parse(it, DATE_FORMATTER))
                 .orElse(null);
     }
 
@@ -175,6 +179,8 @@ public class PackageShowMapper {
                 .description(ckanResource.getDescription())
                 .format(value(ckanResource.getFormat()))
                 .uri(ckanResource.getUri())
+                .createdAt(parse(ckanResource.getCreated()))
+                .modifiedAt(parse(ckanResource.getLastModified()))
                 .build();
     }
 
