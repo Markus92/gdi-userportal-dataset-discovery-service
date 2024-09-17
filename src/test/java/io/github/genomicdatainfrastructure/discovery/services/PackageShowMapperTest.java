@@ -4,30 +4,19 @@
 
 package io.github.genomicdatainfrastructure.discovery.services;
 
-import io.github.genomicdatainfrastructure.discovery.model.*;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanContactPoint;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanCreator;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetDictionaryEntry;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetRelationEntry;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanResource;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanTag;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanValueLabel;
-import io.github.genomicdatainfrastructure.discovery.utils.PackageShowMapper;
-import org.junit.jupiter.api.Test;
+import static java.time.OffsetDateTime.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static java.time.LocalDateTime.parse;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+
+import io.github.genomicdatainfrastructure.discovery.model.*;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
+import io.github.genomicdatainfrastructure.discovery.utils.PackageShowMapper;
 
 class PackageShowMapperTest {
-
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
-            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
-    );
 
     @Test
     void accepts_empty_package() {
@@ -69,8 +58,10 @@ class PackageShowMapperTest {
                         .description("description")
                         .imageUrl("https://image.com")
                         .build())
-                .metadataCreated("2024-03-19T13:37:05.472970")
-                .metadataModified("2024-03-19T13:37:05.472970")
+                .issued("2024-07-01T22:00:00+00:00")
+                .modified("2024-07-02T22:00:00+00:00")
+                .metadataCreated("2024-03-19T13:37:05Z")
+                .metadataModified("2024-03-19T13:37:05Z")
                 .tags(List.of(CkanTag.builder()
                         .displayName("key-tag")
                         .id("tag-id")
@@ -114,8 +105,7 @@ class PackageShowMapperTest {
                                 .uri("uri")
                                 .created("2024-03-19T13:37:05.472970")
                                 .lastModified("2024-03-19T13:37:05.472970")
-                                .build()
-                ))
+                                .build()))
                 .contactPoint(List.of(
                         CkanContactPoint.builder()
                                 .contactName("Contact 1")
@@ -125,26 +115,22 @@ class PackageShowMapperTest {
                                 .contactName("Contact 2")
                                 .contactEmail("contact2@example.com")
                                 .contactUri("http://example.com")
-                                .build()
-                ))
+                                .build()))
                 .creator(List.of(
                         CkanCreator.builder()
                                 .creatorName("creatorName")
                                 .creatorIdentifier("creatorIdentifier")
-                                .build()
-                ))
+                                .build()))
                 .datasetRelationships(List.of(
                         CkanDatasetRelationEntry.builder().target("Dataset 1").relation(
                                 "Relation 1").build(),
                         CkanDatasetRelationEntry.builder().target("Dataset 2").relation(
-                                "Relation 2").build()
-                ))
+                                "Relation 2").build()))
                 .dataDictionary(List.of(
                         CkanDatasetDictionaryEntry.builder().name("Entry 1").type("Type 1")
                                 .description("Description 1").build(),
                         CkanDatasetDictionaryEntry.builder().name("Entry 2").type("Type 2")
-                                .description("Description 2").build()
-                ))
+                                .description("Description 2").build()))
                 .build();
 
         var actual = PackageShowMapper.from(ckanPackage);
@@ -157,19 +143,17 @@ class PackageShowMapperTest {
                         ValueLabel.builder()
                                 .value("theme-name")
                                 .label("theme")
-                                .build()
-                ))
+                                .build()))
                 .publisherName("publisherName")
                 .catalogue("organization")
-                .createdAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
-                .modifiedAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
+                .createdAt(parse("2024-07-01T22:00:00+00:00"))
+                .modifiedAt(parse("2024-07-02T22:00:00+00:00"))
                 .url("url")
                 .languages(List.of(
                         ValueLabel.builder()
                                 .value("en")
                                 .label("language")
-                                .build()
-                ))
+                                .build()))
                 .contact(ValueLabel.builder()
                         .value("contactUri")
                         .label("contactUri")
@@ -178,14 +162,12 @@ class PackageShowMapperTest {
                         ValueLabel.builder()
                                 .value("1")
                                 .label("version")
-                                .build()
-                ))
+                                .build()))
                 .creators(List.of(
                         ValueLabel.builder()
                                 .label("creatorName")
                                 .value("creatorIdentifier")
-                                .build()
-                ))
+                                .build()))
                 .accessRights(ValueLabel.builder()
                         .value("public")
                         .label("accessRights")
@@ -194,8 +176,7 @@ class PackageShowMapperTest {
                         ValueLabel.builder()
                                 .value("conforms")
                                 .label("conformsTo")
-                                .build()
-                ))
+                                .build()))
                 .organization(DatasetOrganization
                         .builder()
                         .title("organization")
@@ -221,10 +202,7 @@ class PackageShowMapperTest {
                                         .label("format")
                                         .build())
                                 .uri("uri")
-                                .createdAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
-                                .modifiedAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
-                                .build()
-                ))
+                                .build()))
                 .contacts(List.of(
                         ContactPoint.builder()
                                 .name("Contact 1")
@@ -234,20 +212,23 @@ class PackageShowMapperTest {
                                 .name("Contact 2")
                                 .email("contact2@example.com")
                                 .uri("http://example.com")
-                                .build()
-                ))
+                                .build()))
                 .datasetRelationships(List.of(
-                        DatasetRelationEntry.builder().relation("Relation 1").target("Dataset 1")
+                        DatasetRelationEntry.builder().relation("Relation 1")
+                                .target("Dataset 1")
                                 .build(),
-                        DatasetRelationEntry.builder().relation("Relation 2").target("Dataset 2")
-                                .build()
-                ))
+                        DatasetRelationEntry.builder().relation("Relation 2")
+                                .target("Dataset 2")
+                                .build()))
                 .dataDictionary(List.of(
-                        DatasetDictionaryEntry.builder().name("Entry 1").type("Type 1").description(
-                                "Description 1").build(),
-                        DatasetDictionaryEntry.builder().name("Entry 2").type("Type 2").description(
-                                "Description 2").build()
-                ))
+                        DatasetDictionaryEntry.builder().name("Entry 1").type("Type 1")
+                                .description(
+                                        "Description 1")
+                                .build(),
+                        DatasetDictionaryEntry.builder().name("Entry 2").type("Type 2")
+                                .description(
+                                        "Description 2")
+                                .build()))
                 .build();
 
         assertThat(actual)
