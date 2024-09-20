@@ -5,7 +5,7 @@
         "urlPattern": "/api/3/action/enhanced_package_search",
         "bodyPatterns": [
             {
-                "matchesJsonPath": "$.facet.field",
+                "matchesJsonPath": "$.['facet.field']",
                 "matches": "*"
             }
         ]
