@@ -15,7 +15,7 @@ import jakarta.inject.Inject;
 import org.apache.commons.lang3.ObjectUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
@@ -148,9 +148,9 @@ public class CkanDatasetsRepository implements DatasetsRepository {
                 .orElse(null);
     }
 
-    private OffsetDateTime parse(String date) {
+    private LocalDateTime parse(String date) {
         return ofNullable(date)
-                .map(it -> OffsetDateTime.parse(it, DATE_FORMATTER))
+                .map(it -> LocalDateTime.parse(it, DATE_FORMATTER))
                 .orElse(null);
     }
 

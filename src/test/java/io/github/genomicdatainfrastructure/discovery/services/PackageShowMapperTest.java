@@ -4,7 +4,7 @@
 
 package io.github.genomicdatainfrastructure.discovery.services;
 
-import static java.time.OffsetDateTime.*;
+import static java.time.LocalDateTime.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.time.format.DateTimeFormatter;
@@ -17,6 +17,10 @@ import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import io.github.genomicdatainfrastructure.discovery.utils.PackageShowMapper;
 
 class PackageShowMapperTest {
+
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
+            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+    );
 
     @Test
     void accepts_empty_package() {
@@ -58,10 +62,10 @@ class PackageShowMapperTest {
                         .description("description")
                         .imageUrl("https://image.com")
                         .build())
-                .issued("2024-07-01T22:00:00+00:00")
-                .modified("2024-07-02T22:00:00+00:00")
-                .metadataCreated("2024-03-19T13:37:05Z")
-                .metadataModified("2024-03-19T13:37:05Z")
+                .issued("2024-03-19T13:37:05Z")
+                .modified("2024-03-19T13:37:05Z")
+                .metadataCreated("2024-03-19T13:37:05.472970")
+                .metadataModified("2024-03-19T13:37:05.472970")
                 .tags(List.of(CkanTag.builder()
                         .displayName("key-tag")
                         .id("tag-id")
@@ -146,8 +150,8 @@ class PackageShowMapperTest {
                                 .build()))
                 .publisherName("publisherName")
                 .catalogue("organization")
-                .createdAt(parse("2024-07-01T22:00:00+00:00"))
-                .modifiedAt(parse("2024-07-02T22:00:00+00:00"))
+                .createdAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
+                .modifiedAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
                 .url("url")
                 .languages(List.of(
                         ValueLabel.builder()
@@ -202,6 +206,8 @@ class PackageShowMapperTest {
                                         .label("format")
                                         .build())
                                 .uri("uri")
+                                .createdAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
+                                .modifiedAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
                                 .build()))
                 .contacts(List.of(
                         ContactPoint.builder()
