@@ -1,8 +1,14 @@
 {
     "priority": 1,
     "request": {
-        "method": "GET",
-        "urlPattern": "\/api\/3\/action\/package_search.*27866022694497975.*"
+        "method": "POST",
+        "urlPattern": "/api/3/action/enhanced_package_search",
+        "bodyPatterns": [
+            {
+                "matchesJsonPath": "$.identifier",
+                "matches": "27866022694497975"
+            }
+        ]
     },
     "response": {
         "status": 200,

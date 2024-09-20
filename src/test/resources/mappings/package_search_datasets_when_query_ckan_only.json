@@ -1,8 +1,14 @@
 {
     "priority": 3,
     "request": {
-        "method": "GET",
-        "urlPattern": "/api/3/action/enhanced_package_search.*fq=identifier.*"
+        "method": "POST",
+        "urlPattern": "/api/3/action/enhanced_package_search",
+        "bodyPatterns": [
+            {
+                "matchesJsonPath": "$.fq",
+                "matches": "identifier*"
+            }
+        ]
     },
     "response": {
         "status": 200,

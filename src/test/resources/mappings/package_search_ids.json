@@ -1,8 +1,18 @@
 {
     "priority": 3,
     "request": {
-        "method": "GET",
-        "urlPattern": "/api/3/action/enhanced_package_search.*q=.*&rows=.*"
+        "method": "POST",
+        "urlPattern": "/api/3/action/enhanced_package_search",
+        "bodyPatterns": [
+            {
+                "matchesJsonPath": "$.q",
+                "matches": "*"
+            },
+            {
+                "matchesJsonPath": "$.rows",
+                "matches": "*"
+            }
+        ]
     },
     "response": {
         "status": 200,
