@@ -1,8 +1,13 @@
 {
-    "priority": 3,
+    "priority": 1,
     "request": {
-        "method": "GET",
-        "urlPattern": "/api/3/action/enhanced_package_search.*fq=identifier:27866022694497975.*"
+        "method": "POST",
+        "urlPattern": "/api/3/action/enhanced_package_search",
+        "bodyPatterns": [
+            {
+                "matchesJsonPath": "fq[?(@ =='identifier:(27866022694497975)')]"
+            }
+        ]
     },
     "response": {
         "status": 200,

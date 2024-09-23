@@ -14,12 +14,9 @@ import io.quarkus.test.junit.QuarkusTest;
 
 import org.junit.jupiter.api.Test;
 import java.util.List;
-import com.github.tomakehurst.wiremock.client.WireMock;
 
 @QuarkusTest
 class DatasetSearchTest extends BaseTest {
-
-    WireMock wireMock;
 
     @Test
     void can_anonymously_search_datasets() {
@@ -106,5 +103,4 @@ class DatasetSearchTest extends BaseTest {
                 .statusCode(200)
                 .body("count", equalTo(0));
     }
-
 }

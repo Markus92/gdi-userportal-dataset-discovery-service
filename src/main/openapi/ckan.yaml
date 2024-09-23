@@ -11,61 +11,23 @@ servers:
   - url: /
 paths:
   /api/3/action/enhanced_package_search:
-    get:
+    post:
       summary: Searches for packages based on criteria
       operationId: package_search
       tags:
         - "ckan-query"
       parameters:
-        - name: q
-          in: query
-          description: Solr search query
-          required: false
-          schema:
-            type: string
-            default: "*:*"
-        - name: fq
-          in: query
-          description: Filter query to apply
-          required: false
-          schema:
-            type: string
-        - name: sort
-          in: query
-          description: Sorting of search results
-          required: false
-          schema:
-            type: string
-            default: "score desc, metadata_modified desc"
-        - name: rows
-          in: query
-          description: Max number of rows to return
-          required: false
-          schema:
-            type: integer
-            default: 10
-            minimum: 0
-            maximum: 1000
-        - name: start
-          in: query
-          description: Offset in the complete result set
-          required: false
-          schema:
-            type: integer
-            default: 0
-            minimum: 0
-        - name: facet.field
-          in: query
-          description: Which facets to include in the response
-          required: false
-          schema:
-            type: string
         - name: Authorization
           in: header
           description: The authorization header
           required: false
           schema:
             type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PackageSearchRequest"
       responses:
         "200":
           description: A list of packages matching the search criteria
@@ -183,6 +145,34 @@ paths:
                 $ref: "#/components/schemas/CkanErrorResponse"
 components:
   schemas:
+    PackageSearchRequest:
+      type: object
+      properties:
+        q:
+          type: string
+          description: Solr search query
+          default: "*:*"
+        fq:
+          type: string
+          description: Filter query to apply
+        sort:
+          type: string
+          description: Sorting of search results
+          default: "score desc, metadata_modified desc"
+        rows:
+          type: integer
+          description: Max number of rows to return
+          default: 10
+          minimum: 0
+          maximum: 1000
+        start:
+          type: integer
+          description: Offset in the complete result set
+          default: 0
+          minimum: 0
+        facet.field:
+          type: string
+          description: Which facets to include in the response
     PackagesSearchResponse:
       type: object
       properties:

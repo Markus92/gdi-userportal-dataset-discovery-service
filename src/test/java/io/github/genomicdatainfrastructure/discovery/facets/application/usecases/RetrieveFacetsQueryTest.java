@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package io.github.genomicdatainfrastructure.discovery.facets;
+package io.github.genomicdatainfrastructure.discovery.facets.application.usecases;
 
 import io.github.genomicdatainfrastructure.discovery.facets.application.RetrieveFacetsQuery;
 import io.github.genomicdatainfrastructure.discovery.facets.ports.FacetsBuilder;
@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class RetrieveFacetsQueryTest {
+class RetrieveFacetsQueryTest {
 
     @Mock
     private Instance<FacetsBuilder> facetBuilders;
@@ -43,7 +43,7 @@ public class RetrieveFacetsQueryTest {
     }
 
     @Test
-    public void shouldRetrieveAllFacets() {
+    void shouldRetrieveAllFacets() {
         var mockCkanFacets = List.of(
                 Facet.builder()
                         .key("tags")
@@ -90,7 +90,7 @@ public class RetrieveFacetsQueryTest {
     }
 
     @Test
-    public void shouldRetrieveFacetsFromOneSourceWhenTheOtherIsNull() {
+    void shouldRetrieveFacetsFromOneSourceWhenTheOtherIsNull() {
         var mockCkanFacets = List.of(
                 Facet.builder()
                         .key("tags")

@@ -9,6 +9,7 @@ import io.github.genomicdatainfrastructure.discovery.model.Facet;
 import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.api.CkanQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanFacet;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackageSearchRequest;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.PackagesSearchResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -37,14 +38,17 @@ public class CkanFacetsBuilder implements FacetsBuilder {
 
     @Override
     public List<Facet> build(String accessToken) {
+        var request = new PackageSearchRequest(
+                null,
+                null,
+                null,
+                0,
+                0,
+                selectedFacets);
+
         var response = ckanQueryApi.packageSearch(
-                null,
-                null,
-                null,
-                0,
-                0,
-                selectedFacets,
-                accessToken
+                accessToken,
+                request
         );
 
         var nonNullSearchFacets = ofNullable(response.getResult())

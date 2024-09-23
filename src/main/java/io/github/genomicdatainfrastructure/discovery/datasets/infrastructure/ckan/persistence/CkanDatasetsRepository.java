@@ -68,14 +68,17 @@ public class CkanDatasetsRepository implements DatasetsRepository {
                 .facets(facets)
                 .build());
 
-        var response = ckanQueryApi.packageSearch(
+        var request = new PackageSearchRequest(
                 null,
                 facetsQuery,
                 sort,
                 rows,
                 start,
-                null,
-                accessToken
+                null);
+
+        var response = ckanQueryApi.packageSearch(
+                accessToken,
+                request
         );
 
         return results(response.getResult());
