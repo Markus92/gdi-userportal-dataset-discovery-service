@@ -4,14 +4,9 @@
 
 package io.github.genomicdatainfrastructure.discovery.api;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.tomakehurst.wiremock.client.WireMock;
 import io.github.genomicdatainfrastructure.discovery.BaseTest;
-import io.github.genomicdatainfrastructure.discovery.model.DatasetSearchQuery;
-import io.github.genomicdatainfrastructure.discovery.model.DatasetsSearchResponse;
 import io.github.genomicdatainfrastructure.discovery.model.Facet;
-import io.github.genomicdatainfrastructure.discovery.model.FacetGroup;
 import io.quarkus.test.junit.QuarkusTest;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;

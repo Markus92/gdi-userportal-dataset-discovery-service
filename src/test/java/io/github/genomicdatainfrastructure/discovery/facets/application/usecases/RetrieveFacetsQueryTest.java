@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class RetrieveFacetsQueryTest {
+class RetrieveFacetsQueryTest {
 
     @Mock
     private Instance<FacetsBuilder> facetBuilders;
@@ -43,7 +43,7 @@ public class RetrieveFacetsQueryTest {
     }
 
     @Test
-    public void shouldRetrieveAllFacets() {
+    void shouldRetrieveAllFacets() {
         var mockCkanFacets = List.of(
                 Facet.builder()
                         .key("tags")
@@ -90,7 +90,7 @@ public class RetrieveFacetsQueryTest {
     }
 
     @Test
-    public void shouldRetrieveFacetsFromOneSourceWhenTheOtherIsNull() {
+    void shouldRetrieveFacetsFromOneSourceWhenTheOtherIsNull() {
         var mockCkanFacets = List.of(
                 Facet.builder()
                         .key("tags")
