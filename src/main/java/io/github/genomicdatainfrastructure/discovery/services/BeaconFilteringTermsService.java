@@ -14,7 +14,6 @@ import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import io.github.genomicdatainfrastructure.discovery.model.Facet;
-import io.github.genomicdatainfrastructure.discovery.model.FacetGroup;
 import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.api.BeaconQueryApi;
 import io.github.genomicdatainfrastructure.discovery.remote.beacon.model.BeaconFilteringTerm;
@@ -44,23 +43,6 @@ public class BeaconFilteringTermsService {
         this.beaconQueryApi = beaconQueryApi;
     }
 
-    @CacheResult(cacheName = "beacon-facet-group-cache")
-    public FacetGroup listFilteringTerms(String authorization) {
-        var filteringTermsResponse = retrieveNonNullFilteringTermsResponse(authorization);
-
-        var valuesGroupedByFacetId = groupValuesByFacetId(filteringTermsResponse);
-
-        var facetIdsMappedByName = mapFacetNamesByFacetId(filteringTermsResponse);
-
-        var facets = buildFacets(valuesGroupedByFacetId, facetIdsMappedByName);
-
-        return FacetGroup.builder()
-                .key(BEACON_FACET_GROUP)
-                .label("Beacon")
-                .facets(facets)
-                .build();
-    }
-
     @CacheResult(cacheName = "beacon-facets-cache")
     public List<Facet> listFilteringTermList(String authorization) {
         var filteringTermsResponse = retrieveNonNullFilteringTermsResponse(authorization);
@@ -69,9 +51,7 @@ public class BeaconFilteringTermsService {
 
         var facetIdsMappedByName = mapFacetNamesByFacetId(filteringTermsResponse);
 
-        var facets = buildFacets(valuesGroupedByFacetId, facetIdsMappedByName);
-
-        return facets;
+        return buildFacets(valuesGroupedByFacetId, facetIdsMappedByName);
     }
 
     private BeaconFilteringTermsResponseContent retrieveNonNullFilteringTermsResponse(
