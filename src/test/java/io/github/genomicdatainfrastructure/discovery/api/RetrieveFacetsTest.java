@@ -26,8 +26,6 @@ import static org.hamcrest.Matchers.*;
 @QuarkusTest
 public class RetrieveFacetsTest extends BaseTest {
 
-    WireMock wireMock;
-
     @Test
     void retrieve_ckan_facets_when_not_authenticated() {
         given()
