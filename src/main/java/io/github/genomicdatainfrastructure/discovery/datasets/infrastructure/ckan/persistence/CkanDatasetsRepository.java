@@ -109,8 +109,8 @@ public class CkanDatasetsRepository implements DatasetsRepository {
                 .keywords(keywords(dataset.getTags()))
                 .catalogue(catalogue)
                 .organization(DatasetOrganizationMapper.from(dataset.getOrganization()))
-                .modifiedAt(parse(dataset.getMetadataModified()))
-                .createdAt(parse(dataset.getMetadataCreated()))
+                .modifiedAt(parse(dataset.getModified()))
+                .createdAt(parse(dataset.getIssued()))
                 .distributions(distributions(dataset.getResources()))
                 .build();
     }
