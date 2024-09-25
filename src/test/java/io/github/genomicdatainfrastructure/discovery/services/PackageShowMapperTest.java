@@ -4,10 +4,9 @@
 
 package io.github.genomicdatainfrastructure.discovery.services;
 
-import static java.time.LocalDateTime.*;
+import static java.time.OffsetDateTime.*;
 import static org.assertj.core.api.Assertions.*;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -17,10 +16,6 @@ import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import io.github.genomicdatainfrastructure.discovery.utils.PackageShowMapper;
 
 class PackageShowMapperTest {
-
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
-            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
-    );
 
     @Test
     void accepts_empty_package() {
@@ -62,10 +57,8 @@ class PackageShowMapperTest {
                         .description("description")
                         .imageUrl("https://image.com")
                         .build())
-                .issued("2024-03-19T13:37:05Z")
-                .modified("2024-03-19T13:37:05Z")
-                .metadataCreated("2024-03-19T13:37:05.472970")
-                .metadataModified("2024-03-19T13:37:05.472970")
+                .issued("2024-07-01T22:00:00+00:00")
+                .modified("2024-07-02T22:00:00Z")
                 .tags(List.of(CkanTag.builder()
                         .displayName("key-tag")
                         .id("tag-id")
@@ -107,8 +100,8 @@ class PackageShowMapperTest {
                                         .name("pdf")
                                         .build())
                                 .uri("uri")
-                                .created("2024-03-19T13:37:05.472970")
-                                .lastModified("2024-03-19T13:37:05.472970")
+                                .created("2025-03-19T13:37:05.472970")
+                                .lastModified("2025-03-19T13:37:05Z")
                                 .build()))
                 .contactPoint(List.of(
                         CkanContactPoint.builder()
@@ -150,8 +143,8 @@ class PackageShowMapperTest {
                                 .build()))
                 .publisherName("publisherName")
                 .catalogue("organization")
-                .createdAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
-                .modifiedAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
+                .createdAt(parse("2024-07-01T22:00:00+00:00"))
+                .modifiedAt(parse("2024-07-02T22:00:00+00:00"))
                 .url("url")
                 .languages(List.of(
                         ValueLabel.builder()
@@ -201,13 +194,13 @@ class PackageShowMapperTest {
                                 .id("resource_id")
                                 .title("resource_name")
                                 .description("resource_description")
+                                .createdAt(parse("2025-03-19T13:37:05Z"))
+                                .modifiedAt(parse("2025-03-19T13:37:05Z"))
                                 .format(ValueLabel.builder()
                                         .value("pdf")
                                         .label("format")
                                         .build())
                                 .uri("uri")
-                                .createdAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
-                                .modifiedAt(parse("2024-03-19T13:37:05.472970", DATE_FORMATTER))
                                 .build()))
                 .contacts(List.of(
                         ContactPoint.builder()

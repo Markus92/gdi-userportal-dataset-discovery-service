@@ -16,7 +16,11 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -25,6 +29,8 @@ import static io.github.genomicdatainfrastructure.discovery.datasets.infrastruct
 import static io.github.genomicdatainfrastructure.discovery.datasets.infrastructure.ckan.config.CkanConfiguration.CKAN_IDENTIFIER_FIELD;
 import static java.util.Optional.ofNullable;
 
+// TODO review original field and date format on resources
+// TODO remove retrieved distributions from API
 @ApplicationScoped
 public class CkanDatasetsRepository implements DatasetsRepository {
 
@@ -109,8 +115,8 @@ public class CkanDatasetsRepository implements DatasetsRepository {
                 .keywords(keywords(dataset.getTags()))
                 .catalogue(catalogue)
                 .organization(DatasetOrganizationMapper.from(dataset.getOrganization()))
-                .modifiedAt(parse(dataset.getMetadataModified()))
-                .createdAt(parse(dataset.getMetadataCreated()))
+                .modifiedAt(parse(dataset.getModified()))
+                .createdAt(parse(dataset.getIssued()))
                 .distributions(distributions(dataset.getResources()))
                 .build();
     }
@@ -148,10 +154,18 @@ public class CkanDatasetsRepository implements DatasetsRepository {
                 .orElse(null);
     }
 
-    private LocalDateTime parse(String date) {
-        return ofNullable(date)
-                .map(it -> LocalDateTime.parse(it, DATE_FORMATTER))
-                .orElse(null);
+    private OffsetDateTime parse(String date) {
+        if (date == null) {
+            return null;
+        }
+
+        try {
+            return OffsetDateTime.parse(date);
+        } catch (DateTimeParseException e) {
+            return LocalDateTime.parse(date, DATE_FORMATTER)
+                    .truncatedTo(ChronoUnit.SECONDS)
+                    .atOffset(ZoneOffset.UTC);
+        }
     }
 
     private List<RetrievedDistribution> distributions(List<CkanResource> resources) {
