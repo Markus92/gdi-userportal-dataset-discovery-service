@@ -7,8 +7,12 @@ package io.github.genomicdatainfrastructure.discovery.utils;
 import static java.util.Optional.*;
 import static java.util.function.Predicate.*;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,8 +20,14 @@ import io.github.genomicdatainfrastructure.discovery.model.*;
 import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import lombok.experimental.UtilityClass;
 
+// TODO review original field and date format on resources
+// TODO Remove duplicated code
 @UtilityClass
 public class PackageShowMapper {
+
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
+            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+    );
 
     public RetrievedDataset from(CkanPackage ckanPackage) {
         var catalogue = ofNullable(ckanPackage.getOrganization())
@@ -33,8 +43,8 @@ public class PackageShowMapper {
                 .publisherName(ckanPackage.getPublisherName())
                 .catalogue(catalogue)
                 .organization(DatasetOrganizationMapper.from(ckanPackage.getOrganization()))
-                .createdAt(offsetDateTimeParse(ckanPackage.getIssued()))
-                .modifiedAt(offsetDateTimeParse(ckanPackage.getModified()))
+                .createdAt(parse(ckanPackage.getIssued()))
+                .modifiedAt(parse(ckanPackage.getModified()))
                 .url(ckanPackage.getUrl())
                 .languages(values(ckanPackage.getLanguage()))
                 .contact(value(ckanPackage.getContactUri()))
@@ -146,10 +156,18 @@ public class PackageShowMapper {
                 .build();
     }
 
-    private OffsetDateTime offsetDateTimeParse(String date) {
-        return ofNullable(date)
-                .map(it -> OffsetDateTime.parse(it))
-                .orElse(null);
+    private OffsetDateTime parse(String date) {
+        if (date == null) {
+            return null;
+        }
+
+        try {
+            return OffsetDateTime.parse(date);
+        } catch (DateTimeParseException e) {
+            return LocalDateTime.parse(date, DATE_FORMATTER)
+                    .truncatedTo(ChronoUnit.SECONDS)
+                    .atOffset(ZoneOffset.UTC);
+        }
     }
 
     private List<RetrievedDistribution> distributions(CkanPackage ckanPackage) {
@@ -175,6 +193,8 @@ public class PackageShowMapper {
                 .description(ckanResource.getDescription())
                 .format(value(ckanResource.getFormat()))
                 .uri(ckanResource.getUri())
+                .createdAt(parse(ckanResource.getCreated()))
+                .modifiedAt(parse(ckanResource.getLastModified()))
                 .build();
     }
 
