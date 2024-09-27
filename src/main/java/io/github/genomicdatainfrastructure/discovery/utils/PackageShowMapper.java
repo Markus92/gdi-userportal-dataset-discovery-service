@@ -16,22 +16,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
 
-import io.github.genomicdatainfrastructure.discovery.model.Agent;
-import io.github.genomicdatainfrastructure.discovery.model.ContactPoint;
-import io.github.genomicdatainfrastructure.discovery.model.DatasetDictionaryEntry;
-import io.github.genomicdatainfrastructure.discovery.model.DatasetRelationEntry;
-import io.github.genomicdatainfrastructure.discovery.model.RetrievedDataset;
-import io.github.genomicdatainfrastructure.discovery.model.RetrievedDistribution;
-import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanAgent;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanContactPoint;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetDictionaryEntry;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetRelationEntry;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanResource;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanTag;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanValueLabel;
+import io.github.genomicdatainfrastructure.discovery.model.*;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
 import lombok.experimental.UtilityClass;
 
 // TODO review original field and date format on resources
