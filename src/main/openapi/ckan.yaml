@@ -232,7 +232,11 @@ components:
         creator:
           type: array
           items:
-            $ref: "#/components/schemas/CkanCreator"
+            $ref: "#/components/schemas/CkanAgent"
+        publisher:
+          type: array
+          items:
+            $ref: "#/components/schemas/CkanAgent"
         datasetRelationships:
           type: array
           items:
@@ -243,8 +247,6 @@ components:
           items:
             $ref: "#/components/schemas/CkanDatasetDictionaryEntry"
           title: Data Dictionary
-        publisher_name:
-          type: string
         organization:
           $ref: "#/components/schemas/CkanOrganization"
         issued:
@@ -300,16 +302,25 @@ components:
       required:
         - name
         - email
-    CkanCreator:
-      type: object
+    CkanAgent:
       properties:
-        creator_name:
+        name:
           type: string
-        creator_identifier:
+          title: name
+        email:
           type: string
+          title: email
+        url:
+          type: string
+          title: url
+        type:
+          type: string
+          title: type
+        identifier:
+          type: string
+          title: identifier
       required:
-        - creator_name
-        - creator_identifier
+        - name
     CkanDatasetRelationEntry:
       properties:
         relation:

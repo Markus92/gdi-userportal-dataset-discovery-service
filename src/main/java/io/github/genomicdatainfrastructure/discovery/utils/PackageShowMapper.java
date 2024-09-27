@@ -16,8 +16,22 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
 
-import io.github.genomicdatainfrastructure.discovery.model.*;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
+import io.github.genomicdatainfrastructure.discovery.model.Agent;
+import io.github.genomicdatainfrastructure.discovery.model.ContactPoint;
+import io.github.genomicdatainfrastructure.discovery.model.DatasetDictionaryEntry;
+import io.github.genomicdatainfrastructure.discovery.model.DatasetRelationEntry;
+import io.github.genomicdatainfrastructure.discovery.model.RetrievedDataset;
+import io.github.genomicdatainfrastructure.discovery.model.RetrievedDistribution;
+import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanAgent;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanContactPoint;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetDictionaryEntry;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetRelationEntry;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanResource;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanTag;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanValueLabel;
 import lombok.experimental.UtilityClass;
 
 // TODO review original field and date format on resources
@@ -26,8 +40,7 @@ import lombok.experimental.UtilityClass;
 public class PackageShowMapper {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
-            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
-    );
+            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 
     public RetrievedDataset from(CkanPackage ckanPackage) {
         var catalogue = ofNullable(ckanPackage.getOrganization())
@@ -40,15 +53,14 @@ public class PackageShowMapper {
                 .title(ckanPackage.getTitle())
                 .description(ckanPackage.getNotes())
                 .themes(values(ckanPackage.getTheme()))
-                .publisherName(ckanPackage.getPublisherName())
                 .catalogue(catalogue)
                 .organization(DatasetOrganizationMapper.from(ckanPackage.getOrganization()))
                 .createdAt(parse(ckanPackage.getIssued()))
                 .modifiedAt(parse(ckanPackage.getModified()))
                 .url(ckanPackage.getUrl())
                 .languages(values(ckanPackage.getLanguage()))
-                .contact(value(ckanPackage.getContactUri()))
-                .creators(creator(ckanPackage))
+                .creators(agents(ckanPackage.getCreator()))
+                .publishers(agents(ckanPackage.getPublisher()))
                 .hasVersions(values(ckanPackage.getHasVersion()))
                 .accessRights(value(ckanPackage.getAccessRights()))
                 .conformsTo(values(ckanPackage.getConformsTo()))
@@ -97,14 +109,6 @@ public class PackageShowMapper {
                 .build();
     }
 
-    private List<ValueLabel> creator(CkanPackage ckanPackage) {
-        return ofNullable(ckanPackage.getCreator())
-                .orElseGet(List::of)
-                .stream()
-                .map(PackageShowMapper::creator)
-                .toList();
-    }
-
     private DatasetRelationEntry relation(CkanDatasetRelationEntry value) {
         return DatasetRelationEntry.builder()
                 .relation(value.getRelation())
@@ -149,11 +153,25 @@ public class PackageShowMapper {
 
     }
 
-    private ValueLabel creator(CkanCreator creator) {
-        return ValueLabel.builder()
-                .label(creator.getCreatorName())
-                .value(creator.getCreatorIdentifier())
-                .build();
+    private Agent value(CkanAgent value) {
+        return ofNullable(value)
+                .map(it -> Agent.builder()
+                        .name(value.getName())
+                        .email(value.getEmail())
+                        .type(value.getType())
+                        .identifier(value.getIdentifier())
+                        .url(value.getUrl())
+                        .build())
+                .orElse(null);
+    }
+
+    private List<Agent> agents(List<CkanAgent> creators) {
+        return ofNullable(creators)
+                .orElseGet(List::of)
+                .stream()
+                .map(PackageShowMapper::value)
+                .filter(Objects::nonNull)
+                .toList();
     }
 
     private OffsetDateTime parse(String date) {
