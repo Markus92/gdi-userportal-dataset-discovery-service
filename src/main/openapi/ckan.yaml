@@ -267,8 +267,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/CkanValueLabel"
-        contact_uri:
-          type: string
         has_version:
           type: array
           items:
