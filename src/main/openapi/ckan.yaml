@@ -225,7 +225,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/CkanTag"
-        contact_point:
+        contact:
           type: array
           items:
             $ref: "#/components/schemas/CkanContactPoint"
@@ -256,6 +256,10 @@ components:
         metadata_created:
           type: string
         metadata_modified:
+          type: string
+        temporal_start:
+          type: string
+        temporal_end:
           type: string
         url:
           type: string
@@ -290,13 +294,13 @@ components:
         - title
     CkanContactPoint:
       properties:
-        contact_name:
+        name:
           type: string
           title: name
-        contact_email:
+        email:
           type: string
           title: email
-        contact_uri:
+        uri:
           type: string
           title: uri
       required:

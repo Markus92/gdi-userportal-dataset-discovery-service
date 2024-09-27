@@ -11,8 +11,23 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import io.github.genomicdatainfrastructure.discovery.model.*;
-import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.*;
+import io.github.genomicdatainfrastructure.discovery.model.Agent;
+import io.github.genomicdatainfrastructure.discovery.model.ContactPoint;
+import io.github.genomicdatainfrastructure.discovery.model.DatasetDictionaryEntry;
+import io.github.genomicdatainfrastructure.discovery.model.DatasetOrganization;
+import io.github.genomicdatainfrastructure.discovery.model.DatasetRelationEntry;
+import io.github.genomicdatainfrastructure.discovery.model.RetrievedDataset;
+import io.github.genomicdatainfrastructure.discovery.model.RetrievedDistribution;
+import io.github.genomicdatainfrastructure.discovery.model.ValueLabel;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanAgent;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanContactPoint;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetDictionaryEntry;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanDatasetRelationEntry;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanOrganization;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanPackage;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanResource;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanTag;
+import io.github.genomicdatainfrastructure.discovery.remote.ckan.model.CkanValueLabel;
 import io.github.genomicdatainfrastructure.discovery.utils.PackageShowMapper;
 
 class PackageShowMapperTest {
@@ -31,6 +46,7 @@ class PackageShowMapperTest {
                 .keywords(List.of())
                 .contacts(List.of())
                 .creators(List.of())
+                .publishers(List.of())
                 .datasetRelationships(List.of())
                 .dataDictionary(List.of())
                 .build();
@@ -51,7 +67,6 @@ class PackageShowMapperTest {
                         .displayName("theme")
                         .name("theme-name")
                         .build()))
-                .publisherName("publisherName")
                 .organization(CkanOrganization.builder()
                         .title("organization")
                         .description("description")
@@ -103,20 +118,45 @@ class PackageShowMapperTest {
                                 .created("2025-03-19T13:37:05.472970")
                                 .lastModified("2025-03-19T13:37:05Z")
                                 .build()))
-                .contactPoint(List.of(
+                .contact(List.of(
                         CkanContactPoint.builder()
-                                .contactName("Contact 1")
-                                .contactEmail("contact1@example.com")
+                                .name("Contact 1")
+                                .email("contact1@example.com")
                                 .build(),
                         CkanContactPoint.builder()
-                                .contactName("Contact 2")
-                                .contactEmail("contact2@example.com")
-                                .contactUri("http://example.com")
+                                .name("Contact 2")
+                                .email("contact2@example.com")
+                                .uri("http://example.com")
                                 .build()))
                 .creator(List.of(
-                        CkanCreator.builder()
-                                .creatorName("creatorName")
-                                .creatorIdentifier("creatorIdentifier")
+                        CkanAgent.builder()
+                                .name("creatorName")
+                                .identifier("creatorIdentifier")
+                                .email("email")
+                                .url("url")
+                                .type("type")
+                                .build(),
+                        CkanAgent.builder()
+                                .name("creatorName2")
+                                .identifier("creatorIdentifier2")
+                                .email("email2")
+                                .url("url2")
+                                .type("type2")
+                                .build()))
+                .publisher(List.of(
+                        CkanAgent.builder()
+                                .name("publisherName")
+                                .identifier("publisherIdentifier")
+                                .email("email")
+                                .url("url")
+                                .type("type")
+                                .build(),
+                        CkanAgent.builder()
+                                .name("publisherName2")
+                                .identifier("publisherIdentifier2")
+                                .email("email2")
+                                .url("url2")
+                                .type("type2")
                                 .build()))
                 .datasetRelationships(List.of(
                         CkanDatasetRelationEntry.builder().target("Dataset 1").relation(
@@ -141,7 +181,6 @@ class PackageShowMapperTest {
                                 .value("theme-name")
                                 .label("theme")
                                 .build()))
-                .publisherName("publisherName")
                 .catalogue("organization")
                 .createdAt(parse("2024-07-01T22:00:00+00:00"))
                 .modifiedAt(parse("2024-07-02T22:00:00+00:00"))
@@ -151,19 +190,45 @@ class PackageShowMapperTest {
                                 .value("en")
                                 .label("language")
                                 .build()))
-                .contact(ValueLabel.builder()
-                        .value("contactUri")
-                        .label("contactUri")
-                        .build())
+                .contacts(List.of(ContactPoint.builder()
+                        .name("contactName")
+                        .email("contactEmail")
+                        .uri("contactUri")
+                        .build()))
                 .hasVersions(List.of(
                         ValueLabel.builder()
                                 .value("1")
                                 .label("version")
                                 .build()))
                 .creators(List.of(
-                        ValueLabel.builder()
-                                .label("creatorName")
-                                .value("creatorIdentifier")
+                        Agent.builder()
+                                .name("creatorName")
+                                .identifier("creatorIdentifier")
+                                .email("email")
+                                .url("url")
+                                .type("type")
+                                .build(),
+                        Agent.builder()
+                                .name("creatorName2")
+                                .identifier("creatorIdentifier2")
+                                .email("email2")
+                                .url("url2")
+                                .type("type2")
+                                .build()))
+                .publishers(List.of(
+                        Agent.builder()
+                                .name("publisherName")
+                                .identifier("publisherIdentifier")
+                                .email("email")
+                                .url("url")
+                                .type("type")
+                                .build(),
+                        Agent.builder()
+                                .name("publisherName2")
+                                .identifier("publisherIdentifier2")
+                                .email("email2")
+                                .url("url2")
+                                .type("type2")
                                 .build()))
                 .accessRights(ValueLabel.builder()
                         .value("public")
